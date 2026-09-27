@@ -13,3 +13,4 @@ Thumbs.db
 # temp renders
 *.pdf
 slide-*.jpg
+*.log
