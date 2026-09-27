@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Cheat-Sheet — C#, .NET CLI ו-Visual Studio
 
 דף עזר מרוכז לקורס. מומלץ להדפיס (2 עמודים) או להשאיר פתוח בלשונית.
@@ -51,6 +53,8 @@
 
 ## 3. פורמט מחרוזות
 
+<div dir="ltr">
+
 ```csharp
 var name = "דנה"; var price = 1234.5; var when = DateTime.Now;
 Console.WriteLine($"שלום {name}, המחיר {price:C}");        // interpolation + מטבע
@@ -63,6 +67,8 @@ var multi = """
     בלי צורך ב-escape של "מרכאות"
     """;
 ```
+
+</div>
 
 שימושי: `string.Join(", ", list)`, `s.Split(',')`, `s.Trim()`, `s.ToUpper()`, `s.Contains("x")`, `s.StartsWith("a")`, `string.IsNullOrWhiteSpace(s)`, `s.Replace("a", "b")`, `s[..3]` / `s[^2..]` (ranges), `StringBuilder` לחיבורים רבים.
 
@@ -86,6 +92,8 @@ var multi = """
 
 ## 5. LINQ — 15 המתודות החשובות
 
+<div dir="ltr">
+
 ```csharp
 var people = new List<Person> { /* ... */ };
 people.Where(p => p.Age >= 18)                       // סינון
@@ -106,9 +114,13 @@ people.Zip(scores, (p, s) => (p.Name, s));           // איחוד "צד לצד"
 people.Chunk(100);                                   // חלוקה לקבוצות
 ```
 
+</div>
+
 זכרו: LINQ הוא **lazy** — השאילתה רצה רק כשעוברים על התוצאה (`foreach`, `ToList`, `Count`...). אל תעברו על אותה שאילתה פעמיים בלי `ToList()`.
 
 ## 6. async / await — תבניות
+
+<div dir="ltr">
 
 ```csharp
 // חתימה: Task (בלי ערך) / Task<T> (עם ערך); שם המתודה מסתיים ב-Async
@@ -136,6 +148,8 @@ var back = JsonSerializer.Deserialize<User>(json);
 // עבודה כבדה (CPU) — לא לחסום את ה-UI
 var result = await Task.Run(() => HeavyCompute(data));
 ```
+
+</div>
 
 כללי אצבע: `await` ולא `.Result` / `.Wait()` (deadlock!); `async void` רק ב-event handlers; העבירו `CancellationToken` הלאה; ב-WPF חזרה ל-UI thread קורית אוטומטית אחרי `await`.
 
@@ -184,3 +198,5 @@ var result = await Task.Run(() => HeavyCompute(data));
 ב-macOS החליפו `Ctrl` ב-`Cmd` ברוב הקיצורים של VS Code.
 
 קיצורי קוד (snippets) ב-Visual Studio — הקלידו ואז `Tab` פעמיים: `cw` (Console.WriteLine), `prop` (מאפיין), `ctor` (בנאי), `for`, `foreach`, `try`, `if`, `class`.
+
+</div>

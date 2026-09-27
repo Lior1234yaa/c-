@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 4 — הערות לפתרון
 
 ## הרעיון המרכזי: כישלון הוא ערך, לא חריגה
@@ -29,6 +31,8 @@
 
 ## איך לבדוק את קריטריוני הקבלה
 
+<div dir="ltr">
+
 ```bash
 dotnet run -- --once                 # רענון אחד
 dotnet run -- --interval 2           # ואז לעצור את Day2.LocalApi באמצע -> FAILED, להפעיל -> OK
@@ -36,4 +40,8 @@ dotnet run -- --once --max 1         # סדרתי: זמן הרענון = סכו�
 dotnet run -- --once --quiet 2>/dev/null   # בלי לוגים
 ```
 
+</div>
+
 בלי אינטרנט מזג האוויר יציג `offline (timeout)` או `offline (connection failed)` והשאר תקינים — זו התנהגות נכונה.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 4 — לוח בקרה אסינכרוני (Async Dashboard)
 
 **משך:** 75 דקות | **מודולים:** 02, 03, 04, 05, 06 | **פרויקט:** `Starter/Day2.Lab4.Starter`
@@ -71,3 +73,5 @@
 - `Task.WhenAll` על Tasks מטיפוסים שונים: `await Task.WhenAll(t1, t2, t3, t4)` ואז `t1.Result` (בטוח אחרי WhenAll — ה-Task הושלם).
 - Open-Meteo מחזיר `{"current": {"time": "...", "temperature_2m": 27.4, "wind_speed_10m": 12.1}}`.
 - `Console.Error` ללוגים, `Console.Out` ללוח — כך אפשר להפריד: `dotnet run 2> log.txt`.
+
+</div>

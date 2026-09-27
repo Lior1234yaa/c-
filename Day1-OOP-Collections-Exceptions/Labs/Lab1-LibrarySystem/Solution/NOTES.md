@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 1 — הערות לפתרון
 
 ## החלטות מרכזיות
@@ -11,9 +13,13 @@
 
 ## איך בדקנו
 
+<div dir="ltr">
+
 ```bash
 printf '1\n2\nclean\n4\n978-0132350884\n4\n978-0132350884\n6\n5\n978-0132350884\n0\n' | dotnet run
 ```
+
+</div>
 
 צפוי: רשימה, חיפוש שמוצא "Clean Code", השאלה מוצלחת, ניסיון שני מדפיס `Error: 'Clean Code' is already borrowed`, רשימת זמינים בלי Clean Code, החזרה, יציאה.
 
@@ -22,3 +28,5 @@ printf '1\n2\nclean\n4\n978-0132350884\n4\n978-0132350884\n6\n5\n978-0132350884\
 - `Dictionary<string, Book>` לפי ISBN לחיפוש O(1) (מודול 4).
 - שמירה/טעינה מקובץ JSON (יום 2).
 - `record` ל-`Book`? לא — לספר יש מצב שמשתנה (`IsBorrowed`), ו-record מתאים יותר לנתונים בלתי-משתנים.
+
+</div>

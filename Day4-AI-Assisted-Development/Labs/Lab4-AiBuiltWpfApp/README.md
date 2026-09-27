@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 4 — Capstone: אפליקציית WPF שלמה בעזרת AI (75 דקות)
 
 ## המטרה
@@ -18,30 +20,44 @@
 
 ### שלב 1 — תכנון עם AI (10 דק')
 Prompt:
+<div dir="ltr">
+
 ```text
 Read SPEC.md and CLAUDE.md. Propose the file list (Models, Services, ViewModels, Views) with one line each,
 and the ViewModel's public members (properties + commands with types). Do not write code yet.
 ```
+
+</div>
 **דף עבודה:** תקנו את התוכנית: מה חסר (IExpenseRepository? validation base class?), מה מיותר.
 
 ### שלב 2 — מודל + repository + בדיקות (15 דק')
 Prompt:
+<div dir="ltr">
+
 ```text
 Implement Models/Expense.cs (record), Services/IExpenseRepository.cs and Services/JsonExpenseRepository.cs
 (System.Text.Json, async, atomic write via temp file + move, creates folder). Then write xUnit tests for the repository
 using a temp folder. Follow CLAUDE.md. No new packages.
 ```
+
+</div>
 בדקו: `decimal`, `DateOnly`, `InvariantCulture`/JSON defaults, `CancellationToken`, אין `catch {}`.
 
 ### שלב 3 — ViewModel עם validation (15 דק')
+<div dir="ltr">
+
 ```text
 Implement ViewModels/ExpenseFormViewModel (INotifyDataErrorInfo) with the rules in SPEC.md, and
 ViewModels/MainViewModel (ObservableCollection<Expense>, filters, totals, Add/Delete/Save/Load commands, IsBusy, ErrorMessage).
 Inject IExpenseRepository. Commands must not be async void; use async Task methods wrapped by an AsyncRelayCommand you add to Mvvm.cs.
 ```
+
+</div>
 בדקו: `CanExecute` מתעדכן, אין `DateTime.Now` ב-ViewModel (הזריקו `TimeProvider`), חישובי סיכום ב-`decimal`.
 
 ### שלב 4 — XAML (15 דק')
+<div dir="ltr">
+
 ```text
 Generate Views/MainWindow.xaml for MainViewModel (members below). Grid layout: form on top (2 columns), filters row,
 DataGrid, summary panel on the side, status bar. FlowDirection RightToLeft, Hebrew labels, styles from Themes/Colors.xaml
@@ -49,6 +65,8 @@ via StaticResource, Validation.ErrorTemplate showing the error under each field,
 AutomationProperties.Name everywhere. Standard WPF controls only. No code-behind logic.
 {הדביקו את חתימות ה-ViewModel}
 ```
+
+</div>
 הריצו. תקנו binding errors (חלון Output ב-VS מציג אותם).
 
 ### שלב 5 — סקירה וליטוש (20 דק')
@@ -74,3 +92,5 @@ AutomationProperties.Name everywhere. Standard WPF controls only. No code-behind
 - אם ה-AI מייצר `PasswordBox`/`DatePicker` עם binding שגוי — `DatePicker.SelectedDate` הוא `DateTime?`; המירו ל-`DateOnly` ב-ViewModel.
 - `ValidatesOnNotifyDataErrors=True` הוא ברירת המחדל ב-WPF מודרני, אבל `UpdateSourceTrigger=PropertyChanged` לא — בקשו במפורש.
 - אם ה-DataGrid לא מתעדכן: `ObservableCollection`, לא `List`.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # יום 2 — Multithreading, תכנות אסינכרוני ו-APIs
 
 היום השני של הקורס "C# ב-.NET — קורס מעשי". אתמול למדנו OOP, אוספים, LINQ וחריגות; היום נלמד איך לגרום לתוכנית לעשות כמה דברים בו-זמנית, לדבר עם שירותים חיצוניים דרך HTTP, ולעבוד עם JSON — בלי לאבד נתונים, בלי להיתקע, ועם כלים לדבג את זה כשמשהו משתבש.
@@ -6,11 +8,15 @@
 
 רוב המעבדות היום מדברות עם REST API. כדי שהכיתה תעבוד גם בלי אינטרנט, יש API מקומי קטן בתיקיית `Demos/Day2.LocalApi`. **פתחו טרמינל נפרד והשאירו אותו רץ כל היום:**
 
+<div dir="ltr">
+
 ```bash
 cd Day2-Async-APIs/Demos/Day2.LocalApi
 dotnet run
 # Day2.LocalApi listening on http://localhost:5080  (Ctrl+C to stop)
 ```
+
+</div>
 
 בדיקה מהירה מטרמינל אחר (או בדפדפן): `curl http://localhost:5080/api/products`. רשימת נקודות הקצה ודוגמאות JSON — ב-[Demos/Day2.LocalApi/README.md](Demos/Day2.LocalApi/README.md).
 
@@ -92,3 +98,5 @@ dotnet run
 ## מצגת
 
 `Slides/Day2.pptx` (נבנית מ-`Slides/Day2.slides.js` — ראו `tools/slides/README.md`).
+
+</div>

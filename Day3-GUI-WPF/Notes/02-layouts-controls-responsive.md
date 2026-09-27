@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 02 — פריסה, פקדים ו-UI רספונסיבי
 
 ## מערכת הפריסה: אין קואורדינטות
@@ -8,6 +10,8 @@
 מקום הוא רוצה) ו-**Arrange** (ההורה מחליט כמה הוא מקבל).
 
 ### Grid — הסוס העבודה
+
+<div dir="ltr">
 
 ```xml
 <Grid>
@@ -29,6 +33,8 @@
 </Grid>
 ```
 
+</div>
+
 שלושה סוגי גודל: `Auto` (לפי התוכן), מספר (פיקסלים) ו-`*` (**star sizing** — חלוקה יחסית של מה
 שנשאר). `2*` ו-`*` = שני שליש ושליש. `Grid.Row`/`Grid.Column` הם **attached properties** — properties
 שה-Grid "מצמיד" לילדים שלו. ברירת המחדל היא 0.
@@ -37,6 +43,8 @@
 
 מסדר ילדים בשורה או בטור. פשוט, אבל **לא** מותח את הילדים למילוי המקום בכיוון הערימה:
 
+<div dir="ltr">
+
 ```xml
 <StackPanel Orientation="Horizontal">
     <Button Content="Save" />
@@ -44,9 +52,13 @@
 </StackPanel>
 ```
 
+</div>
+
 טוב לכפתורים, לטפסים קצרים ולתוכן שגולל. לא טוב כ-root של חלון שאמור למלא את עצמו.
 
 ### DockPanel — תפריט למעלה, סטטוס למטה
+
+<div dir="ltr">
 
 ```xml
 <DockPanel LastChildFill="True">
@@ -56,6 +68,8 @@
     <ContentControl />   <!-- הילד האחרון ממלא את השאר -->
 </DockPanel>
 ```
+
+</div>
 
 ### WrapPanel — שובר שורה
 
@@ -104,6 +118,8 @@
 
 דוגמה שמשלבת כמה מהם, כולל binding בין פקדים (`ElementName`) בלי שורת קוד:
 
+<div dir="ltr">
+
 ```xml
 <StackPanel>
     <Slider x:Name="Amount" Minimum="0" Maximum="100" Value="40" />
@@ -111,6 +127,8 @@
     <TextBlock Text="{Binding ElementName=Amount, Path=Value, StringFormat=Value: {0:F0}}" />
 </StackPanel>
 ```
+
+</div>
 
 ## עיצוב רספונסיבי
 
@@ -125,6 +143,8 @@
 7. **פריסה אדפטיבית** — `SizeChanged` על החלון ושינוי הפריסה מעל/מתחת לסף. ב-`Demos/Day3.Demo.Layouts`
    הפאנל הצדדי עובר מעל התוכן כשהחלון צר מ-600px:
 
+<div dir="ltr">
+
 ```csharp
 private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 {
@@ -137,6 +157,8 @@ private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 }
 ```
 
+</div>
+
 `Grid.SetColumn(element, n)` היא הדרך לקבוע attached property מהקוד.
 
 ## UI רספונסיבי במובן השני: לא לחסום את ה-UI thread
@@ -146,6 +168,8 @@ private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 ו-Windows מציג "Not Responding". זו הסיבה הכי נפוצה לאפליקציות שולחניות שמרגישות גרועות.
 
 הפתרון הוא בדיוק מה שלמדנו ביום 2 — `async`/`await`:
+
+<div dir="ltr">
 
 ```csharp
 private async void Load_Click(object sender, RoutedEventArgs e)
@@ -160,11 +184,15 @@ private async void Load_Click(object sender, RoutedEventArgs e)
 }
 ```
 
+</div>
+
 `async void` הוא "אסור" בדרך כלל — אבל ל-event handlers הוא ההוצאה מן הכלל, כי חתימת האירוע
 דורשת `void`. הכלל: תמיד `try/catch` בפנים, כי חריגה מ-`async void` מפילה את התהליך.
 
 אחרי `await`, הקוד ממשיך על ה-UI thread (בזכות `SynchronizationContext` של WPF). אבל אם אתם
 ב-thread אחר — למשל ב-`Task.Run` או ב-callback של ספרייה — אסור לגעת בפקדים ישירות:
+
+<div dir="ltr">
 
 ```csharp
 Task.Run(() =>
@@ -173,6 +201,8 @@ Task.Run(() =>
     Dispatcher.Invoke(() => StatusText.Text = result);   // חזרה ל-UI thread
 });
 ```
+
+</div>
 
 `Dispatcher.Invoke` (סינכרוני) או `Dispatcher.InvokeAsync`/`BeginInvoke` (אסינכרוני) מריצים delegate על
 ה-UI thread. נגיעה בפקד מ-thread אחר זורקת `InvalidOperationException: The calling thread cannot access this object`.
@@ -230,3 +260,5 @@ Explorer** מראה מי קבע כל property (Style? Local? Inherited?). שני
 - [Alignment, margins and padding](https://learn.microsoft.com/dotnet/desktop/wpf/advanced/alignment-margins-and-padding-overview)
 - [Controls by category](https://learn.microsoft.com/dotnet/desktop/wpf/controls/controls-by-category)
 - [Threading model](https://learn.microsoft.com/dotnet/desktop/wpf/advanced/threading-model)
+
+</div>

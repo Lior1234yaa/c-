@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 3 — האצת כתיבת קוד עם AI
 
 ## הרעיון
@@ -8,6 +10,8 @@
 
 **הבקשה:**
 
+<div dir="ltr">
+
 ```text
 Generate C# records (System.Text.Json, .NET 10, nullable enabled) for this API response.
 Use PascalCase properties with [JsonPropertyName] where needed. Dates as DateTimeOffset.
@@ -16,7 +20,11 @@ Use PascalCase properties with [JsonPropertyName] where needed. Dates as DateTim
   "created_at": "2025-03-01T10:15:00Z", "status": "paid" }
 ```
 
+</div>
+
 **תוצאה טיפוסית:**
+
+<div dir="ltr">
 
 ```csharp
 public record OrderDto(
@@ -37,6 +45,8 @@ public record OrderItemDto(
     [property: JsonPropertyName("unit_price")] decimal UnitPrice);
 ```
 
+</div>
+
 **מה תיקנו:** בגרסה הראשונה `unit_price` היה `double` — לכסף משתמשים ב-`decimal`. גם `status` עדיף כ-`enum` עם `JsonStringEnumConverter` אם הערכים ידועים. שימו לב שה-AI השתמש נכון ב-`[property: ...]` על פרמטרי record — בדקו זאת, זו טעות נפוצה.
 
 ## 2. LINQ משפה טבעית
@@ -44,6 +54,8 @@ public record OrderItemDto(
 **הבקשה:** "Given `IEnumerable<Order>` where Order has `CustomerName`, `Date`, `Items` (each with `Qty`, `UnitPrice`): return the top 3 customers by revenue in 2025 as `(Name, Revenue)`, method syntax."
 
 **תוצאה:**
+
+<div dir="ltr">
 
 ```csharp
 var top = orders
@@ -56,6 +68,8 @@ var top = orders
     .ToList();
 ```
 
+</div>
+
 **מה בדקנו:** שההקבצה היא לפי שם (ומה אם לשני לקוחות אותו שם? עדיף `CustomerId`). שהתוצאה מוחזרת כרשימה ולא כ-`IEnumerable` עצל שמחושב שוב בכל מעבר.
 
 ## 3. Boilerplate: INotifyPropertyChanged, מיפוי, CRUD
@@ -63,6 +77,8 @@ var top = orders
 **הבקשה:** "Convert to a WPF ViewModel base: `ObservableObject` with `SetProperty<T>(ref T field, T value, [CallerMemberName] string? name = null)` returning bool."
 
 **תוצאה:**
+
+<div dir="ltr">
 
 ```csharp
 public abstract class ObservableObject : INotifyPropertyChanged
@@ -80,6 +96,8 @@ public abstract class ObservableObject : INotifyPropertyChanged
 }
 ```
 
+</div>
+
 זה נכון ומקובל. עבור מיפויים ("map `Order` → `OrderDto`") ו-CRUD services ("implement `IRepository<T>` over a JSON file") ה-AI טוב מאוד — הדבר שנבדוק הוא **עקביות** עם הממשקים הקיימים, ושהוא לא הוסיף ספריית מיפוי חיצונית בלי לשאול.
 
 ## 4. Regex
@@ -90,6 +108,8 @@ public abstract class ObservableObject : INotifyPropertyChanged
 
 **מה תיקנו:** בגרסה הראשונה חסר `^...$`, ולכן `"x0501234567y"` היה מתקבל בתוך טקסט. ב-.NET מומלץ גם `[GeneratedRegex]` (source generator) בקוד שרץ הרבה:
 
+<div dir="ltr">
+
 ```csharp
 public static partial class Phones
 {
@@ -98,11 +118,15 @@ public static partial class Phones
 }
 ```
 
+</div>
+
 ## 5. בדיקות xUnit
 
 **הבקשה:** "Write xUnit tests for `DiscountCalculator.Calculate(decimal subtotal, int quantity)`: 5% over 250, 10% for quantity ≥ 10, larger wins, never negative. `[Theory]` + `[InlineData]`."
 
 **תוצאה (מקוצרת):**
+
+<div dir="ltr">
 
 ```csharp
 public class DiscountCalculatorTests
@@ -117,6 +141,8 @@ public class DiscountCalculatorTests
         => Assert.Equal(expected, DiscountCalculator.Calculate(subtotal, qty));
 }
 ```
+
+</div>
 
 **מה תיקנו:** `InlineData` עם `decimal` — המספרים בקוד נכתבים כ-`int`/`double` ומומרים; זה עובד עבור ערכים שלמים אבל `19.9` יגיע כ-`double` ויגרום לשגיאת המרה. פתרון: `[MemberData]` או ערכים שלמים. ה-AI לא תמיד יודע את זה.
 
@@ -140,6 +166,8 @@ public class DiscountCalculatorTests
 
 **תוצאה:**
 
+<div dir="ltr">
+
 ```csharp
 private static readonly JsonSerializerOptions Options = new()
 {
@@ -152,14 +180,20 @@ public static string Serialize(Order o) => JsonSerializer.Serialize(o, Options);
 public static Order? Deserialize(string json) => JsonSerializer.Deserialize<Order>(json, Options);
 ```
 
+</div>
+
 **מה ה-AI ציין נכון (ובדקנו):** System.Text.Json רגיש לאותיות גדולות/קטנות בברירת מחדל בקריאה (`PropertyNameCaseInsensitive = true` אם צריך), לא מסדר `Dictionary` עם מפתחות שאינם מחרוזות באותו אופן, ולא תומך ב-`[JsonConverter]` של Newtonsoft. **מה תיקנו:** האפשרויות נוצרו בכל קריאה במקום `static readonly` — זה פוגע בביצועים (מטמון פנימי).
 
 ## 9. הודעות commit ותיאורי PR
+
+<div dir="ltr">
 
 ```text
 Write a commit message for this diff (conventional commits). Subject ≤ 72 chars.
 Body: what changed and why, not how. Mention the tests added.
 ```
+
+</div>
 
 ב-GitHub, Copilot יכול להציע תיאור PR מהשינויים. תמיד קראו: לעיתים הוא מתאר קבצים במקום כוונה.
 
@@ -192,3 +226,5 @@ Body: what changed and why, not how. Mention the tests added.
 - Source-generated regex: https://learn.microsoft.com/dotnet/standard/base-types/regular-expression-source-generators
 - xUnit: https://xunit.net/docs/getting-started/v2/netcore/cmdline
 - Refactoring in Visual Studio: https://learn.microsoft.com/visualstudio/ide/refactoring-in-visual-studio
+
+</div>

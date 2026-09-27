@@ -1,8 +1,12 @@
+<div dir="rtl">
+
 # מודול 02 — Tasks ו-async/await
 
 ## מ-Thread ל-Task
 
 במודול הקודם ראינו ש-`Thread` הוא כלי נמוך ויקר. ב-.NET המודרני העבודה נעשית עם **`Task`** — אובייקט שמייצג "עבודה שתסתיים מתישהו". `Task` לא אומר "תהליכון"; הוא אומר **הבטחה** (Promise). `Task<T>` הוא הבטחה לערך מסוג `T`.
+
+<div dir="ltr">
 
 ```csharp
 Task<int> compute = Task.Run(() =>
@@ -16,6 +20,8 @@ int result = await compute;             // מחכים לתוצאה בלי לחס
 Console.WriteLine(compute.Status);      // RanToCompletion
 ```
 
+</div>
+
 `Task.Run` שולח עבודת **CPU** ל-ThreadPool. עבור **IO** (רשת, קבצים) לא צריך `Task.Run` בכלל — הספריות מחזירות `Task` בעצמן (`HttpClient.GetAsync`, `File.ReadAllTextAsync`), והמתנה עליהן לא תופסת שום תהליכון. זו נקודה מבלבלת שנחזור אליה במודול 06.
 
 ## `async` ו-`await` — איך זה עובד באמת
@@ -26,6 +32,8 @@ Console.WriteLine(compute.Status);      // RanToCompletion
 2. היא מחזירה `Task`, `Task<T>` (או `ValueTask`, ובמקרה מיוחד אחד `void`).
 3. `await` על `Task<T>` נותן `T`; `await` על `Task` נותן כלום.
 
+<div dir="ltr">
+
 ```csharp
 static async Task<string> DownloadTitleAsync(string url)
 {
@@ -35,12 +43,16 @@ static async Task<string> DownloadTitleAsync(string url)
 }
 ```
 
+</div>
+
 מה קורה מאחורי הקלעים? המהדר הופך את המתודה ל-**מכונת מצבים (state machine)**. כל `await` הוא "נקודת השהיה":
 
 1. הקוד **עד** ה-`await` הראשון רץ סינכרונית, על התהליכון שקרא למתודה.
 2. כשמגיעים ל-`await` על Task שעדיין לא הסתיים, המתודה **מחזירה** לקורא Task לא-גמור ומשחררת את התהליכון.
 3. כשה-Task הפנימי מסתיים, ה-runtime מזמן את "ההמשך" (continuation) — שאר המתודה — ומריץ אותו (בקונסול: על תהליכון Pool כלשהו; ב-UI: על תהליכון ה-UI).
 4. כשהמתודה מגיעה ל-`return`, ה-Task שהוחזר בשלב 2 מסומן כגמור והקורא שלו מתעורר.
+
+<div dir="ltr">
 
 ```csharp
 Console.WriteLine($"[caller] thread {Environment.CurrentManagedThreadId}");
@@ -57,6 +69,8 @@ static async Task<string> SlowGreeting(string name)
 }
 ```
 
+</div>
+
 המסקנה החשובה: `await` **לא חוסם**. הוא אומר "כשזה יסתיים, תמשיך מכאן". בזמן ההמתנה התהליכון פנוי לעבודות אחרות — לטפל בבקשה נוספת בשרת, או להגיב ללחיצות בממשק המשתמש.
 
 ## `Task.Delay` במקום `Thread.Sleep`
@@ -66,6 +80,8 @@ static async Task<string> SlowGreeting(string name)
 ## הרכבה: `WhenAll` ו-`WhenAny`
 
 הכוח האמיתי מגיע כשמריצים כמה פעולות IO **בו-זמנית**:
+
+<div dir="ltr">
 
 ```csharp
 // סדרתי: ~600 ms
@@ -84,11 +100,15 @@ Console.WriteLine(await winner);
 var result = await FetchAsync("x", 5000).WaitAsync(TimeSpan.FromSeconds(1));  // TimeoutException
 ```
 
+</div>
+
 שימו לב לדפוס: קודם **מפעילים** את כל ה-Tasks (בלי `await`), ורק אז `await Task.WhenAll(...)`. אם תכתבו `await` על כל אחת בנפרד — תקבלו ביצוע סדרתי.
 
 ## חריגות בקוד אסינכרוני
 
 חריגה בתוך מתודת `async` לא נזרקת מיד — היא **נשמרת בתוך ה-Task**. היא "מתפוצצת" רק כשמישהו עושה `await`:
+
+<div dir="ltr">
 
 ```csharp
 static async Task FailAsync()
@@ -105,6 +125,8 @@ catch (AggregateException ex)            // ...אבל אם כן — היא עט�
 { Console.WriteLine(ex.InnerException!.Message); }
 ```
 
+</div>
+
 - `await` פורס את החריגה המקורית. `.Wait()` ו-`.Result` עוטפים ב-`AggregateException`.
 - ב-`Task.WhenAll` עם כמה כישלונות, `await` זורק רק את **הראשון**; כל השאר ב-`task.Exception.InnerExceptions`.
 - Task שאף אחד לא עשה עליו `await` ("fire and forget") — החריגה שלו נבלעת בשקט. סכנה.
@@ -112,6 +134,8 @@ catch (AggregateException ex)            // ...אבל אם כן — היא עט�
 ## `async void` — רק ל-Event Handlers
 
 מתודת `async void` לא מחזירה Task, ולכן: אי אפשר לחכות לה, אי אפשר לתפוס ממנה חריגות (הן מפילות את התהליך), ואי אפשר לבדוק אותה. הסיבה היחידה לקיומה: חתימות של event handlers חייבות להחזיר `void`:
+
+<div dir="ltr">
 
 ```csharp
 private async void SaveButton_Click(object sender, EventArgs e)   // OK — event handler
@@ -123,9 +147,13 @@ private async void SaveButton_Click(object sender, EventArgs e)   // OK — even
 private async void DoWork() { ... }          // רע — צריך להיות async Task
 ```
 
+</div>
+
 ## ביטול: `CancellationToken`
 
 פעולות ארוכות חייבות להיות ניתנות לביטול — המשתמש לחץ Cancel, הבקשה בשרת התנתקה, עבר timeout. ב-.NET הביטול **שיתופי**: מי שמבטל מסמן דגל, ומי שעובד בודק אותו.
+
+<div dir="ltr">
 
 ```csharp
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));   // ביטול אוטומטי אחרי 2 שניות
@@ -150,12 +178,16 @@ static async Task LongJobAsync(CancellationToken ct)
 }
 ```
 
+</div>
+
 - `CancellationTokenSource` הוא "השלט"; `CancellationToken` הוא מה שמעבירים לפונקציות.
 - כמעט כל API אסינכרוני ב-.NET מקבל `CancellationToken` כפרמטר אחרון. **תמיד להעביר אותו הלאה.**
 - ביטול מסתיים ב-`OperationCanceledException` (או תת-המחלקה `TaskCanceledException`). זה לא "שגיאה" — זה הדרך התקינה לצאת.
 - `ct.Register(() => ...)` מריץ callback ברגע הביטול — שימושי לניקוי.
 
 ## דיווח התקדמות: `IProgress<T>`
+
+<div dir="ltr">
 
 ```csharp
 var progress = new Progress<int>(pct => Console.WriteLine($"{pct}%"));   // ב-UI: מעדכן ProgressBar
@@ -171,11 +203,15 @@ static async Task ProcessFilesAsync(string[] files, IProgress<int> progress)
 }
 ```
 
+</div>
+
 `Progress<T>` "זוכר" את ה-SynchronizationContext שבו נוצר, ולכן ב-WPF ה-callback רץ על תהליכון ה-UI אוטומטית — בלי `Dispatcher`.
 
 ## זרמים אסינכרוניים: `IAsyncEnumerable<T>`
 
 כשהתוצאות מגיעות בהדרגה (עמודים מ-API, שורות מקובץ ענק), לא רוצים לחכות לכולן. `IAsyncEnumerable<T>` הוא `IEnumerable` ש-`MoveNext` שלו אסינכרוני:
+
+<div dir="ltr">
 
 ```csharp
 await foreach (var page in FetchPagesAsync(cts.Token))
@@ -191,6 +227,8 @@ static async IAsyncEnumerable<string> FetchPagesAsync(
     }
 }
 ```
+
+</div>
 
 ## `ValueTask<T>` — בקצרה
 
@@ -221,3 +259,5 @@ static async IAsyncEnumerable<string> FetchPagesAsync(
 - [Async return types](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-return-types)
 - [Cancellation in managed threads](https://learn.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads)
 - [Task-based asynchronous pattern (TAP)](https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap)
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 05 — חיבור ה-GUI ללוגיקה ול-backend
 
 ## העיקרון: ה-UI הוא קליפה
@@ -6,12 +8,18 @@
 לחלון. אם הוא כתוב נכון — ב**מחלקות שירות** רגילות — אפשר לחבר אותו ל-WPF, ל-WinForms, ל-Web API
 או לבדיקות, בלי לשנות אותו. ה-UI רק קורא לו ומציג את התוצאה.
 
+<div dir="ltr">
+
 ```text
 MainWindow / ViewModel   ──►  IProductService  ◄──  HttpProductService   (HttpClient + JSON, יום 2)
                                                 ◄──  FakeProductService   (in-memory, לפיתוח ובדיקות)
 ```
 
+</div>
+
 ## שירותים מאחורי ממשק
+
+<div dir="ltr">
 
 ```csharp
 public interface IProductService
@@ -19,6 +27,8 @@ public interface IProductService
     Task<IReadOnlyList<Product>> GetProductsAsync(IProgress<int>? progress, CancellationToken ct);
 }
 ```
+
+</div>
 
 שלוש סיבות לממשק:
 
@@ -31,6 +41,8 @@ public interface IProductService
 
 בלי container, בלי קסמים — פשוט מעבירים את התלות בבנאי:
 
+<div dir="ltr">
+
 ```csharp
 public class ProductsViewModel(IProductService service) : ObservableObject { ... }
 
@@ -38,12 +50,16 @@ public class ProductsViewModel(IProductService service) : ObservableObject { ...
 DataContext = new ProductsViewModel(new HttpProductService(Http));
 ```
 
+</div>
+
 `HttpClient` אחד לכל האפליקציה (`static readonly`) — כפי שלמדנו ביום 2. בפרויקט גדול עוברים ל-
 `Microsoft.Extensions.DependencyInjection` — גם ב-WPF זה עובד יפה (`Host.CreateDefaultBuilder` ב-`App.xaml.cs`).
 
 ## לקרוא ל-service אסינכרוני מה-UI
 
 ### async event handler
+
+<div dir="ltr">
 
 ```csharp
 private async void Load_Click(object sender, RoutedEventArgs e)
@@ -60,6 +76,8 @@ private async void Load_Click(object sender, RoutedEventArgs e)
 }
 ```
 
+</div>
+
 - ה-`await` משחרר את ה-UI thread; החלון ממשיך להגיב.
 - אחרי ה-`await` אנחנו **חוזרים ל-UI thread** — מותר לגעת בפקדים וב-`ObservableCollection`.
 - `try/catch` חובה: חריגה מ-`async void` שלא נתפסה מפילה את התהליך.
@@ -67,6 +85,8 @@ private async void Load_Click(object sender, RoutedEventArgs e)
 ### async command (ב-ViewModel)
 
 `ICommand.Execute` הוא `void`, ולכן command אסינכרוני נראה כך:
+
+<div dir="ltr">
 
 ```csharp
 public sealed class AsyncRelayCommand(Func<Task> execute, Func<bool>? canExecute = null) : ICommand
@@ -85,11 +105,15 @@ public sealed class AsyncRelayCommand(Func<Task> execute, Func<bool>? canExecute
 }
 ```
 
+</div>
+
 הדגל `_running` מונע לחיצה כפולה — הכפתור מושבת עד שהפעולה מסתיימת.
 
 ### IsBusy, ProgressBar, Cancel — השלישייה
 
 כל פעולה ארוכה צריכה שלושה דברים: אינדיקציה שמשהו קורה, התקדמות אם אפשר, ודרך לבטל.
+
+<div dir="ltr">
 
 ```csharp
 private CancellationTokenSource? _cts;
@@ -111,10 +135,16 @@ public async Task LoadAsync()
 public void Cancel() => _cts?.Cancel();
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <ProgressBar Value="{Binding Progress}" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}" />
 <Button Content="Cancel" Command="{Binding CancelCommand}" />
 ```
+
+</div>
 
 ה-service מכבד את הביטול כי הוא מעביר את ה-token הלאה: `http.GetAsync(url, ct)`, `Task.Delay(ms, ct)`.
 `IProgress<T>` הוא הדרך הנכונה לדווח התקדמות מקוד שלא מכיר UI.
@@ -122,6 +152,8 @@ public void Cancel() => _cts?.Cancel();
 ## לשלב את קוד יום 2
 
 `HttpProductService` הוא בדיוק מה שכתבתם אתמול:
+
+<div dir="ltr">
 
 ```csharp
 public class HttpProductService(HttpClient http, string url) : IProductService
@@ -141,6 +173,8 @@ public class HttpProductService(HttpClient http, string url) : IProductService
 }
 ```
 
+</div>
+
 שימו לב ל-**DTO**: המחלקה שמתאימה ל-JSON של ה-API (`ProductDto`) נפרדת מהמודל של ה-UI (`Product`).
 כשה-API משנה שדה, משנים את ה-DTO וההמרה — לא את כל ה-XAML.
 
@@ -154,6 +188,8 @@ public class HttpProductService(HttpClient http, string url) : IProductService
 
 שם צריך `Dispatcher`:
 
+<div dir="ltr">
+
 ```csharp
 Task.Run(() =>
 {
@@ -162,6 +198,8 @@ Task.Run(() =>
     // או: Application.Current.Dispatcher.InvokeAsync(...)   // מכל מקום, אסינכרוני
 });
 ```
+
+</div>
 
 הדרך הפשוטה ביותר להימנע מזה: `var report = await Task.Run(BuildHeavyReport);` — ואז אתם כבר חזרה ב-UI thread.
 
@@ -176,6 +214,8 @@ Task.Run(() =>
 
 הודעה ידידותית = מה קרה + מה לעשות. לא `ex.ToString()`:
 
+<div dir="ltr">
+
 ```csharp
 catch (HttpRequestException ex)
 {
@@ -183,6 +223,10 @@ catch (HttpRequestException ex)
     _logger.LogError(ex, "Load failed");   // הפרטים הטכניים — ללוג, לא למשתמש
 }
 ```
+
+</div>
+
+<div dir="ltr">
 
 ```xml
 <Border Background="#FFE6E6" Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}">
@@ -193,12 +237,16 @@ catch (HttpRequestException ex)
 </Border>
 ```
 
+</div>
+
 תפסו חריגות **ספציפיות** (`HttpRequestException`, `JsonException`, `IOException`, `OperationCanceledException`)
 ורק בסוף `Exception` כללי לדברים לא צפויים. `OperationCanceledException` הוא לא שגיאה — המשתמש ביקש.
 
 ## שמירה מקומית: JSON ב-%AppData%
 
 הגדרות, cache, "הקובץ האחרון" — נשמרים בתיקיית המשתמש, לא ליד ה-exe (שם אין הרשאות כתיבה ב-Program Files):
+
+<div dir="ltr">
 
 ```csharp
 public static class SettingsStore
@@ -226,12 +274,16 @@ public static class SettingsStore
 }
 ```
 
+</div>
+
 `SpecialFolder.ApplicationData` = `%AppData%` (roaming), ‏`LocalApplicationData` = `%LocalAppData%` (מקומי, טוב ל-cache גדול).
 טוענים ב-`Loaded`/בבנאי, שומרים ב-`Closing`. ראו `Demos/Day3.Demo.AsyncUi` ו-Lab 2.
 
 ## מבנה תיקיות מומלץ
 
 כשהפרויקט גדל, המבנה הזה שומר על סדר וגם מכין אתכם ל-MAUI/WinUI שמשתמשים באותה חלוקה:
+
+<div dir="ltr">
 
 ```text
 MyApp/
@@ -246,12 +298,16 @@ MyApp/
   App.xaml         ← composition root + משאבים
 ```
 
+</div>
+
 בפרויקטים גדולים מוציאים את `Models` ו-`Services` ל-class library נפרד (`MyApp.Core`, ‏`net10.0` רגיל
 ללא WPF) — כך אותו קוד משרת גם את ה-API ואת בדיקות היחידה, ואי אפשר "בטעות" להכניס לשם `MessageBox`.
 
 ## לבדוק את ה-ViewModel בלי חלון
 
 זה הרווח הגדול של ההפרדה. בדיקת xUnit ל-`ProductsViewModel` עם fake:
+
+<div dir="ltr">
 
 ```csharp
 [Fact]
@@ -266,6 +322,8 @@ public async Task LoadAsync_fills_products_and_clears_busy()
     Assert.Null(vm.Error);
 }
 ```
+
+</div>
 
 אין כאן `Window`, אין `Dispatcher`, אין STA thread. שימו לב שה-fake מקבל `DelayPerBatchMs = 0` — בדיקות
 צריכות לרוץ מהר. אם ה-VM שלכם לא ניתן לבדיקה ככה, כנראה שנכנס לתוכו משהו שצריך להיות ב-View.
@@ -322,3 +380,5 @@ Retry — המינימום; (2) **cache** של הקריאה האחרונה ב-`%
 - [Cancellation in managed threads](https://learn.microsoft.com/dotnet/standard/threading/cancellation-in-managed-threads)
 - [Dependency injection in .NET](https://learn.microsoft.com/dotnet/core/extensions/dependency-injection)
 - [Environment.SpecialFolder](https://learn.microsoft.com/dotnet/api/system.environment.specialfolder)
+
+</div>

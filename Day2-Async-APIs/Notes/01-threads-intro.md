@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 01 — מבוא ל-Multithreading ותכנות מקבילי
 
 ## למה בכלל צריך יותר מתהליכון אחד?
@@ -16,6 +18,8 @@
 
 השיתוף הזה הוא גם הכוח וגם הסכנה: קל להעביר מידע בין תהליכונים (פשוט משתנה משותף), אבל קל באותה מידה להרוס אותו.
 
+<div dir="ltr">
+
 ```csharp
 using System.Diagnostics;
 
@@ -25,11 +29,15 @@ Console.WriteLine($"Main thread id: {Environment.CurrentManagedThreadId}");
 Console.WriteLine($"Cores: {Environment.ProcessorCount}");
 ```
 
+</div>
+
 גם תוכנית "Hello World" מכילה כבר כ-10 תהליכונים: ה-Garbage Collector, ה-Finalizer, ה-JIT ועוד עובדים ברקע.
 
 ## המחלקה `Thread`
 
 הדרך הכי "נמוכה" ליצור תהליכון היא המחלקה `System.Threading.Thread`. נותנים לה delegate, קוראים ל-`Start`, ובסוף ל-`Join` כדי לחכות לסיום:
+
+<div dir="ltr">
 
 ```csharp
 var worker = new Thread(() =>
@@ -50,6 +58,8 @@ Console.WriteLine("main continues...");
 worker.Join();            // חוסם את main עד שה-worker מסיים
 ```
 
+</div>
+
 כמה דברים שכדאי לדעת:
 
 - `Thread.Sleep(ms)` משהה את **התהליכון הנוכחי** — לא את התוכנית כולה.
@@ -60,6 +70,8 @@ worker.Join();            // חוסם את main עד שה-worker מסיים
 
 יצירת תהליכון היא פעולה יקרה (הקצאת מחסנית, רישום במערכת ההפעלה, context switch). לכן .NET מחזיק **ThreadPool**: בריכה של תהליכונים מוכנים שמקבלים "פריטי עבודה" קצרים:
 
+<div dir="ltr">
+
 ```csharp
 ThreadPool.QueueUserWorkItem(_ =>
 {
@@ -67,6 +79,8 @@ ThreadPool.QueueUserWorkItem(_ =>
                       $"IsThreadPoolThread={Thread.CurrentThread.IsThreadPoolThread}");
 });
 ```
+
+</div>
 
 בפועל כמעט לעולם לא נקרא ל-`ThreadPool` ישירות — `Task.Run`, `Parallel.For` ו-`async/await` (מודול 02) משתמשים בו בשבילנו. מה שכן חשוב להבין:
 
@@ -77,6 +91,8 @@ ThreadPool.QueueUserWorkItem(_ =>
 
 הנה הדוגמה הקלאסית. שני תהליכונים מגדילים מונה משותף מיליון פעמים כל אחד:
 
+<div dir="ltr">
+
 ```csharp
 int counter = 0;
 var t1 = new Thread(() => { for (int i = 0; i < 1_000_000; i++) counter++; });
@@ -85,6 +101,8 @@ t1.Start(); t2.Start();
 t1.Join();  t2.Join();
 Console.WriteLine(counter);   // 2,000,000? כמעט אף פעם! למשל 1,176,871
 ```
+
+</div>
 
 למה? כי `counter++` הוא **לא פעולה אחת**. המעבד מבצע שלושה שלבים: קורא את הערך לרגיסטר, מוסיף 1, כותב חזרה. אם שני תהליכונים קוראים את אותו ערך (נניח 41) לפני שמישהו כתב, שניהם יכתבו 42 — ועדכון אחד "נעלם". זה **Race Condition**: התוצאה תלויה במי הגיע קודם, והיא לא דטרמיניסטית. הבאג הזה לא מופיע בבדיקות, מופיע אצל הלקוח, ולא ניתן לשחזור. מודול 03 מוקדש כולו לפתרונות (`lock`, `Interlocked`, אוספים מקביליים).
 
@@ -101,6 +119,8 @@ Console.WriteLine(counter);   // 2,000,000? כמעט אף פעם! למשל 1,176
 
 טעות נפוצה: לפתוח תהליכון (או `Task.Run`) כדי "לחכות" לרשת. התהליכון יושב ומחכה, תופס זיכרון ולא עושה כלום. עבור IO רוצים `await`, שמשחרר את התהליכון בזמן ההמתנה.
 
+<div dir="ltr">
+
 ```csharp
 // IO-bound: 4 המתנות של 100ms
 var sw = Stopwatch.StartNew();
@@ -112,9 +132,13 @@ await Task.WhenAll(Task.Delay(100), Task.Delay(100), Task.Delay(100), Task.Delay
 Console.WriteLine(sw.ElapsedMilliseconds);            // ~100 ms, אפס תהליכונים תפוסים
 ```
 
+</div>
+
 ## `Parallel.For` ו-`Parallel.ForEach`
 
 לעבודת CPU על אוסף, ה-TPL (Task Parallel Library) נותן לולאות מקביליות מוכנות. הן מחלקות את הטווח בין תהליכוני ה-Pool ומחכות לסיום כולם:
+
+<div dir="ltr">
 
 ```csharp
 var data = Enumerable.Range(1, 20).ToArray();
@@ -130,6 +154,8 @@ Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = 2 }, file
 });
 ```
 
+</div>
+
 כללים חשובים:
 
 - **הסדר לא מובטח.** אם צריך סדר — אספו תוצאות למערך לפי אינדקס.
@@ -142,6 +168,8 @@ Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = 2 }, file
 
 מוסיפים `.AsParallel()` לשאילתת LINQ, וה-runtime מחלק את העבודה בין הליבות:
 
+<div dir="ltr">
+
 ```csharp
 var primes = Enumerable.Range(1, 1_500_000)
     .AsParallel()
@@ -152,6 +180,8 @@ var primes = Enumerable.Range(1, 1_500_000)
 var firstFive = Enumerable.Range(1, 1_000_000).AsParallel().AsOrdered()
     .Where(n => n % 1000 == 0).Take(5);
 ```
+
+</div>
 
 PLINQ משתלם רק כשהעבודה על כל פריט **יקרה**. עבור `Where(n => n % 7 == 0)` על מיליון מספרים, הגרסה הסדרתית תהיה מהירה יותר — ה-overhead של חלוקת העבודה ומיזוג התוצאות גדול מהרווח. תמיד למדוד (`Stopwatch`, מודול 06).
 
@@ -178,3 +208,5 @@ PLINQ משתלם רק כשהעבודה על כל פריט **יקרה**. עבור
 - [Parallel programming in .NET](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/)
 - [Data parallelism (Parallel.For/ForEach)](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/data-parallelism-task-parallel-library)
 - [Parallel LINQ (PLINQ)](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/introduction-to-plinq)
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 2 — צורות ועובדים: ירושה, הפשטה ופולימורפיזם (60 דקות)
 
 ## מטרה
@@ -10,10 +12,14 @@
 
 ## התחלה
 
+<div dir="ltr">
+
 ```bash
 cd Labs/Lab2-ShapesAndEmployees/Starter
 dotnet run
 ```
+
+</div>
 
 ## שלבים
 
@@ -58,3 +64,5 @@ dotnet run
 - default member בממשק: `string PaySlip() => $"...";` — פשוט גוף בתוך הממשק.
 - כדי לקרוא ל-`PaySlip()` על `SalariedEmployee` צריך משתנה מטיפוס `IPayable`.
 - `Math.Min` / `Math.Max` עוזרים לחשב שעות רגילות/נוספות בלי `if`.
+
+</div>

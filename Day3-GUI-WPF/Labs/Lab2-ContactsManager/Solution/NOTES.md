@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 2 — הערות על הפתרון
 
 ## החלטות מרכזיות
@@ -20,3 +22,5 @@
 
 - להראות את ה-Output window ב-VS כשיש שגיאת binding (`System.Windows.Data Error`) — זו הדרך לדבג bindings.
 - `RelativeSource AncestorType=Window` מבלבל; לצייר על הלוח את עץ ה-DataContext.
+
+</div>

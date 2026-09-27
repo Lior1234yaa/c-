@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 05 — Delegates, Lambdas, Events ו-LINQ
 
 עד עכשיו העברנו למתודות **נתונים**. במודול הזה נלמד להעביר **התנהגות**: "סנן לי את הרשימה לפי התנאי הזה", "כשהמלאי יורד — הודע לי", "מיין לפי השדה הזה". ב-C# זה נעשה עם delegates ו-lambdas, ומעליהם בנויים אירועים ו-LINQ — הכלי שהופך 20 שורות של לולאות לשורה אחת קריאה. נסיים בכמה עקרונות של תכנות פונקציונלי שהופכים קוד לכזה שקל לבדוק ולהבין.
@@ -5,6 +7,8 @@
 ## Delegates — מתודה כערך
 
 delegate הוא טיפוס שמתאר **חתימה** של מתודה: אילו פרמטרים, איזה ערך חזרה. משתנה מטיפוס delegate מחזיק הפניה למתודה, ואפשר "לקרוא" לו.
+
+<div dir="ltr">
 
 ```csharp
 delegate int MathOp(int a, int b);            // הגדרת הטיפוס
@@ -17,6 +21,8 @@ Console.WriteLine(op(2, 3));                  // 5
 static int Apply(int x, int y, MathOp op) => op(x, y);
 Console.WriteLine(Apply(10, 4, (a, b) => a - b));   // 6 — העברת התנהגות
 ```
+
+</div>
 
 בפועל כמעט לא מגדירים delegates משלנו, כי .NET מספק גנריים מוכנים:
 
@@ -33,6 +39,8 @@ delegate הוא **multicast**: `+=` מוסיף מתודה נוספת, והקרי
 
 lambda היא מתודה אנונימית שנכתבת במקום: `(פרמטרים) => ביטוי` או `(פרמטרים) => { גוף }`. המהדר מסיק את טיפוסי הפרמטרים מה-delegate שהיא מושמת אליו.
 
+<div dir="ltr">
+
 ```csharp
 Func<int, int> square = x => x * x;                 // פרמטר אחד — בלי סוגריים
 Func<int, int, int> max = (a, b) => a > b ? a : b;
@@ -40,9 +48,13 @@ Action<string> shout = s => { var u = s.ToUpper(); Console.WriteLine(u + "!"); }
 Func<int> answer = () => 42;                        // בלי פרמטרים
 ```
 
+</div>
+
 ### Closures
 
 lambda יכולה להשתמש במשתנים מהסביבה שבה נוצרה — ו"לזכור" אותם גם אחרי שהמתודה שיצרה אותה סיימה:
+
+<div dir="ltr">
 
 ```csharp
 static Func<int> MakeCounter()
@@ -55,11 +67,15 @@ var next = MakeCounter();
 Console.WriteLine($"{next()} {next()} {next()}");   // 1 2 3
 ```
 
+</div>
+
 זה חזק, אבל שימו לב: ה-lambda לוכדת את **המשתנה**, לא את הערך. אם משתנה משתנה אחרי יצירת ה-lambda, היא תראה את הערך החדש.
 
 ## Events — publisher/subscriber
 
 אירוע הוא delegate multicast עם הגנה: מבחוץ אפשר רק להירשם (`+=`) ולהסיר (`-=`), ורק המחלקה שהגדירה אותו יכולה להפעיל. זו הדרך של אובייקט להודיע "קרה משהו" בלי לדעת מי מקשיב.
+
+<div dir="ltr">
 
 ```csharp
 class LowStockEventArgs(string sku, int quantity) : EventArgs
@@ -85,6 +101,8 @@ inv.LowStock += (sender, e) => Console.WriteLine($"reorder {e.Sku}! only {e.Quan
 inv.LowStock += (_, e) => emailService.Notify(e.Sku);       // מנוי שני — Inventory לא יודע עליו
 ```
 
+</div>
+
 המוסכמה של .NET: `EventHandler<TEventArgs>`, פרמטרים `(object? sender, TEventArgs e)`, שם האירוע בזמן עבר או הווה (`Changed`, `Clicked`, `LowStock`). כשתעבדו עם WPF/WinForms ביום 4, כל לחיצת כפתור היא אירוע כזה.
 
 זכרו להסיר מנויים (`-=`) מאובייקטים ארוכי-חיים: publisher שמחזיק הפניה למנוי מונע ממנו להיאסף ב-GC.
@@ -92,6 +110,8 @@ inv.LowStock += (_, e) => emailService.Notify(e.Sku);       // מנוי שני �
 ## Extension methods — איך LINQ "נדבק" לכל אוסף
 
 `Where`, `Select` ושאר האופרטורים אינם מתודות של `List<T>` — הם **extension methods**: מתודות סטטיות שהמהדר מרשה לקרוא כאילו הן שייכות לטיפוס. כך LINQ עובד על כל `IEnumerable<T>` בלי לשנות אף מחלקה. אתם יכולים לכתוב כאלה בעצמכם כדי להוסיף פעולות לטיפוסים שאינם שלכם (למשל `string` או `DateTime`), או כדי לשמור על מחלקות קטנות. הכללים: מחלקה `static`, מתודה `static`, והפרמטר הראשון עם `this`.
+
+<div dir="ltr">
 
 ```csharp
 static class StringExtensions
@@ -106,6 +126,8 @@ Console.WriteLine("Hello, world".Truncate(5));    // Hello…
 if (input.IsBlank()) { }                          // עובד גם על null
 ```
 
+</div>
+
 אל תגזימו: extension method מתאימה לפעולות עזר כלליות, לא ללוגיקה עסקית שצריכה להיות במחלקה עצמה.
 
 ## delegate או ממשק?
@@ -115,6 +137,8 @@ if (input.IsBlank()) { }                          // עובד גם על null
 ## LINQ — שאילתות על אוספים
 
 LINQ (Language Integrated Query) הוא אוסף של extension methods על `IEnumerable<T>` שמקבלות lambdas. במקום לולאה + `if` + רשימה זמנית, מתארים **מה** רוצים:
+
+<div dir="ltr">
 
 ```csharp
 record Order(int Id, string Customer, string Category, decimal Total);
@@ -152,9 +176,13 @@ HashSet<string> categories = orders.Select(o => o.Category).ToHashSet();
 var page2 = orders.Skip(10).Take(10);
 ```
 
+</div>
+
 ### Method syntax מול query syntax
 
 יש שני תחבירים לאותו דבר. **Method syntax** (למעלה) הוא הנפוץ; **query syntax** דומה ל-SQL ולפעמים קריא יותר ב-joins ובקיבוצים מורכבים:
+
+<div dir="ltr">
 
 ```csharp
 var q = from o in orders
@@ -163,11 +191,15 @@ var q = from o in orders
         select new { o.Id, o.Customer };      // anonymous type
 ```
 
+</div>
+
 המהדר מתרגם query syntax ל-method calls. בחרו אחד ותהיו עקביים בפרויקט.
 
 ### Deferred execution
 
 זו הנקודה שהכי חשוב להבין ב-LINQ: `Where`, `Select`, `OrderBy` וכו' **לא רצים** כשכותבים אותם. הם בונים "תוכנית", והיא מבוצעת רק כשמישהו עובר על התוצאה (`foreach`, `ToList`, `Count`, `First`...).
+
+<div dir="ltr">
 
 ```csharp
 var numbers = new List<int> { 1, 2, 3 };
@@ -177,6 +209,8 @@ Console.WriteLine(string.Join(",", evens));     // 2,4 — השאילתה רצה
 
 var snapshot = numbers.Where(n => n % 2 == 0).ToList();   // ToList מבצע ומקפיא
 ```
+
+</div>
 
 השלכות: (1) שאילתה שנצרכת פעמיים רצה פעמיים; (2) שינוי במקור אחרי ההגדרה משפיע על התוצאה; (3) חריגה ב-lambda תיזרק בזמן הצריכה, לא בזמן ההגדרה. כשצריך תוצאה יציבה — `ToList()` / `ToArray()`. אופרטורים כמו `Count()`, `Sum()`, `First()`, `ToDictionary()` הם "immediate" — מבצעים מיד.
 
@@ -189,12 +223,16 @@ LINQ ו-lambdas מזמינים סגנון תכנות שמקל על בדיקות 
 - **הרכבה**: מתודות קטנות שמקבלות ומחזירות `Func`/`IEnumerable`, ומשורשרות: `orders.Where(IsRecent).Select(ToSummary).OrderBy(s => s.Date)`.
 - **הפרדה בין חישוב ל-I/O**: חשבו את התוצאה בפונקציה טהורה, הדפיסו/שמרו בשכבה חיצונית.
 
+<div dir="ltr">
+
 ```csharp
 record Cart(IReadOnlyList<Item> Items) { public decimal Total => Items.Sum(i => i.Price); }
 
 static Cart ApplyDiscount(Cart cart, decimal pct) =>            // טהורה: לא נוגעת ב-cart
     cart with { Items = cart.Items.Select(i => i with { Price = i.Price * (1 - pct) }).ToList() };
 ```
+
+</div>
 
 לא צריך להפוך את כל הקוד לפונקציונלי; אבל כשמתודה יכולה להיות טהורה — עדיף שתהיה.
 
@@ -226,3 +264,5 @@ static Cart ApplyDiscount(Cart cart, decimal pct) =>            // טהורה: �
 - [Standard query operators](https://learn.microsoft.com/dotnet/csharp/linq/standard-query-operators/)
 - [Deferred execution](https://learn.microsoft.com/dotnet/csharp/linq/get-started/introduction-to-linq-queries#deferred-execution)
 - [Functional programming in C#](https://learn.microsoft.com/dotnet/csharp/fundamentals/functional/)
+
+</div>

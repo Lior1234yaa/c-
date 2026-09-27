@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 4 — הערות לפתרון ורשימת הבאגים
 
 ## רשימת הבאגים ב-Starter (ומה מתקן אותם)
@@ -36,9 +38,15 @@
 
 ## בדיקה
 
+<div dir="ltr">
+
 ```bash
 printf 'open acc1 Dana\ndeposit acc1 100\nwithdraw ACC1 30\nwithdraw acc1 500\ndeposit acc1 abc\ndeposit acc1\ndeposit acc1 0\nopen acc2 Yossi\ntransfer acc1 acc2 50\nlist\nshow acc1\nquit\n' | dotnet run
 cat transactions.log
 ```
 
+</div>
+
 צפוי: יתרות סופיות acc1 = 20, acc2 = 50; ארבע שגיאות ידידותיות (insufficient עם short by 430, not a number, needs 2 arguments, amount must be positive); `processed=11, failed=4`; קובץ log עם 6 שורות.
+
+</div>

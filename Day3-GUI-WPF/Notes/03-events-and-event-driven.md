@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 03 — אירועים ותכנות מונחה-אירועים
 
 ## המודל: התוכנית מחכה, המשתמש מוביל
@@ -9,9 +11,15 @@
 
 ב-C# אירוע הוא delegate multicast (יום 1): `button.Click += Handler;`. ב-XAML זה attribute:
 
+<div dir="ltr">
+
 ```xml
 <Button Content="Save" Click="Save_Click" />
 ```
+
+</div>
+
+<div dir="ltr">
 
 ```csharp
 private void Save_Click(object sender, RoutedEventArgs e)
@@ -20,11 +28,15 @@ private void Save_Click(object sender, RoutedEventArgs e)
 }
 ```
 
+</div>
+
 ## התבנית `sender` / `e`
 
 כל handler ב-.NET נראה אותו דבר: `(object sender, TEventArgs e)`.
 
 - **`sender`** — האובייקט שהפעיל את האירוע. שימושי כש-handler אחד משרת כמה פקדים:
+
+<div dir="ltr">
 
 ```csharp
 private void Digit_Click(object sender, RoutedEventArgs e)
@@ -33,6 +45,8 @@ private void Digit_Click(object sender, RoutedEventArgs e)
     Display.Text += button.Content;
 }
 ```
+
+</div>
 
 - **`e`** — מידע ספציפי לאירוע: `KeyEventArgs.Key`, `MouseButtonEventArgs.GetPosition()`,
   `TextChangedEventArgs`, `SelectionChangedEventArgs.AddedItems`, `CancelEventArgs.Cancel`, ‏`SizeChangedEventArgs.NewSize`.
@@ -47,11 +61,17 @@ private void Digit_Click(object sender, RoutedEventArgs e)
 
 למה זה שימושי? handler אחד על ה-Grid במקום עשרים על כפתורים:
 
+<div dir="ltr">
+
 ```xml
 <Grid Button.Click="AnyButton_Click">
     <Button Content="1" /> <Button Content="2" /> ...
 </Grid>
 ```
+
+</div>
+
+<div dir="ltr">
 
 ```csharp
 private void AnyButton_Click(object sender, RoutedEventArgs e)
@@ -60,6 +80,8 @@ private void AnyButton_Click(object sender, RoutedEventArgs e)
     if (e.OriginalSource is Button b) Display.Text += b.Content;
 }
 ```
+
+</div>
 
 `e.Handled = true` עוצר את המסע — אף הורה לא יקבל את האירוע. ‏`Preview*` מאפשר "ליירט" לפני שהפקד
 מגיב — למשל לחסום תווים ב-`PreviewTextInput` (מודול 06). ראו `Demos/Day3.Demo.Events` שמדפיס את
@@ -86,6 +108,8 @@ private void AnyButton_Click(object sender, RoutedEventArgs e)
 
 `Closing` עם אישור:
 
+<div dir="ltr">
+
 ```csharp
 private void Window_Closing(object sender, CancelEventArgs e)
 {
@@ -95,10 +119,14 @@ private void Window_Closing(object sender, CancelEventArgs e)
 }
 ```
 
+</div>
+
 ## ICommand: הפעולה כאובייקט
 
 `Click` handler עובד, אבל יש לו בעיות: הוא תקוע ב-code-behind, אי אפשר לחבר אותו גם לתפריט וגם
 לקיצור מקלדת בלי שכפול, ואין דרך מסודרת להגיד "הפעולה לא זמינה עכשיו". בשביל זה יש `ICommand`:
+
+<div dir="ltr">
 
 ```csharp
 public interface ICommand
@@ -109,8 +137,12 @@ public interface ICommand
 }
 ```
 
+</div>
+
 פקדים כמו `Button`, `MenuItem` ו-`KeyBinding` יודעים לעבוד עם `Command`: הם קוראים ל-`Execute` בלחיצה,
 ו**משביתים את עצמם** אוטומטית כש-`CanExecute` מחזיר `false`. המימוש המינימלי שנשתמש בו כל היום:
+
+<div dir="ltr">
 
 ```csharp
 public sealed class RelayCommand(Action execute, Func<bool>? canExecute = null) : ICommand
@@ -127,7 +159,11 @@ public sealed class RelayCommand(Action execute, Func<bool>? canExecute = null) 
 }
 ```
 
+</div>
+
 שימוש:
+
+<div dir="ltr">
 
 ```csharp
 public ICommand SaveCommand { get; }
@@ -140,15 +176,23 @@ public MainWindow()
 }
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <Button Content="Save" Command="{Binding SaveCommand}" />
 <MenuItem Header="_Save" Command="{Binding SaveCommand}" />
 ```
 
+</div>
+
 אם המצב שמשפיע על `CanExecute` השתנה בלי אינטראקציית UI (למשל אחרי `await`), קוראים
 `CommandManager.InvalidateRequerySuggested()`. במודול 04 ה-commands יעברו ל-ViewModel.
 
 ## קיצורי מקלדת: InputBindings
+
+<div dir="ltr">
 
 ```xml
 <Window.InputBindings>
@@ -157,6 +201,8 @@ public MainWindow()
     <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
 </Window.InputBindings>
 ```
+
+</div>
 
 זה עובד עם commands בלבד — עוד סיבה להשתמש בהם. בנוסף:
 
@@ -168,6 +214,8 @@ public MainWindow()
 
 לשעון, לרענון תקופתי, ל-debounce של חיפוש — `DispatcherTimer` מפעיל את `Tick` **על ה-UI thread**,
 לכן מותר לגעת בפקדים בלי `Dispatcher.Invoke`:
+
+<div dir="ltr">
 
 ```csharp
 private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
@@ -181,6 +229,8 @@ public MainWindow()
 }
 ```
 
+</div>
+
 אל תבלבלו עם `System.Timers.Timer` או `System.Threading.Timer` — הם מפעילים callback על thread-pool
 thread, ונגיעה בפקד משם תזרוק חריגה. אם צריך דיוק (שעון עצר), מודדים עם `Stopwatch` ומשתמשים
 ב-DispatcherTimer רק לרענון התצוגה.
@@ -189,10 +239,14 @@ thread, ונגיעה בפקד משם תזרוק חריגה. אם צריך דיו
 
 לא חייבים מתודה נפרדת לכל אירוע. ל-handlers קצרים, lambda בקוד היא לגיטימית וקריאה:
 
+<div dir="ltr">
+
 ```csharp
 Loaded += (_, _) => _timer.Start();
 Closed += (_, _) => _timer.Stop();
 ```
+
+</div>
 
 הבעיה עם lambda: אי אפשר להסיר אותה (`-=`) כי אין לה שם. ברוב המקרים לא אכפת לנו — החלון
 והפקדים מתים יחד. אבל כשאובייקט **ארוך-חיים** (service סטטי, `Application`, timer גלובלי) מחזיק
@@ -217,6 +271,8 @@ handler של חלון **קצר-חיים**, החלון לא ישוחרר מהזי
 חיפוש שרץ על כל `TextChanged` יפעיל בקשת רשת על כל תו. הפתרון הקלאסי הוא **debounce** עם
 `DispatcherTimer`: בכל הקשה מאפסים את הטיימר; רק כשהמשתמש עוצר ל-300ms — מחפשים.
 
+<div dir="ltr">
+
 ```csharp
 private readonly DispatcherTimer _debounce = new() { Interval = TimeSpan.FromMilliseconds(300) };
 
@@ -227,6 +283,8 @@ public MainWindow()
     SearchBox.TextChanged += (_, _) => { _debounce.Stop(); _debounce.Start(); };
 }
 ```
+
+</div>
 
 אותה טכניקה מתאימה לשמירה אוטומטית, לרענון תצוגה מקדימה, ולכל דבר "יקר" שמופעל מהקלדה.
 
@@ -272,3 +330,5 @@ public MainWindow()
 - [ICommand interface](https://learn.microsoft.com/dotnet/api/system.windows.input.icommand)
 - [Input overview (keyboard, mouse)](https://learn.microsoft.com/dotnet/desktop/wpf/advanced/input-overview)
 - [DispatcherTimer](https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatchertimer)
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 3 — Products API Client: לקוח WPF מעל REST API
 
 **משך:** 60 דקות | **רמה:** ★★ | **מודולים:** 02, 05 (UI רספונסיבי, חיבור ל-backend אסינכרוני)
@@ -8,6 +10,8 @@
 טיפול בשגיאות ידידותי, חיפוש/סינון, ופריסה שמתאימה את עצמה לרוחב החלון.
 המעבדה עובדת **גם בלי שרת**: `FakeProductService` מדמה רשת איטית. מי שהריץ את `Day2.LocalApi`
 מיום 2 יכול לעבור ל-`HttpProductService` ולראות נתונים אמיתיים.
+
+<div dir="ltr">
 
 ```text
 +------------------------------------------------------------------+
@@ -23,7 +27,11 @@
 +------------------------------------------------------------------+
 ```
 
+</div>
+
 ## מבנה
+
+<div dir="ltr">
 
 ```text
 Models/Product.cs                 ← record של ה-UI
@@ -33,6 +41,8 @@ Services/HttpProductService.cs    ← TODO 4: HttpClient + System.Text.Json
 ViewModels/ProductsViewModel.cs   ← TODO 1–3
 MainWindow.xaml(.cs)              ← TODO 1b/1c, 2b, 5, 6, 7
 ```
+
+</div>
 
 ## שלבים
 
@@ -88,3 +98,5 @@ MainWindow.xaml(.cs)              ← TODO 1b/1c, 2b, 5, 6, 7
 - `AsyncRelayCommand` (ב-`Mvvm/RelayCommand.cs`) כבר מונע לחיצה כפולה בזמן ריצה.
 - `Progress<T>` חייב להיווצר על ה-UI thread (בבנאי/ב-LoadAsync לפני ה-await הראשון) — כך ה-callback רץ עליו.
 - `Visibility` הוא enum, לא bool — לכן צריך converter.
+
+</div>

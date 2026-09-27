@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 2 — Refactoring של קוד legacy בעזרת AI, עם Golden Master (75 דקות)
 
 ## המטרה
@@ -19,12 +21,16 @@
 
 ### שלב 1 — ניתוח עם AI (10 דק')
 Prompt:
+<div dir="ltr">
+
 ```text
 Analyze this C# class. List the code smells ranked by risk (god method, magic numbers, duplicated formatting,
 double for money, no error handling, mixed responsibilities). Propose a target structure: which classes/interfaces,
 what each is responsible for. Do NOT write code yet.
 {הדביקו SubscriptionBiller.cs}
 ```
+
+</div>
 **דף עבודה:** רשמו את המבנה שה-AI הציע ומה **אתם** הייתם משנים בו (למשל: האם באמת צריך ממשק ל-formatter?).
 
 ### שלב 2 — Refactoring בצעדים קטנים (35 דק')
@@ -59,3 +65,5 @@ what each is responsible for. Do NOT write code yet.
 ## רמזים
 - אם ה-diff נשבר אחרי מעבר ל-`decimal`: בדקו את סדר הפעולות (הכפלה לפני חלוקה) והעיגול — הגרסה הישנה לא עיגלה בכלל, רק עיצבה ב-`0.00`.
 - `dotnet run > actual.txt` ב-PowerShell עשוי לכתוב UTF-16 — השוו תוכן, לא bytes, או השתמשו ב-`| Out-File -Encoding utf8`.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 03 — סנכרון תהליכונים וניהול בטוח של משאבים
 
 ## הבעיה: מצב משותף (Shared State)
@@ -11,6 +13,8 @@
 3. **הדרה הדדית (Mutual Exclusion)** — רק תהליכון אחד בכל רגע בתוך "האזור הקריטי". זה `lock` וחבריו.
 
 ## `lock` — הכלי הבסיסי
+
+<div dir="ltr">
 
 ```csharp
 public class Account
@@ -35,6 +39,8 @@ public class Account
 }
 ```
 
+</div>
+
 עד C# 12 נהגו לכתוב `private readonly object _lock = new();` — זה עדיין עובד ונפוץ מאוד. הטיפוס `Lock` החדש מהיר יותר ומונע טעויות (אי אפשר בטעות לנעול על `string` או על `this`). הכללים:
 
 - **נועלים תמיד על אותו אובייקט** כשמגנים על אותם נתונים. שני `lock` על אובייקטים שונים לא מגנים זה מזה.
@@ -45,6 +51,8 @@ public class Account
 ## `Monitor` — מה שמאחורי `lock`
 
 `lock (x) { ... }` הוא סוכר תחבירי ל-`Monitor.Enter` / `Monitor.Exit` בתוך `try/finally`. גישה ישירה ל-`Monitor` נותנת עוד יכולות: המתנה עם timeout (`TryEnter`) והמתנה לאות (`Wait` / `Pulse`):
+
+<div dir="ltr">
 
 ```csharp
 if (Monitor.TryEnter(_gate, TimeSpan.FromMilliseconds(200)))
@@ -58,9 +66,13 @@ else
 }
 ```
 
+</div>
+
 ## `Interlocked` — פעולות אטומיות בלי נעילה
 
 עבור מונים ודגלים פשוטים, `lock` הוא תותח נגד זבוב. המעבד תומך בפעולות אטומיות ישירות, ו-`Interlocked` חושף אותן:
+
+<div dir="ltr">
 
 ```csharp
 private int _requests;
@@ -75,11 +87,15 @@ if (Interlocked.CompareExchange(ref _state, 1, 0) == 0)
     Console.WriteLine("I was the first to initialize");
 ```
 
+</div>
+
 `Interlocked` מהיר פי כמה מ-`lock`, אבל מטפל בפעולה **אחת** על משתנה **אחד**. "בדוק את היתרה ואז הפחת" — זו כבר שתי פעולות, ובשביל זה צריך `lock`.
 
 ## `SemaphoreSlim` — הגבלת מקביליות (וגם async!)
 
 סמפור מרשה ל-N תהליכונים להיכנס בו-זמנית — לא רק אחד. השימוש הנפוץ: "לכל היותר 3 בקשות HTTP במקביל", "לא יותר מ-10 חיבורים למסד". וחשוב מאוד: ל-`SemaphoreSlim` יש `WaitAsync`, ולכן הוא **הכלי היחיד כאן שמותר להשתמש בו בקוד async** (`lock` לא מרשה `await` בתוכו):
+
+<div dir="ltr">
 
 ```csharp
 private static readonly SemaphoreSlim _gate = new(3, 3);   // 3 "כרטיסים"
@@ -98,12 +114,16 @@ async Task DownloadAsync(string url)
 }
 ```
 
+</div>
+
 `SemaphoreSlim(1, 1)` הוא בעצם "async lock" — דפוס נפוץ מאוד להגנה על משאב יחיד בקוד אסינכרוני.
 
 ## `Mutex` ו-`ReaderWriterLockSlim`
 
 - **`Mutex`** דומה ל-`lock` אבל ברמת מערכת ההפעלה — ולכן יכול לסנכרן בין **תהליכים** שונים (למשל "רק מופע אחד של האפליקציה"). איטי בהרבה. בתוך תהליך אחד — תמיד `lock`.
 - **`ReaderWriterLockSlim`** מתאים למבנה שקוראים ממנו הרבה וכותבים אליו מעט (cache, קונפיגורציה): הרבה קוראים נכנסים יחד, כותב נכנס לבד.
+
+<div dir="ltr">
 
 ```csharp
 private readonly ReaderWriterLockSlim _rw = new();
@@ -123,6 +143,8 @@ public void Set(string key, string value)
 }
 ```
 
+</div>
+
 ## אוספים מקביליים (`System.Collections.Concurrent`)
 
 `List<T>` ו-`Dictionary<K,V>` **אינם בטוחים** לכתיבה מקבילית — תקבלו נתונים חסרים, חריגות מוזרות או לולאה אינסופית. במקום לעטוף כל גישה ב-`lock`, השתמשו באוספים שנבנו לזה:
@@ -135,6 +157,8 @@ public void Set(string key, string value)
 | `ConcurrentBag<T>` | "שק" ללא סדר | `Add`, `TryTake` |
 | `BlockingCollection<T>` | producer/consumer חוסם | `Add`, `Take`, `GetConsumingEnumerable`, `CompleteAdding` |
 
+<div dir="ltr">
+
 ```csharp
 var wordCounts = new ConcurrentDictionary<string, int>();
 Parallel.ForEach(words, w => wordCounts.AddOrUpdate(w, 1, (_, old) => old + 1));
@@ -143,11 +167,15 @@ var cache = new ConcurrentDictionary<int, User>();
 var user = cache.GetOrAdd(id, key => LoadUser(key));   // הערך ייווצר פעם אחת בלבד*
 ```
 
+</div>
+
 \* הערה: ה-factory ב-`GetOrAdd` **עלול לרוץ יותר מפעם אחת** בתחרות; רק ההכנסה למילון אטומית. אם היצירה יקרה או עם תופעות לוואי — עטפו ב-`Lazy<T>`.
 
 ## `Channel<T>` — Producer/Consumer אסינכרוני
 
 `BlockingCollection` חוסם תהליכונים. הגרסה המודרנית והאסינכרונית היא `System.Threading.Channels`: תור שאפשר לכתוב אליו ולקרוא ממנו עם `await`, כולל **back-pressure** (תור מוגבל שמעכב את היצרן כשהוא מלא):
+
+<div dir="ltr">
 
 ```csharp
 var channel = Channel.CreateBounded<Order>(capacity: 100);
@@ -170,11 +198,15 @@ var consumers = Enumerable.Range(0, 3).Select(_ => Task.Run(async () =>
 await Task.WhenAll(consumers.Append(producer));
 ```
 
+</div>
+
 דפוס מצוין ל-logger: כל התהליכונים כותבים ל-Channel, תהליכון אחד מדפיס/כותב לקובץ — בלי `lock` ובלי ערבוב שורות (ראו `Day2.Demo.ProducerConsumer` ומעבדה 4).
 
 ## Deadlock — ואיך נמנעים
 
 Deadlock קורה כששני תהליכונים מחכים זה לזה לנצח. התסריט הקלאסי: T1 נועל A ומבקש B; T2 נועל B ומבקש A. אף אחד לא משחרר, התוכנית קופאת בלי שגיאה:
+
+<div dir="ltr">
 
 ```csharp
 // T1                          // T2
@@ -183,6 +215,8 @@ lock (accountA)                lock (accountB)
     lock (accountB) { ... }        lock (accountA) { ... }   // deadlock!
 }                              }
 ```
+
+</div>
 
 הגנות:
 
@@ -196,6 +230,8 @@ lock (accountA)                lock (accountB)
 
 הדרך הכי אלגנטית להימנע מבעיות סנכרון היא לא לשנות אובייקטים. `record` (יום 1) הוא אובייקט בלתי-משתנה כברירת מחדל; "שינוי" יוצר עותק חדש עם `with`. אובייקט שאף אחד לא כותב אליו אפשר לשתף בין אלף תהליכונים בלי שום נעילה:
 
+<div dir="ltr">
+
 ```csharp
 public record PriceSnapshot(string Currency, decimal Rate, DateTime At);
 
@@ -204,11 +240,15 @@ private volatile PriceSnapshot _current = new("ILS", 3.7m, DateTime.UtcNow);
 public void Update(decimal rate) => _current = _current with { Rate = rate, At = DateTime.UtcNow };
 ```
 
+</div>
+
 יש גם `System.Collections.Immutable` (`ImmutableList<T>`, `ImmutableDictionary`) ו-`FrozenDictionary` (.NET 8+) לקריאה מהירה.
 
 ## Singleton בטוח עם `Lazy<T>`
 
 "האתחל פעם אחת בלבד, גם אם עשרה תהליכונים מבקשים בו-זמנית" — אל תכתבו את זה בעצמכם עם double-check locking. `Lazy<T>` עושה את זה נכון כברירת מחדל:
+
+<div dir="ltr">
 
 ```csharp
 public sealed class AppConfig
@@ -219,6 +259,8 @@ public sealed class AppConfig
     private static AppConfig Load() { /* קריאת קובץ */ return new AppConfig(); }
 }
 ```
+
+</div>
 
 ## טעויות נפוצות
 
@@ -247,3 +289,5 @@ public sealed class AppConfig
 - [Thread-safe collections](https://learn.microsoft.com/en-us/dotnet/standard/collections/thread-safe/)
 - [System.Threading.Channels library](https://learn.microsoft.com/en-us/dotnet/core/extensions/channels)
 - [Lazy initialization](https://learn.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization)
+
+</div>

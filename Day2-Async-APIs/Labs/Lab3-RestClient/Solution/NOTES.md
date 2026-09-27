@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 3 — הערות לפתרון
 
 ## מבנה
@@ -27,7 +29,13 @@
 
 ## הרצה
 
+<div dir="ltr">
+
 ```bash
 dotnet run          # פלט תמציתי
 dotnet run -- -v    # עם לוג של כל בקשה: method, url, status, ms
 ```
+
+</div>
+
+</div>

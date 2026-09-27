@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 7 — כלי AI לפיתוח ממשק משתמש (מושב הסיום)
 
 ## למה זה המושב האחרון
@@ -20,6 +22,8 @@ UI הוא המקום שבו AI חוסך הכי הרבה זמן — ומייצר 
 
 ## תהליך עבודה ל-C# desktop
 
+<div dir="ltr">
+
 ```text
 1. סקיצה   — נייר/Figma/ASCII: אילו אזורים, מה בכל אזור
 2. Prompt   — תיאור + אילוצים (MVVM, RTL, resources, sizes, states)
@@ -29,9 +33,13 @@ UI הוא המקום שבו AI חוסך הכי הרבה זמן — ומייצר 
 6. Review   — צ'ק-ליסט UI (למטה) + הרצה + נגישות + RTL
 ```
 
+</div>
+
 ## דוגמה מלאה: חלון "Orders Dashboard"
 
 ### סקיצה (ASCII)
+
+<div dir="ltr">
 
 ```text
 +------------------------------------------------------------------+
@@ -46,7 +54,11 @@ UI הוא המקום שבו AI חוסך הכי הרבה זמן — ומייצר 
 +------------------------------------------------------------------+
 ```
 
+</div>
+
 ### Prompt ראשון
+
+<div dir="ltr">
 
 ```text
 You are a WPF/XAML expert. Generate MainWindow.xaml only (no code-behind logic).
@@ -65,7 +77,11 @@ Constraints: FlowDirection="RightToLeft", Hebrew labels, MinWidth 900, MinHeight
   standard namespaces only (no third-party controls).
 ```
 
+</div>
+
 ### התוצאה (מקוצרת; הגרסה המלאה ב-`Demos/Day4.Demo.AiGeneratedUi`)
+
+<div dir="ltr">
 
 ```xml
 <Window x:Class="Day4.Demo.AiGeneratedUi.MainWindow"
@@ -137,9 +153,13 @@ Constraints: FlowDirection="RightToLeft", Hebrew labels, MinWidth 900, MinHeight
 </Window>
 ```
 
+</div>
+
 **מה בדקנו בסיבוב הראשון:** ה-build עבר. אבל: (1) בגרסה המקורית הופיע `xmlns:controls="..."` של ספרייה חיצונית שלא ביקשנו — הוסר. (2) `StringFormat=C` תלוי ב-culture של התהליך — צריך לקבוע `CultureInfo` בהפעלה או פורמט מפורש `{}{0:N2} ₪`. (3) חסר מצב "אין הזמנות" (empty state).
 
 ### Prompt שני (חידוד)
+
+<div dir="ltr">
 
 ```text
 Refine the XAML you produced:
@@ -151,6 +171,8 @@ Refine the XAML you produced:
 5. Add AutomationProperties.Name to the search TextBox and the buttons for accessibility.
 Show only the changed parts.
 ```
+
+</div>
 
 זה סיבוב טיפוסי: הראשון נותן מבנה, השני נותן איכות. הסיבוב השלישי (אם יש) עוסק במצבי שגיאה ובמסכים קטנים.
 
@@ -227,3 +249,5 @@ Show only the changed parts.
 - FlowDirection / bidirectional: https://learn.microsoft.com/dotnet/desktop/wpf/advanced/bidirectional-features-in-wpf-overview
 - Accessibility (UI Automation) in WPF: https://learn.microsoft.com/dotnet/desktop/wpf/advanced/accessibility
 - Copilot in Visual Studio: https://learn.microsoft.com/visualstudio/ide/visual-studio-github-copilot-extension
+
+</div>

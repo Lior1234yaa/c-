@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 07 — טכניקות לפרוטוטייפינג מהיר של GUI
 
 ## המטרה: מסקיצה לחלון שעובד תוך שעה
@@ -27,6 +29,8 @@
 
 `Style` = אוסף `Setter`-ים שחל על סוג פקד:
 
+<div dir="ltr">
+
 ```xml
 <Style x:Key="H1" TargetType="TextBlock">
     <Setter Property="FontSize" Value="22" />
@@ -45,9 +49,13 @@
 </Style>
 ```
 
+</div>
+
 `BasedOn` = ירושה. `Style.Triggers` משנים property לפי מצב (`IsMouseOver`, `IsEnabled`) בלי קוד.
 
 **ControlTemplate** משנה את *המבנה* של הפקד (למשל כפתור מעוגל). לפרוטוטייפ — קצר ולעניין:
+
+<div dir="ltr">
 
 ```xml
 <Setter Property="Template">
@@ -61,7 +69,11 @@
 </Setter>
 ```
 
+</div>
+
 **ResourceDictionary** מוציא את זה לקובץ נפרד וממזג ב-`App.xaml`:
+
+<div dir="ltr">
 
 ```xml
 <Application.Resources>
@@ -74,12 +86,18 @@
 </Application.Resources>
 ```
 
+</div>
+
 הפרדת **צבעים** מ**סגנונות** + `{DynamicResource}` = החלפת theme בשורת קוד אחת:
+
+<div dir="ltr">
 
 ```csharp
 Application.Current.Resources.MergedDictionaries[0] =
     new ResourceDictionary { Source = new Uri("Themes/Dark.xaml", UriKind.Relative) };
 ```
+
+</div>
 
 `StaticResource` נפתר פעם אחת בטעינה; `DynamicResource` עוקב אחרי שינויים. לצבעי theme — Dynamic.
 
@@ -87,6 +105,8 @@ Application.Current.Resources.MergedDictionaries[0] =
 
 כשאותו בלוק XAML חוזר (כרטיס סטטיסטיקה, שורת "תווית+שדה", כותרת עם אייקון) — הופכים אותו ל-`UserControl`.
 כדי שאפשר יהיה לעשות עליו binding מבחוץ, ה-properties חייבות להיות `DependencyProperty`:
+
+<div dir="ltr">
 
 ```csharp
 public partial class StatCard : UserControl
@@ -98,6 +118,10 @@ public partial class StatCard : UserControl
 }
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <!-- בתוך StatCard.xaml: x:Name="Root" על ה-UserControl -->
 <TextBlock Text="{Binding Value, ElementName=Root}" FontSize="30" />
@@ -106,9 +130,13 @@ public partial class StatCard : UserControl
 <c:StatCard Title="Orders" Value="{Binding Snapshot.OrdersToday}" />
 ```
 
+</div>
+
 ה-boilerplate של DP ארוך — זה בדיוק מה ש-snippets (`propdp` + Tab ב-VS) וכלי AI (יום 4) עושים בשבילכם.
 
 ## 4. Design-time data: לראות את המסך בלי להריץ
+
+<div dir="ltr">
 
 ```xml
 <Window ...
@@ -117,6 +145,8 @@ public partial class StatCard : UserControl
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:DashboardViewModel, IsDesignTimeCreatable=True}">
 ```
+
+</div>
 
 `d:DataContext` נותן למעצב ב-VS מופע של ה-VM, כך שה-binding-ים מוצגים עם נתונים אמיתיים (הבנאי חייב
 להיות ללא פרמטרים — או שיוצרים `DesignViewModel` יורש). `d:` מתעלמים ממנו בזמן ריצה. אפשר גם
@@ -159,6 +189,8 @@ public partial class StatCard : UserControl
 `TableLayoutPanel`), ואירועים הם delegates. ב-`Demos/Day3.Demo.WinForms` הטופס בנוי **בקוד** בלי
 קובץ Designer — כדי להראות בדיוק מה המעצב מייצר:
 
+<div dir="ltr">
+
 ```csharp
 public class MainForm : Form
 {
@@ -179,6 +211,8 @@ public class MainForm : Form
     }
 }
 ```
+
+</div>
 
 מתי WinForms: כלי פנימי, throwaway, צוות שכבר מכיר, תחזוקת מערכת קיימת. מתי לא: UI מותאם,
 data binding מורכב, DPI גבוה ואנימציות, כל דבר שיחיה שנים.
@@ -225,6 +259,8 @@ data binding מורכב, DPI גבוה ואנימציות, כל דבר שיחיה
 כדי להמחיש את טבלת התרגום, הנה ה-wireframe של Lab 4 ומה שנוצר ממנו בשלב "שלד" — לפני נתונים,
 לפני צבעים:
 
+<div dir="ltr">
+
 ```xml
 <DockPanel Margin="12">
     <DockPanel DockPanel.Dock="Top">                        <!-- כותרת + כפתורים מימין -->
@@ -246,6 +282,8 @@ data binding מורכב, DPI גבוה ואנימציות, כל דבר שיחיה
     </TabControl>
 </DockPanel>
 ```
+
+</div>
 
 עשרים שורות, והמסך כבר "קיים": אפשר להריץ, לשנות גודל, ולהראות למישהו. כל מה שנשאר הוא להחליף
 כל `Border` ריק בתוכן אמיתי — וזה בדיוק סדר העבודה של Lab 4.
@@ -275,3 +313,5 @@ data binding מורכב, DPI גבוה ואנימציות, כל דבר שיחיה
 - [XAML Hot Reload](https://learn.microsoft.com/visualstudio/xaml-tools/xaml-hot-reload)
 - [Design-time attributes (d:DataContext)](https://learn.microsoft.com/visualstudio/xaml-tools/xaml-designer-design-time-attributes)
 - [Windows Forms: TableLayoutPanel](https://learn.microsoft.com/dotnet/desktop/winforms/controls/tablelayoutpanel-control-overview-windows-forms)
+
+</div>

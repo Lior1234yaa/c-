@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 2 — בנק בטוח לתהליכונים (Thread-Safe Bank)
 
 **משך:** 60 דקות | **מודולים:** 01, 03 | **פרויקט:** `Starter/Day2.Lab2.Starter`
@@ -33,6 +35,8 @@
 ### שלב 3 — `InterlockedBank` (10 דק')
 ממשו בנק שמחזיק יתרות כ-`long[]` (באגורות) ומשתמש ב-`Interlocked.Add` להפחתה ולהוספה. ה-invariant נשמר (למה?). אבל: איך עושים "בדוק שיש מספיק ואז הפחת" אטומית? ממשו `TryWithdraw` עם לולאת `Interlocked.CompareExchange`:
 
+<div dir="ltr">
+
 ```csharp
 long current;
 do
@@ -42,6 +46,8 @@ do
 } while (Interlocked.CompareExchange(ref balances[id], current - amount, current) != current);
 return true;
 ```
+
+</div>
 
 ### שלב 4 — `ConcurrentBank` (10 דק')
 ממשו עם `ConcurrentDictionary<int, decimal>` ו-`AddOrUpdate`. שימו לב: `AddOrUpdate` אטומי לכל **מפתח בנפרד**, אבל העברה נוגעת בשני מפתחות — האם ה-invariant נשמר? (כן — כל עדכון בודד אטומי, והסכום של שניהם קבוע.) ומה עם בדיקת יתרה? (בעייתי — צריך `lock` או CompareExchange בלולאה.)
@@ -73,3 +79,5 @@ return true;
 - הרנדומליות ב-`StressTest` משתמשת ב-`Random.Shared` — הוא thread-safe.
 - ב-deadlock demo, סמנו את התהליכונים `IsBackground = true` — אחרת התוכנית לא תסתיים גם אחרי ה-watchdog.
 - `Interlocked` עובד על `int`/`long`, לא על `decimal` — לכן אגורות.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 1 — הערות על הפתרון
 
 ## החלטות עיצוב
@@ -19,7 +21,13 @@
 | `order.Lines` יכול להיות null לדעת ה-AI | `?.` בכל מקום | ה-record לא מאפשר null; הוסר רעש |
 
 ## איך לאמת
+<div dir="ltr">
+
 ```bash
 cd Solution/Day4.Lab1.Solution.Tests
 dotnet test
 ```
+
+</div>
+
+</div>

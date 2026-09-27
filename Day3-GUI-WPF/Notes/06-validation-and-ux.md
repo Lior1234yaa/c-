@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 06 — ולידציה של קלט ואינטראקציה עם המשתמש
 
 ## למה ולידציה ב-UI?
@@ -10,6 +12,8 @@ WPF נותן כמה מנגנונים; בוחרים לפי המקרה.
 
 הפשוטה ביותר: בלחיצה בודקים הכל, מציגים את השגיאה הראשונה, ומחזירים פוקוס:
 
+<div dir="ltr">
+
 ```csharp
 private void Save_Click(object sender, RoutedEventArgs e)
 {
@@ -19,11 +23,15 @@ private void Save_Click(object sender, RoutedEventArgs e)
 }
 ```
 
+</div>
+
 מתאים לטפסים קטנים ולכלים פנימיים. חסרון: המשתמש רואה שגיאה אחת בכל פעם, ורק אחרי לחיצה.
 
 ## גישה 2: ValidationRule בתוך ה-Binding
 
 הבדיקה יושבת על ה-binding עצמו, ורצה **לפני** שהערך מגיע ל-source:
+
+<div dir="ltr">
 
 ```csharp
 public class RangeRule : ValidationRule
@@ -40,6 +48,10 @@ public class RangeRule : ValidationRule
 }
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <TextBox>
     <TextBox.Text>
@@ -52,11 +64,15 @@ public class RangeRule : ValidationRule
 </TextBox>
 ```
 
+</div>
+
 טוב לבדיקות "מקומיות" של פקד (פורמט, טווח). חסרון: הכלל חי ב-XAML, ה-ViewModel לא יודע שיש שגיאה.
 
 ## גישה 3: INotifyDataErrorInfo — ה-ViewModel מאמת
 
 הגישה המומלצת ל-MVVM. ה-VM (או המודל) מממש ממשק שאומר "לאילו properties יש שגיאות":
+
+<div dir="ltr">
 
 ```csharp
 public interface INotifyDataErrorInfo
@@ -67,7 +83,11 @@ public interface INotifyDataErrorInfo
 }
 ```
 
+</div>
+
 מימוש בסיס לשימוש חוזר (ראו Lab 2):
+
+<div dir="ltr">
 
 ```csharp
 public abstract class ValidatableObject : ObservableObject, INotifyDataErrorInfo
@@ -90,7 +110,11 @@ public abstract class ValidatableObject : ObservableObject, INotifyDataErrorInfo
 }
 ```
 
+</div>
+
 ואז כל setter מאמת:
+
+<div dir="ltr">
 
 ```csharp
 public string Email
@@ -104,6 +128,8 @@ public string Email
 }
 ```
 
+</div>
+
 ה-binding מציג את השגיאה אוטומטית (`ValidatesOnNotifyDataErrors` הוא `true` כברירת מחדל ב-.NET Core ומעלה).
 היתרון הגדול: `HasErrors` זמין ל-`CanExecute`, כל הכללים בקוד C# שנבדק ב-unit test, ושגיאות מכמה שדות בו-זמנית.
 
@@ -113,6 +139,8 @@ public string Email
 ## איך השגיאה נראית: Validation.ErrorTemplate
 
 ברירת המחדל: מסגרת אדומה דקה. כדי להוסיף הודעה:
+
+<div dir="ltr">
 
 ```xml
 <ControlTemplate x:Key="ErrorTemplate">
@@ -135,6 +163,8 @@ public string Email
 </Style>
 ```
 
+</div>
+
 ה-template מצויר ב-**adorner layer** מעל הפקד, לכן טקסט מתחת לשדה עלול לחפוף לפקד הבא — השאירו
 `Margin` תחתון. ה-`/` ב-`(Validation.Errors)/ErrorContent` אומר "הפריט הנוכחי ברשימה" (הראשון).
 
@@ -142,11 +172,17 @@ public string Email
 
 עם `ICommand`:
 
+<div dir="ltr">
+
 ```csharp
 SaveCommand = new RelayCommand(Save, () => !HasErrors);
 ```
 
+</div>
+
 בלי VM, עם trigger על פקד ספציפי:
+
+<div dir="ltr">
 
 ```xml
 <Button Content="Save">
@@ -162,16 +198,22 @@ SaveCommand = new RelayCommand(Save, () => !HasErrors);
 </Button>
 ```
 
+</div>
+
 ## קלט מספרי
 
 `TextBox` הוא טקסט. שתי שכבות:
 
 1. **חסימת תווים** ב-`PreviewTextInput` (tunneling — לפני שהפקד מקבל את התו):
 
+<div dir="ltr">
+
 ```csharp
 private void Numeric_PreviewTextInput(object sender, TextCompositionEventArgs e) =>
     e.Handled = !e.Text.All(char.IsDigit);
 ```
+
+</div>
 
 2. **ולידציה אמיתית** עם `TryParse` — כי הדבקה (Ctrl+V) עוקפת את `PreviewTextInput`, וכי צריך לבדוק טווח.
 
@@ -181,6 +223,8 @@ private void Numeric_PreviewTextInput(object sender, TextCompositionEventArgs e)
 ## דיאלוגים
 
 ### קבצים
+
+<div dir="ltr">
 
 ```csharp
 using Microsoft.Win32;
@@ -194,11 +238,15 @@ if (save.ShowDialog(this) == true)
     File.WriteAllText(save.FileName, json);
 ```
 
+</div>
+
 `ShowDialog` מחזיר `bool?` — לכן `== true`. ‏`OpenFolderDialog` קיים מ-.NET 8.
 
 ### דיאלוג מותאם
 
 חלון רגיל עם `ShowDialog()`:
+
+<div dir="ltr">
 
 ```csharp
 var dlg = new NameDialog { Owner = this };        // Owner: ממורכז מעל ההורה וחוסם אותו
@@ -206,16 +254,22 @@ if (dlg.ShowDialog() == true)
     ProjectName = dlg.ProjectName;
 ```
 
+</div>
+
 בתוך הדיאלוג: `DialogResult = true;` סוגר ומחזיר true. כפתור עם `IsCancel="True"` סוגר עם false בלי קוד.
 `WindowStartupLocation="CenterOwner"`, ‏`ResizeMode="NoResize"`, ‏`ShowInTaskbar="False"` נותנים מראה של דיאלוג.
 
 ### אישור
+
+<div dir="ltr">
 
 ```csharp
 var r = MessageBox.Show(this, "למחוק את הפריט? הפעולה אינה הפיכה.", "אישור מחיקה",
                         MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
 if (r == MessageBoxResult.Yes) Delete();
 ```
+
+</div>
 
 ברירת המחדל (`MessageBoxResult.No`) חשובה: Enter בטעות לא ימחק.
 
@@ -229,9 +283,13 @@ if (r == MessageBoxResult.Yes) Delete();
 
 ## ToolTips ונגישות
 
+<div dir="ltr">
+
 ```xml
 <Button Content="⟳" ToolTip="Refresh (F5)" AutomationProperties.Name="Refresh" />
 ```
+
+</div>
 
 - `ToolTip` על כל כפתור-אייקון. יכול להיות פאנל שלם, לא רק טקסט.
 - `AutomationProperties.Name` — מה שקורא-מסך יקריא. לכפתורים עם טקסט זה אוטומטי; לאייקונים חובה.
@@ -317,3 +375,5 @@ if (r == MessageBoxResult.Yes) Delete();
 - [Dialog boxes overview](https://learn.microsoft.com/dotnet/desktop/wpf/windows/dialog-boxes-overview)
 - [Accessibility best practices](https://learn.microsoft.com/dotnet/framework/ui-automation/accessibility-best-practices)
 - [Focus overview](https://learn.microsoft.com/dotnet/desktop/wpf/advanced/focus-overview)
+
+</div>

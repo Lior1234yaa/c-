@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 5 — ארכיטקטורה קריאה, ניתנת להרחבה ולתחזוקה
 
 ## למה דווקא היום
@@ -5,6 +7,8 @@
 כשקוד נכתב מהר (ו-AI כותב מהר מאוד), הארכיטקטורה היא מה שמונע מהפרויקט להפוך לערימה. AI יוסיף בשמחה `HttpClient` בתוך ViewModel, גישה לקובץ בתוך מחלקת דומיין, ו-`static` בכל מקום — אלא אם המבנה שלכם, קובצי ההוראות והבדיקות אומרים אחרת. במודול הזה נבנה את "השלד" שקוד AI צריך להשתלב בו.
 
 ## ארכיטקטורת שכבות ל-.NET (clean-ish)
+
+<div dir="ltr">
 
 ```text
 ┌────────────────────────────┐
@@ -18,6 +22,8 @@
 └────────────────────────────┘
 ```
 
+</div>
+
 כלל התלות: החיצים מצביעים **פנימה**. Domain לא מכיר אף אחד. Application מכיר Domain ומגדיר ממשקים (`IOrderRepository`). Infrastructure **מממש** את הממשקים. UI מחבר הכול דרך DI.
 
 בפרויקט קטן אפשר להשאיר הכול ב-project אחד עם **תיקיות** לפי השכבות — מה שחשוב הוא הכיוון של התלויות, לא מספר ה-csproj.
@@ -25,6 +31,8 @@
 ## Dependency Injection עם Microsoft.Extensions
 
 DI = במקום שמחלקה תיצור את התלויות שלה (`new JsonOrderRepository()`), היא **מקבלת** אותן בבנאי דרך ממשק. יתרונות: אפשר להחליף מימוש (קובץ ↔ DB ↔ fake לבדיקות), והתלויות גלויות.
+
+<div dir="ltr">
 
 ```csharp
 public interface IOrderRepository
@@ -45,11 +53,15 @@ public sealed class OrderService(IOrderRepository repo, IClock clock, ILogger<Or
 }
 ```
 
+</div>
+
 (שימו לב ל-primary constructor של C# 12+ — הפרמטרים זמינים בכל המחלקה.)
 
 ### Hosting — גם ב-WPF
 
 `Microsoft.Extensions.Hosting` נותן לנו container, configuration ו-logging במקום אחד. ב-WPF מקימים host ב-`App.xaml.cs`:
+
+<div dir="ltr">
 
 ```csharp
 public partial class App : Application
@@ -82,6 +94,8 @@ public partial class App : Application
 }
 ```
 
+</div>
+
 ב-`App.xaml` מסירים את `StartupUri` (אחרת ייפתחו שני חלונות). `CreateDefaultBuilder` קורא אוטומטית `appsettings.json` (יש להעתיק אותו ל-output: `<Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />`) ומגדיר logging לקונסול/Debug. הדגמה מלאה: `Demos/Day4.Demo.DiHostWpf`.
 
 ### Lifetimes
@@ -91,12 +105,18 @@ public partial class App : Application
 
 ## Configuration: appsettings.json + Options pattern
 
+<div dir="ltr">
+
 ```json
 {
   "App": { "DataFile": "data/orders.json", "Currency": "ILS", "MaxItemsPerOrder": 50 },
   "Logging": { "LogLevel": { "Default": "Information" } }
 }
 ```
+
+</div>
+
+<div dir="ltr">
 
 ```csharp
 public sealed class AppOptions
@@ -113,9 +133,13 @@ public sealed class JsonOrderRepository(IOptions<AppOptions> options) : IOrderRe
 }
 ```
 
+</div>
+
 יתרון: אין קבועים קסומים בקוד, אפשר קובץ `appsettings.Development.json`, ומשתני סביבה דורסים (חשוב לסודות — ראו מודול 6).
 
 ## Logging עם ILogger
+
+<div dir="ltr">
 
 ```csharp
 logger.LogInformation("Loaded {Count} orders from {File}", orders.Count, _file);
@@ -123,12 +147,16 @@ logger.LogWarning("Order {OrderId} exceeds max items ({Count})", id, count);
 logger.LogError(ex, "Failed to save {File}", _file);
 ```
 
+</div>
+
 - **Structured logging**: placeholders בשם, לא string interpolation — מאפשר חיפוש לפי שדה.
 - רמות: Trace/Debug/Information/Warning/Error/Critical. אל תרשמו נתונים אישיים או סודות.
 
 ## ממשקים ובדיקתיות
 
 כל דבר שמדבר עם העולם (זמן, קבצים, רשת, DB, GUI) מאחורי ממשק. כך הבדיקה מזריקה fake:
+
+<div dir="ltr">
 
 ```csharp
 sealed class FakeClock(DateTimeOffset now) : IClock { public DateTimeOffset UtcNow => now; }
@@ -143,9 +171,13 @@ public async Task CreateAsync_SetsCreatedAtFromClock()
 }
 ```
 
+</div>
+
 (.NET מציע גם `TimeProvider` מובנה — `TimeProvider.System` ו-`FakeTimeProvider` בחבילת `Microsoft.Extensions.TimeProvider.Testing`.)
 
 ## מבנה תיקיות ומוסכמות שמות
+
+<div dir="ltr">
 
 ```text
 src/
@@ -158,6 +190,8 @@ tests/
 docs/
   README.md, adr/0001-use-system-text-json.md
 ```
+
+</div>
 
 - שמות: `PascalCase` לטיפוסים ומתודות, `_camelCase` לשדות פרטיים, `I` לממשקים, `Async` למתודות אסינכרוניות, שמות בדיקות `Method_Scenario_Expected`.
 - **קבצים קטנים**: מחלקה אחת לקובץ, מתודות עד ~30 שורות. קובץ של 800 שורות הוא סימן אזהרה — גם עבור AI, שיתקשה לערוך אותו נכון.
@@ -175,6 +209,8 @@ docs/
 
 דוגמת Open/Closed:
 
+<div dir="ltr">
+
 ```csharp
 public interface IDiscountRule { decimal Apply(Order order, decimal current); }
 
@@ -185,6 +221,8 @@ public sealed class DiscountEngine(IEnumerable<IDiscountRule> rules)
 }
 // כלל חדש = מחלקה חדשה + שורת רישום ב-DI. אפס שינוי ב-DiscountEngine.
 ```
+
+</div>
 
 ## חוב טכני וקצב refactoring
 
@@ -230,3 +268,5 @@ public sealed class DiscountEngine(IEnumerable<IDiscountRule> rules)
 - Logging in .NET: https://learn.microsoft.com/dotnet/core/extensions/logging
 - Architecture guides (Microsoft): https://learn.microsoft.com/dotnet/architecture/
 - TimeProvider: https://learn.microsoft.com/dotnet/api/system.timeprovider
+
+</div>

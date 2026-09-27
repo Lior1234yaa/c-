@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 3 — לקוח REST מוקלד (Typed REST Client)
 
 **משך:** 60 דקות | **מודולים:** 04, 05 | **פרויקט:** `Starter/Day2.Lab3.Starter`
@@ -77,3 +79,5 @@
 - `response.Content.ReadFromJsonAsync<T>(options)` — אל תשכחו להעביר את ה-options.
 - `HttpResponseMessage` הוא `IDisposable` — `using var`.
 - `TaskCanceledException` יורשת מ-`OperationCanceledException` — תפסו את האב.
+
+</div>

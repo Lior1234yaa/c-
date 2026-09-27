@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # יום 4 — תרגילים קצרים
 
 12 תרגילים של 5–15 דקות, מקובצים לפי מודול. דירוג: ★ קל, ★★ בינוני, ★★★ מאתגר.
@@ -21,6 +23,8 @@
 ### תרגיל 2 ★ — API מומצא
 הקוד הבא "נוצר ב-AI" ולא מתקמפל. מצאו את שלושת ה-APIs המומצאים ותקנו עם APIs אמיתיים של .NET:
 
+<div dir="ltr">
+
 ```csharp
 var names = new List<string> { "Dana", "yossi", "Noa" };
 names.RemoveWhere(n => n.Length < 3);
@@ -28,6 +32,8 @@ if (names.ContainsIgnoreCase("YOSSI")) Console.WriteLine("found");
 var joined = names.JoinWith(", ");
 Console.WriteLine(joined);
 ```
+
+</div>
 
 ---
 
@@ -49,11 +55,15 @@ Console.WriteLine(joined);
 ### תרגיל 6 ★★ — Records מ-JSON
 בקשו מ-AI (או כתבו) records ל-JSON הבא, עם `System.Text.Json`, ו-deserialize אותו. בדקו: כסף ב-`decimal`, `email` יכול להיות `null`, `created_at` הוא `DateTimeOffset`.
 
+<div dir="ltr">
+
 ```json
 { "order_id": 42, "customer": { "id": 7, "name": "Dana", "email": null },
   "lines": [ { "sku": "A-1", "qty": 2, "unit_price": 19.9 } ],
   "created_at": "2025-03-01T10:15:00+02:00" }
 ```
+
+</div>
 
 ### תרגיל 7 ★ — Regex בלי עוגנים
 ה-AI הציע `\d{3}-\d{7}` ל"מספר טלפון ישראלי (0XX-XXXXXXX)". הראו קלט שגוי שעובר, תקנו (עוגנים, קידומת 0), והשתמשו ב-`[GeneratedRegex]`.
@@ -64,6 +74,8 @@ Console.WriteLine(joined);
 
 ### תרגיל 8 ★★ — async
 מצאו שני באגים ותקנו:
+
+<div dir="ltr">
 
 ```csharp
 public class Loader
@@ -77,8 +89,12 @@ public class Loader
 }
 ```
 
+</div>
+
 ### תרגיל 9 ★★ — תרבות וזמן
 מה יקרה על מחשב עם תרבות `de-DE`? ומה הבעיה עם התוקף? תקנו:
+
+<div dir="ltr">
 
 ```csharp
 public static (decimal Amount, DateTime Expires) ParseVoucher(string amountText)
@@ -89,8 +105,12 @@ public static (decimal Amount, DateTime Expires) ParseVoucher(string amountText)
 }
 ```
 
+</div>
+
 ### תרגיל 10 ★★★ — משאבים ו-thread safety
 מצאו שלוש בעיות (HttpClient, מילון, חריגות) ותקנו:
+
+<div dir="ltr">
 
 ```csharp
 public class PriceCache
@@ -113,12 +133,16 @@ public class PriceCache
 }
 ```
 
+</div>
+
 ---
 
 ## מודול 5 — ארכיטקטורה
 
 ### תרגיל 11 ★★ — הזרקת תלויות
 המחלקה יוצרת את התלויות שלה בעצמה. הפכו ל-constructor injection עם ממשקים (`IClock`, `INotifier`), ורשמו ב-`ServiceCollection`. הראו בדיקה עם fake:
+
+<div dir="ltr">
 
 ```csharp
 public class ReminderService
@@ -133,9 +157,13 @@ public class ReminderService
 }
 ```
 
+</div>
+
 ---
 
 ## מודול 7 — AI ל-UI
 
 ### תרגיל 12 ★ — Prompt לחלון
 כתבו prompt לחלון WPF "התחברות": שדות שם משתמש וסיסמה, כפתור, הודעת שגיאה, מצב טעינה, RTL ועברית, validation דרך `INotifyDataErrorInfo`, בלי code-behind, ופירוט ה-ViewModel. ציינו 3 דברים שתבדקו בפלט.
+
+</div>

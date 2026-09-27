@@ -1,8 +1,12 @@
+<div dir="rtl">
+
 # מודול 05 — JSON: סריאליזציה ודה-סריאליזציה עם System.Text.Json
 
 ## מה זה JSON ולמה הוא בכל מקום
 
 JSON (JavaScript Object Notation) הוא פורמט טקסט פשוט לייצוג נתונים: אובייקטים (`{}`), מערכים (`[]`), מחרוזות, מספרים, `true/false` ו-`null`. הוא הפך לשפה המשותפת של REST APIs, קבצי קונפיגורציה ותקשורת בין שירותים. **סריאליזציה** = מאובייקט C# לטקסט JSON; **דה-סריאליזציה** = ההפך.
+
+<div dir="ltr">
 
 ```json
 {
@@ -16,11 +20,15 @@ JSON (JavaScript Object Notation) הוא פורמט טקסט פשוט לייצו
 }
 ```
 
+</div>
+
 ב-.NET המודרני הספרייה המובנית היא **`System.Text.Json`** (מרחבי השמות `System.Text.Json` ו-`System.Text.Json.Serialization`). היא מהירה, חסכונית בזיכרון, ולא צריכה חבילת NuGet.
 
 ## DTO — המחלקה שמייצגת את ה-JSON
 
 הדרך הנוחה ביותר היא להגדיר **DTO (Data Transfer Object)** — טיפוס שמשקף את מבנה ה-JSON. `record` (יום 1) מושלם לזה: קצר, בלתי-משתנה, עם שוויון לפי ערך ו-`ToString` נחמד:
+
+<div dir="ltr">
 
 ```csharp
 public enum OrderStatus { Pending, Paid, Shipped, Cancelled }
@@ -33,9 +41,13 @@ public record Order(int Id, string Customer, DateTime CreatedAt, OrderStatus Sta
 }
 ```
 
+</div>
+
 `System.Text.Json` יודע לעבוד עם records דרך הבנאי הראשי (positional constructor): שמות הפרמטרים מותאמים לשמות ב-JSON. אובייקטים מקוננים ומערכים (`List<OrderItem>`) עובדים אוטומטית לכל עומק.
 
 ## `Serialize` ו-`Deserialize`
+
+<div dir="ltr">
 
 ```csharp
 using System.Text.Json;
@@ -48,9 +60,13 @@ string json = JsonSerializer.Serialize(order);
 Order back = JsonSerializer.Deserialize<Order>(json)!;   // null אם ה-JSON הוא "null"
 ```
 
+</div>
+
 שימו לב לשתי בעיות בפלט ברירת המחדל: שמות השדות ב-PascalCase (רוב ה-APIs מצפים ל-camelCase), וה-enum יצא כמספר `1`. את שתיהן פותרים עם אפשרויות.
 
 ## `JsonSerializerOptions`
+
+<div dir="ltr">
 
 ```csharp
 using System.Text.Json.Serialization;
@@ -68,11 +84,15 @@ string json = JsonSerializer.Serialize(order, options);
 var back = JsonSerializer.Deserialize<Order>(json, options);
 ```
 
+</div>
+
 - **צרו את ה-options פעם אחת** (שדה `static readonly`) והשתמשו בו שוב ושוב — הוא מטמון מידע על הטיפוסים, ויצירה בכל קריאה יקרה.
 - יש קיצור: `JsonSerializerOptions.Web` — הגדרות ברירת המחדל של ASP.NET (camelCase, case-insensitive, מספרים גם ממחרוזות).
 - `HttpClient.GetFromJsonAsync` (מודול 04) משתמש כברירת מחדל ב-`JsonSerializerOptions.Web`, ולכן לרוב camelCase "פשוט עובד". אפשר להעביר לו options משלכם.
 
 ## התאמות ברמת המאפיין
+
+<div dir="ltr">
 
 ```csharp
 public record Weather(
@@ -96,6 +116,8 @@ public class User
 }
 ```
 
+</div>
+
 ב-`record` עם בנאי ראשי, ה-attribute חייב להתחיל ב-`[property: ...]` כדי שיוצמד למאפיין ולא לפרמטר.
 
 ## תאריכים, מספרים ו-null
@@ -109,6 +131,8 @@ public class User
 ## JSON דינמי: `JsonNode` ו-`JsonDocument`
 
 לא תמיד יש (או רוצים) DTO — למשל תשובת API ענקית שצריך ממנה שני שדות, או מבנה שמשתנה. שתי אפשרויות:
+
+<div dir="ltr">
 
 ```csharp
 using System.Text.Json.Nodes;
@@ -130,11 +154,15 @@ foreach (JsonElement item in items.EnumerateArray())
 if (doc.RootElement.TryGetProperty("optional", out var opt)) { /* קיים */ }
 ```
 
+</div>
+
 כלל אצבע: DTO כשהמבנה ידוע ויציב (99% מהמקרים); `JsonNode` לעריכה/מבנה גמיש; `JsonDocument` לסריקה מהירה של JSON גדול.
 
 ## שגיאות
 
 JSON לא תקין או לא תואם זורק `JsonException` עם מיקום השגיאה (`LineNumber`, `BytePositionInLine`). תמיד לתפוס אותו כשהקלט מגיע מבחוץ:
+
+<div dir="ltr">
 
 ```csharp
 try
@@ -147,9 +175,13 @@ catch (JsonException ex)
 }
 ```
 
+</div>
+
 ## Source Generators (בקצרה)
 
 כברירת מחדל `System.Text.Json` משתמש ב-reflection כדי "ללמוד" את הטיפוסים בזמן ריצה. עם **source generator** המהדר מייצר את קוד הסריאליזציה מראש — מהיר יותר בהפעלה, פחות זיכרון, ועובד ב-Native AOT (שם reflection לא זמין):
+
+<div dir="ltr">
 
 ```csharp
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
@@ -161,6 +193,8 @@ internal partial class AppJsonContext : JsonSerializerContext { }
 string json = JsonSerializer.Serialize(order, AppJsonContext.Default.Order);
 var back = JsonSerializer.Deserialize(json, AppJsonContext.Default.Order);
 ```
+
+</div>
 
 לאפליקציות רגילות זה אופציונלי; כשעוברים ל-AOT או לשירותים עתירי JSON — כדאי.
 
@@ -206,3 +240,5 @@ Newtonsoft.Json (Json.NET) הייתה במשך שנים הספרייה הסטנ�
 - [How to use a JSON DOM (JsonNode / JsonDocument)](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/use-dom)
 - [Source generation in System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation)
 - [Migrate from Newtonsoft.Json to System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft)
+
+</div>

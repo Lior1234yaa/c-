@@ -1,6 +1,10 @@
+<div dir="rtl">
+
 # Lab 2 — הערות על הפתרון
 
 ## המבנה
+<div dir="ltr">
+
 ```
 Domain/Subscription.cs          Subscription, Bill, enums, קבועים
 Services/Interfaces.cs          ISubscriptionSource, IPricingService
@@ -10,6 +14,8 @@ Services/BillingReport.cs       ה-use case; כותב ל-TextWriter (בדיקה 
 Infrastructure/...CsvSource.cs  מקור נתונים + parser עם InvariantCulture וזריקת FormatException
 Program.cs                      composition root: ServiceCollection בלבד
 ```
+
+</div>
 
 ## החלטות
 - **Golden master כבדיקה**: `expected-output.txt` מקושר (`Link`) מה-Starter כדי שלא יהיו שני עותקים.
@@ -30,7 +36,13 @@ Program.cs                      composition root: ServiceCollection בלבד
 | ממשק לכל מחלקה כולל `IReportFormatter` | ממשק בלי מימוש שני | הושאר כמחלקה; ממשקים רק למה שמוחלף (source, pricing) |
 
 ## אימות
+<div dir="ltr">
+
 ```bash
 cd Solution/Day4.Lab2.Solution && dotnet run > actual.txt && diff ../../Starter/Day4.Lab2.Starter/expected-output.txt actual.txt
 cd ../Day4.Lab2.Solution.Tests && dotnet test
 ```
+
+</div>
+
+</div>

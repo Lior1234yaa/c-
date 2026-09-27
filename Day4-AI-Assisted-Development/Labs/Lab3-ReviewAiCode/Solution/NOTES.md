@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 3 — הערות על הפתרון
 
 - `FINDINGS.md` מכיל את טבלת הממצאים המלאה (22 ממצאים) ואת ה-false positives.
@@ -14,3 +16,5 @@
 | "תיקון" של path traversal ע"י `Replace("..", "")` | `GetFileName` + `GetFullPath` + בדיקת prefix |
 | SQL: `name.Replace("'", "''")` במקום פרמטרים | פרמטרים תמיד |
 | הסרת `ApiKey` מהמודל אבל הוספת `const string ApiKey` במקום אחר | סוד רק מהסביבה |
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # יום 1 — תכנות מונחה-עצמים, אוספים וטיפול בחריגות
 
 היום הראשון בקורס **"C# Programming in the .NET Framework — Updated Practical Training"**. מתחילים מהבסיס של השפה, בונים את המודל האובייקטי, לומדים לנהל נתונים באוספים הנכונים, מוסיפים LINQ ו-delegates, ומסיימים בקוד שלא נופל — עם חריגות, דיבוג וקוד נקי. רוב היום הוא ידיים על המקלדת: 4 מעבדות ו-14 תרגילים.
@@ -12,9 +14,13 @@
 
 בדיקה מהירה:
 
+<div dir="ltr">
+
 ```bash
 dotnet new console -n Hello && cd Hello && dotnet run
 ```
+
+</div>
 
 ## מטרות למידה
 
@@ -97,3 +103,5 @@ dotnet new console -n Hello && cd Hello && dotnet run
 ## הכנה ליום 2
 
 ביום 2 נעבור ל-.NET עצמו: קבצים ו-JSON, async/await, HttpClient, בדיקות יחידה ו-Dependency Injection. ודאו ש-Lab 3 ו-Lab 4 הושלמו — נשתמש במודל של הבנק והמלאי.
+
+</div>

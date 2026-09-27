@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 4 — סקירה ואימות של קוד שנוצר ב-AI
 
 ## הגישה: Trust but Verify
@@ -27,6 +29,8 @@
 ### בדיקות כאימות — דוגמה
 כשה-AI מחזיר מימוש, בקשו ממנו גם בדיקה — ואז **קראו את הבדיקה לפני המימוש**. בדיקה טובה מתארת התנהגות ולא מעתיקה נוסחה:
 
+<div dir="ltr">
+
 ```csharp
 [Theory]
 [InlineData("052-1234567", true)]
@@ -36,9 +40,13 @@ public void IsraeliMobile_MatchesOnlyFullNumbers(string input, bool expected)
     => Assert.Equal(expected, Phones.IsraeliMobile().IsMatch(input));
 ```
 
+</div>
+
 אם ה-AI כתב בדיקה שעוברת על קוד שגוי (למשל בודקת רק את המקרה החיובי), הבדיקה עצמה היא הממצא הראשון של הסקירה. כלל אצבע: לכל תיקון באג — בדיקה שנכשלה לפני ועוברת אחרי.
 
 ### Analyzers ו-`dotnet format`
+
+<div dir="ltr">
 
 ```xml
 <!-- Directory.Build.props או ה-csproj -->
@@ -49,6 +57,8 @@ public void IsraeliMobile_MatchesOnlyFullNumbers(string input, bool expected)
   <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 </PropertyGroup>
 ```
+
+</div>
 
 - **Roslyn analyzers** מובנים ב-SDK (`CAxxxx`) — `AnalysisLevel` קובע כמה מהם פעילים.
 - **`dotnet format`** מיישר סגנון לפי `.editorconfig`; ב-CI: `dotnet format --verify-no-changes`.
@@ -62,55 +72,85 @@ public void IsraeliMobile_MatchesOnlyFullNumbers(string input, bool expected)
 
 ### 1. Off-by-one
 
+<div dir="ltr">
+
 ```csharp
 // AI: "return the last n items"
 return items.Skip(items.Count - n - 1).ToList();   // באג: מחזיר n+1
 return items.Skip(Math.Max(0, items.Count - n)).ToList(); // תיקון
 ```
 
+</div>
+
 ### 2. `async void`
+
+<div dir="ltr">
 
 ```csharp
 private async void LoadAsync() { await _api.GetAsync(); }        // חריגה תפיל את התהליך
 private async Task LoadAsync() { await _api.GetAsync(); }        // תיקון (async void רק ל-event handlers)
 ```
 
+</div>
+
 ### 3. Parsing תלוי-תרבות
+
+<div dir="ltr">
 
 ```csharp
 decimal.Parse("19.90");                                        // בתרבות עם פסיק עשרוני → חריגה/ערך שגוי
 decimal.Parse("19.90", CultureInfo.InvariantCulture);           // תיקון לנתוני מכונה
 ```
 
+</div>
+
 ### 4. `DateTime.Now` לעומת `UtcNow`
+
+<div dir="ltr">
 
 ```csharp
 var expires = DateTime.Now.AddHours(1);      // שעון קיץ / אזורי זמן → באג
 var expires = DateTimeOffset.UtcNow.AddHours(1);   // תיקון; ועדיף להזריק IClock/TimeProvider
 ```
 
+</div>
+
 ### 5. `HttpClient` ב-`using` בכל קריאה
+
+<div dir="ltr">
 
 ```csharp
 using var client = new HttpClient();     // AI אוהב את זה: מיצוי sockets תחת עומס
 // תיקון: IHttpClientFactory או מופע static/מוזרק אחד
 ```
 
+</div>
+
 ### 6. Thread-safety
+
+<div dir="ltr">
 
 ```csharp
 private readonly Dictionary<string, int> _cache = new();      // גישה ממספר threads → השחתה
 private readonly ConcurrentDictionary<string, int> _cache = new();   // תיקון
 ```
 
+</div>
+
 ### 7. בליעת חריגות
+
+<div dir="ltr">
 
 ```csharp
 try { Save(); } catch { }              // "לא נפל" ≠ "עבד"
 try { Save(); } catch (IOException ex) { _logger.LogError(ex, "Save failed"); throw; }
 ```
 
+</div>
+
 ### 8. Path traversal
+
+<div dir="ltr">
 
 ```csharp
 var path = Path.Combine(root, userFileName);   // "..\..\secrets.txt"
@@ -118,11 +158,15 @@ var full = Path.GetFullPath(Path.Combine(root, userFileName));
 if (!full.StartsWith(Path.GetFullPath(root) + Path.DirectorySeparatorChar)) throw new UnauthorizedAccessException();
 ```
 
+</div>
+
 כל הדוגמאות האלה מופיעות בהרחבה ב-Lab 3 ובתרגילים.
 
 ## AI סוקר AI: Second-pass prompts
 
 הכלי שכתב את הקוד "מאמין" בו. בקשו סקירה **בשיחה חדשה** או בכלי אחר, עם צ'ק-ליסט:
+
+<div dir="ltr">
 
 ```text
 Review the following C# code as a strict senior reviewer.
@@ -130,6 +174,8 @@ Check specifically: null handling, async correctness (async void, blocking), cul
 parsing/formatting, IDisposable usage, thread safety, exception swallowing, injection/path traversal.
 For each finding: severity, line, why it matters, minimal fix. Do not rewrite the file.
 ```
+
+</div>
 
 עוד תבניות: "List the assumptions this code makes." / "Write 5 inputs that would break this." / "What would a security auditor flag here?"
 
@@ -165,3 +211,5 @@ For each finding: severity, line, why it matters, minimal fix. Do not rewrite th
 - IHttpClientFactory: https://learn.microsoft.com/dotnet/core/extensions/httpclient-factory
 - Copilot code review: https://docs.github.com/copilot/using-github-copilot/code-review/using-copilot-code-review
 - Secure coding guidelines: https://learn.microsoft.com/dotnet/standard/security/secure-coding-guidelines
+
+</div>

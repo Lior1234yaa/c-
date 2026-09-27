@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 02 — מחלקות, אובייקטים, בנאים ומאפיינים
 
 תכנות מונחה-עצמים (OOP) הוא דרך לארגן תוכנה סביב **עצמים**: יחידות שמאגדות יחד נתונים (מצב) והתנהגות (מתודות) שפועלת על הנתונים האלה. במקום פונקציה `Deposit(account, amount)` שמקבלת "מבנה נתונים" ומשנה אותו, יש לנו אובייקט `account` שיודע להפקיד לעצמו — ורק הוא מחליט אם ההפקדה חוקית. במודול הזה נלמד את אבני הבניין: מחלקות, אובייקטים, בנאים ו-properties. במודול הבא נראה את ארבעת העקרונות (אנקפסולציה, ירושה, פולימורפיזם, הפשטה) שהופכים את זה לעיצוב טוב.
@@ -5,6 +7,8 @@
 ## מחלקה ואובייקט
 
 **מחלקה** (`class`) היא תבנית — "כך נראה חשבון בנק". **אובייקט** (מופע, instance) הוא חשבון בנק ספציפי שנוצר מהתבנית עם `new`. מחלקה אחת, אינסוף אובייקטים, לכל אחד מצב משלו.
+
+<div dir="ltr">
 
 ```csharp
 class BankAccount
@@ -27,6 +31,8 @@ acc.Deposit(500);
 Console.WriteLine($"{acc.Owner}: {acc.GetBalance()}");
 ```
 
+</div>
+
 מוסכמות: שדות פרטיים ב-`_camelCase`, כל מה שציבורי ב-`PascalCase`. מחלקה לכל קובץ, שם הקובץ כשם המחלקה.
 
 ## שדות מול Properties
@@ -37,6 +43,8 @@ Console.WriteLine($"{acc.Owner}: {acc.GetBalance()}");
 - לחשב ערך בזמן קריאה במקום לשמור אותו;
 - לחשוף קריאה בלבד;
 - לשנות את המימוש בעתיד בלי לשבור את מי שמשתמש במחלקה.
+
+<div dir="ltr">
 
 ```csharp
 class Product
@@ -69,11 +77,15 @@ var p = new Product { Name = "Keyboard", Sku = "K-1", Category = "Peripherals" }
 // p.Sku = "X";   // שגיאה: init-only
 ```
 
+</div>
+
 `required` + `init` הם השילוב המודרני ל"אובייקט שחייב להיות תקין מהרגע שנוצר, ואז לא משתנה" — בלי לכתוב בנאי עם 6 פרמטרים.
 
 ## בנאים (constructors)
 
 בנאי הוא המתודה שרצה ב-`new`. תפקידו: להביא את האובייקט למצב תקין. אם לא כותבים בנאי, יש בנאי ריק ברירת מחדל.
+
+<div dir="ltr">
 
 ```csharp
 class BankAccount
@@ -102,9 +114,13 @@ var a1 = new BankAccount("IL-1", "Dana");
 var a2 = new BankAccount("IL-2", "Yossi", 1_000);
 ```
 
+</div>
+
 ### Primary constructors (C# 12)
 
 כשהבנאי רק מעתיק פרמטרים לשדות, אפשר לקצר: הפרמטרים נכתבים בכותרת המחלקה וזמינים בכל גוף המחלקה.
+
+<div dir="ltr">
 
 ```csharp
 class TemperatureSensor(string location, double initial)
@@ -117,6 +133,8 @@ class TemperatureSensor(string location, double initial)
 }
 ```
 
+</div>
+
 שימו לב: הפרמטרים של primary constructor הם לא properties — הם לא נראים מבחוץ אלא אם חושפים אותם. ב-`record` (בהמשך) הם כן הופכים ל-properties אוטומטית.
 
 ## `this`
@@ -126,6 +144,8 @@ class TemperatureSensor(string location, double initial)
 ## חברים סטטיים
 
 `static` שייך **למחלקה** ולא לאובייקט ספציפי. מונה מופעים, קבועים, מתודות עזר "טהורות" ו-factory methods הם המקרים הקלאסיים:
+
+<div dir="ltr">
 
 ```csharp
 class BankAccount
@@ -142,11 +162,15 @@ class BankAccount
 Console.WriteLine(BankAccount.Count);       // דרך המחלקה, לא דרך אובייקט
 ```
 
+</div>
+
 מחלקה שכולה static (`static class MathUtils`) לא ניתנת ליצירה — היא רק "ארגז כלים" של מתודות. `Math`, `Console`, `File` הן כאלה.
 
 ## Object initializers
 
 תחביר נוח לקבוע properties מיד אחרי היצירה. משתלב עם `init`/`required`:
+
+<div dir="ltr">
 
 ```csharp
 var order = new Order
@@ -157,9 +181,13 @@ var order = new Order
 };
 ```
 
+</div>
+
 ## `record` מול `class`
 
 `record` הוא מחלקה שה-מהדר כותב עבורה אוטומטית: בנאי, properties, `Equals`/`GetHashCode` **לפי ערך**, `ToString` קריא, `with` ו-deconstruction. הוא מיועד ל"נתונים" — אובייקטים שמזוהים לפי התוכן שלהם ולא לפי הזהות.
+
+<div dir="ltr">
 
 ```csharp
 record Person(string Name, int Age);          // positional record — שורה אחת
@@ -171,6 +199,8 @@ Console.WriteLine(p1);                         // Person { Name = Dana, Age = 30
 var older = p1 with { Age = 31 };              // עותק עם שינוי; p1 לא השתנה
 var (name, age) = older;                       // deconstruction
 ```
+
+</div>
 
 | | `class` | `record` |
 |---|---|---|
@@ -217,3 +247,5 @@ var (name, age) = older;                       // deconstruction
 - [Primary constructors](https://learn.microsoft.com/dotnet/csharp/whats-new/tutorials/primary-constructors)
 - [Records](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/record)
 - [required modifier](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/required)
+
+</div>

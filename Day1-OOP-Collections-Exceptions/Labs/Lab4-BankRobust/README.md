@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 4 — בנק עמיד: חריגות, ולידציה ודיבוג (60 דקות)
 
 ## מטרה
@@ -10,12 +12,18 @@
 
 ## התחלה
 
+<div dir="ltr">
+
 ```bash
 cd Labs/Lab4-BankRobust/Starter
 dotnet run
 ```
 
+</div>
+
 ואז הקלידו:
+
+<div dir="ltr">
 
 ```text
 open acc1 Dana
@@ -23,6 +31,8 @@ deposit acc1 100
 withdraw acc1 80
 show acc1
 ```
+
+</div>
 
 משהו לא בסדר? יופי. מתחילים.
 
@@ -80,3 +90,5 @@ show acc1
 - `continue` בתוך `catch` **לא** מדלג על `finally`.
 - ב-Visual Studio: **Debug → Windows → Exception Settings**, חפשו את שם החריגה שלכם או סמנו "Common Language Runtime Exceptions".
 - `using (var log = new TransactionLog(...)) { ... }` — כל הלולאה בפנים.
+
+</div>

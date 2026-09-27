@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 3 — הערות לפתרון
 
 ## בחירת האוספים
@@ -31,8 +33,14 @@
 
 ## בדיקה
 
+<div dir="ltr">
+
 ```bash
 dotnet run
 ```
 
+</div>
+
 צפוי: אירועי LOW STOCK ל-Keyboard (4), Mouse (2), USB-C Cable (5); דחייה של מכירת 999 ושל SKU לא קיים; אחרי restock הכבלים: USB-C 25, HDMI 28; ערך כולל 11,359.30 אחרי ה-restock; Top 3: Monitor, HDMI Cable, Mouse Pad; ובסוף המסך מופיע ב-Low stock עם כמות 1.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # תשובות לדוגמה — תרגילי prompt וניתוח (1, 3, 4, 5, 12)
 
 אין תשובה "יחידה נכונה"; אלה דוגמאות שעומדות בקריטריונים של מודול 2.
@@ -10,6 +12,8 @@
 5. SQLite לעומת JSON — **צ'אט**: "give 2–3 options with trade-offs" — החלטה אנושית.
 
 ## תרגיל 3 — שכתוב prompt
+<div dir="ltr">
+
 ```text
 Role: You are a senior .NET developer who writes small, testable services.
 Context: .NET 10 console/library, C# 14, nullable enabled, file-scoped namespaces.
@@ -25,7 +29,11 @@ Examples: CreateAsync(7, 100m) → Order with CustomerId 7, Total 100, CreatedAt
 Output: the service class only, then xUnit tests using a fake repository and fake clock (no mocking library).
 ```
 
+</div>
+
 ## תרגיל 4 — בדיקות קודם
+<div dir="ltr">
+
 ```text
 Do not implement yet. Write xUnit tests only for `PasswordPolicy.Validate(string password)` returning IReadOnlyList<string> errors
 (empty list = valid). Spec: length 8–64 inclusive; at least one digit; at least one uppercase letter; no whitespace anywhere.
@@ -40,7 +48,11 @@ Tests (Method_Scenario_Expected):
 Use [Theory]/[InlineData] where it reads well. Assert on error count and on message keywords, not exact sentences.
 ```
 
+</div>
+
 ## תרגיל 5 — קובץ הוראות (CSV → JSON)
+<div dir="ltr">
+
 ```text
 # CsvToJson — instructions for AI assistants
 Stack: .NET 10 console app, C# 14, nullable enabled, System.Text.Json only, xUnit tests. No third-party CSV/JSON packages.
@@ -54,7 +66,11 @@ Commands: dotnet build; dotnet test; dotnet format --verify-no-changes.
 Never: read files outside the input path given on the command line; add NuGet packages without asking.
 ```
 
+</div>
+
 ## תרגיל 12 — prompt לחלון התחברות
+<div dir="ltr">
+
 ```text
 Generate LoginWindow.xaml only (no code-behind logic). .NET 10 WPF, MVVM.
 DataContext: LoginViewModel : INotifyPropertyChanged, INotifyDataErrorInfo with
@@ -68,4 +84,8 @@ Constraints: FlowDirection="RightToLeft", Hebrew labels ("שם משתמש", "ס�
   ProgressBar IsIndeterminate bound to IsBusy, button disabled while busy (Command CanExecute),
   AutomationProperties.Name on inputs and button, standard WPF controls only, brushes via StaticResource in Window.Resources.
 ```
+
+</div>
 שלושה דברים לבדוק בפלט: (1) שאין namespace/ספרייה חיצונית ושאין `Button_Click` ב-code-behind; (2) ש-bindings תואמים בדיוק לשמות ב-ViewModel ו-`ValidatesOnNotifyDataErrors` קיים; (3) שה-RTL נכון ויזואלית (תוויות מימין, טקסט סיסמה/מספרים ב-LTR אם צריך) ושכל ה-StaticResource מוגדרים.
+
+</div>

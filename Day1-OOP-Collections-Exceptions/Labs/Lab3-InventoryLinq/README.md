@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 3 — מלאי: Dictionary, HashSet, LINQ, delegates ואירועים (60 דקות)
 
 ## מטרה
@@ -10,10 +12,14 @@
 
 ## התחלה
 
+<div dir="ltr">
+
 ```bash
 cd Labs/Lab3-InventoryLinq/Starter
 dotnet run
 ```
+
+</div>
 
 `Models.cs` (record `Product`, `StockItem`, `LowStockEventArgs`) ו-`Program.cs` כבר כתובים. עבודתכם ב-`Inventory.cs` ו-`Reports.cs`.
 
@@ -66,3 +72,5 @@ dotnet run
 - `LowStock?.Invoke(this, new LowStockEventArgs(item));`
 - `items.GroupBy(i => i.Product.Category).Select(g => new CategorySummary(g.Key, g.Count(), g.Sum(...), g.Sum(...)))`.
 - ב-`ApplyToCategory`, קראו ל-`.ToList()` לפני ה-`foreach` — הסבר ב-NOTES של הפתרון.
+
+</div>

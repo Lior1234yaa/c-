@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # תרגילים — יום 3: פיתוח GUI מהיר עם WPF
 
 12 תרגילים קצרים (5–15 דקות כל אחד), מקובצים לפי מודול. הפתרונות נמצאים בפרויקט
@@ -8,10 +10,14 @@
 
 הרצת הפתרונות (Windows בלבד):
 
+<div dir="ltr">
+
 ```bash
 cd Exercises/Solutions
 dotnet run
 ```
+
+</div>
 
 ## מודול 01–02: XAML, פריסה ופקדים
 
@@ -84,3 +90,5 @@ dotnet run
 מעוגל (`ControlTemplate` עם `Border CornerRadius="14"`) שמשתמש ב-`DynamicResource Accent`.
 כפתור `Toggle theme` מחליף את שלושת ה-brushes ב-`Resources[...]` — וכל החלון מתעדכן.
 **שאלה:** מה היה קורה עם `StaticResource`?
+
+</div>

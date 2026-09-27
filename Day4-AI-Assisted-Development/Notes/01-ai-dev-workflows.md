@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 1 — תהליכי פיתוח בעזרת AI (AI-Assisted Development Workflows)
 
 ## למה אנחנו כאן
@@ -52,11 +54,15 @@
 ### Claude Code (CLI)
 Claude Code הוא כלי שורת פקודה שרץ בתיקיית הפרויקט, קורא את הקוד, מציע עריכות ומריץ פקודות (בהסכמתכם). התקנה ושימוש לפי התיעוד הרשמי: https://docs.claude.com/en/docs/claude-code/overview. תהליך עבודה טיפוסי:
 
+<div dir="ltr">
+
 ```bash
 cd MyWpfSolution
 claude                     # פותח שיחה בתיקיית הפרויקט
 # > "Add an ICustomerRepository interface and a JSON implementation. Run dotnet build when done."
 ```
+
+</div>
 
 הכלי מציג את ה-diff לפני החלה ומבקש אישור להרצת פקודות — זה ה-"human in the loop" בפועל.
 
@@ -102,12 +108,18 @@ IDE מבוסס VS Code. יש בו Chat/Agent ואפשר להגדיר כללי פ
 
 דוגמה קטנה: ביקשנו "parse a date from the user":
 
+<div dir="ltr">
+
 ```csharp
 // פלט טיפוסי מ-AI
 var date = DateTime.Parse(input);
 ```
 
+</div>
+
 מתקמפל, "עובד" על המחשב של המפתח, ונופל בפרודקשן עם תרבות (culture) אחרת. הגרסה שנחתום עליה:
+
+<div dir="ltr">
 
 ```csharp
 if (!DateTime.TryParseExact(input, "yyyy-MM-dd", CultureInfo.InvariantCulture,
@@ -117,7 +129,11 @@ if (!DateTime.TryParseExact(input, "yyyy-MM-dd", CultureInfo.InvariantCulture,
 }
 ```
 
+</div>
+
 ## תהליך עבודה מומלץ (Loop)
+
+<div dir="ltr">
 
 ```text
 1. הגדרה קצרה של המשימה ושל "מה זה הצלחה" (בדיקות/דוגמאות)
@@ -127,6 +143,8 @@ if (!DateTime.TryParseExact(input, "yyyy-MM-dd", CultureInfo.InvariantCulture,
 5. commit קטן עם הודעה ברורה
 6. PR + review (אנושי, ואפשר גם AI כקורא נוסף)
 ```
+
+</div>
 
 ## טעויות נפוצות
 
@@ -149,3 +167,5 @@ if (!DateTime.TryParseExact(input, "yyyy-MM-dd", CultureInfo.InvariantCulture,
 - Claude Code overview: https://docs.claude.com/en/docs/claude-code/overview
 - Visual Studio + Copilot: https://learn.microsoft.com/visualstudio/ide/visual-studio-github-copilot-extension
 - Responsible AI (Microsoft): https://learn.microsoft.com/azure/ai-services/responsible-use-of-ai-overview
+
+</div>

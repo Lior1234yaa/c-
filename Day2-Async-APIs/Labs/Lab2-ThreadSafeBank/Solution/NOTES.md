@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 2 — הערות לפתרון
 
 ## מה קורה ב-UnsafeBank
@@ -35,3 +37,5 @@
 - ConcurrentBank: ~60–120 ms, OK.
 - OrderedLockBank: ~80–150 ms, OK.
 - Deadlock demo: unordered → DEADLOCK אחרי 3 שניות; ordered → finished OK.
+
+</div>

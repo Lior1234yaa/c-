@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מעבדה 1 — עיבוד מקבילי: סדרתי מול `Task.WhenAll` מול `Parallel.ForEach`
 
 **משך:** 50 דקות | **מודולים:** 01, 02 | **פרויקט:** `Starter/Day2.Lab1.Starter`
@@ -38,9 +40,13 @@
 ### שלב 4 — ביטול עם Ctrl+C (10 דק')
 צרו `CancellationTokenSource` ורשמו ל-`Console.CancelKeyPress`:
 
+<div dir="ltr">
+
 ```csharp
 Console.CancelKeyPress += (_, e) => { e.Cancel = true; cts.Cancel(); };
 ```
+
+</div>
 
 העבירו את הטוקן לכל הגרסאות: `ct.ThrowIfCancellationRequested()` לפני כל תמונה, `Task.Delay(..., ct)` באישור, `ParallelOptions.CancellationToken`. תפסו `OperationCanceledException` ב-`Program` והדפיסו כמה הזמנות הספיקו להסתיים.
 
@@ -68,3 +74,5 @@ Console.CancelKeyPress += (_, e) => { e.Cancel = true; cts.Cancel(); };
 - `Task.WhenAll(tasks)` על `IEnumerable<Task<T>>` מחזיר `T[]`.
 - `Parallel.ForEach` זורק `OperationCanceledException` כשהטוקן מבוטל — תפסו אותה מחוץ ללולאה.
 - כדי לראות את ההבדל בין CPU ל-IO: הריצו את `WhenAll` פעם עם `Task.Run` סביב `ProcessImage` ופעם בלי.
+
+</div>

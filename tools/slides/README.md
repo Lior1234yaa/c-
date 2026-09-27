@@ -1,8 +1,12 @@
+<div dir="rtl">
+
 # בניית המצגות (Slides)
 
 המצגות של הקורס נבנות מקובצי הגדרה (JavaScript) בעזרת `pptxgenjs`, כך שקל לערוך אותן כטקסט ולבנות מחדש.
 
 ## בנייה
+
+<div dir="ltr">
 
 ```bash
 cd tools/slides
@@ -12,7 +16,11 @@ npm run build          # בונה את כל המצגות: Day*/Slides/*.slides.j
 node build-slides.js ../../Day1-OOP-Collections-Exceptions/Slides/Day1.slides.js ../../Day1-OOP-Collections-Exceptions/Slides/Day1.pptx
 ```
 
+</div>
+
 ## מבנה קובץ הגדרה (deck spec)
+
+<div dir="ltr">
 
 ```js
 module.exports = {
@@ -22,6 +30,8 @@ module.exports = {
   slides: [ /* אובייקטי שקף */ ],
 };
 ```
+
+</div>
 
 לכל שקף אפשר להוסיף `notes: '...'` — הערות למרצה (Speaker Notes).
 
@@ -44,3 +54,5 @@ module.exports = {
 - קוד: עד ~22 שורות ועד ~70 תווים לשורה בשקף `code` עם הסברים, עד ~95 תווים בלי הסברים.
 - עד 7 נקודות בשקף `bullets`.
 - כל שקף עם `notes` למרצה.
+
+</div>

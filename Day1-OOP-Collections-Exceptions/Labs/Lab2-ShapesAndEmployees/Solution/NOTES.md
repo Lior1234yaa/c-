@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 2 — הערות לפתרון
 
 ## חלק א' — צורות
@@ -22,8 +24,14 @@
 
 ## בדיקה
 
+<div dir="ltr">
+
 ```bash
 dotnet run
 ```
 
+</div>
+
 צפוי: 4 צורות עם שטחים (Circle 3.14, Rectangle 6, Triangle 6, Square 4; סה"כ 19.14), שגיאה על Triangle(1,1,10), טבלת משכורות: Dana 20,000, Yossi 14,000 (160×80 + 10×120), Noa 32,000, Acme 12,000, סה"כ 78,000.
+
+</div>

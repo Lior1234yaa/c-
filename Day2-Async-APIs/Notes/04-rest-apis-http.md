@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 04 — צריכת REST APIs ועבודה עם שירותים חיצוניים
 
 ## HTTP ב-5 דקות
@@ -38,6 +40,8 @@ REST הוא סגנון לתכנון API סביב **משאבים** (resources) ש
 
 `HttpClient` הוא הכלי ב-.NET לביצוע בקשות. יש כלל אחד שחייבים לזכור: **מופע אחד לכל האפליקציה (או לכל שירות), לא `new HttpClient()` בכל קריאה.** כל מופע מחזיק חיבורי TCP; יצירה ומחיקה חוזרת "מדליפה" sockets עד שהמערכת נחנקת (`SocketException`).
 
+<div dir="ltr">
+
 ```csharp
 // קונסול / אפליקציה קטנה: static אחד
 private static readonly HttpClient Http = new()
@@ -47,11 +51,15 @@ private static readonly HttpClient Http = new()
 };
 ```
 
+</div>
+
 באפליקציות ASP.NET Core / עם DI, הדרך המומלצת היא **`IHttpClientFactory`** (`services.AddHttpClient<MyApiClient>()`), שמנהל את מחזור החיים של החיבורים ומאפשר להגדיר typed clients — ניגע בזה ביום 4.
 
 ## GET, POST, PUT, DELETE ב-C#
 
 ההרחבות ב-`System.Net.Http.Json` הופכות את העבודה עם JSON לשורה אחת:
+
+<div dir="ltr">
 
 ```csharp
 using System.Net.Http.Json;
@@ -79,7 +87,11 @@ using var deleted = await Http.DeleteAsync($"/api/products/{product.Id}");
 Console.WriteLine(deleted.StatusCode);                      // NoContent
 ```
 
+</div>
+
 כשרוצים שליטה מלאה (headers לבקשה בודדת, קריאת body גם בשגיאה) משתמשים ב-`HttpRequestMessage`:
+
+<div dir="ltr">
 
 ```csharp
 using var request = new HttpRequestMessage(HttpMethod.Get, "/api/orders/3");
@@ -91,7 +103,11 @@ response.EnsureSuccessStatusCode();
 var order = await response.Content.ReadFromJsonAsync<Order>(cancellationToken);
 ```
 
+</div>
+
 ## Headers והזדהות
+
+<div dir="ltr">
 
 ```csharp
 // לכל הבקשות של המופע:
@@ -105,12 +121,16 @@ Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer
 Http.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
 ```
 
+</div>
+
 ## Timeouts
 
 בלי timeout, בקשה תקועה יכולה לחכות דקות. יש שתי רמות:
 
 - `Http.Timeout` — ברירת מחדל 100 שניות לכל המופע. הורידו ל-10–30 שניות.
 - **לבקשה בודדת** — `CancellationTokenSource` עם זמן, או `.WaitAsync(TimeSpan)`:
+
+<div dir="ltr">
 
 ```csharp
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
@@ -124,9 +144,13 @@ catch (OperationCanceledException)     // ב-.NET 5+ TaskCanceledException עם 
 }
 ```
 
+</div>
+
 ## ניסיונות חוזרים (Retry) עם backoff
 
 שירותים נכשלים לרגע — 503, 429, ניתוק רשת. הפתרון: לנסות שוב, אבל **רק על שגיאות זמניות**, **מספר מוגבל של פעמים**, ועם **השהיה שגדלה** (exponential backoff). ספריית Polly עושה את זה יפה; להבנה נכתוב לולאה פשוטה בעצמנו:
+
+<div dir="ltr">
 
 ```csharp
 static async Task<HttpResponseMessage> GetWithRetryAsync(HttpClient http, string url, int maxAttempts = 4, CancellationToken ct = default)
@@ -152,6 +176,8 @@ static async Task<HttpResponseMessage> GetWithRetryAsync(HttpClient http, string
 }
 ```
 
+</div>
+
 מה **לא** לנסות שוב: 400, 401, 403, 404 — הבעיה בבקשה, וניסיון נוסף לא ישנה כלום. וגם: לא לנסות שוב `POST` שאינו idempotent בלי מפתח ייחודי.
 
 ## טיפול בשגיאות — סיכום
@@ -163,6 +189,8 @@ static async Task<HttpResponseMessage> GetWithRetryAsync(HttpClient http, string
 | timeout / ביטול | `TaskCanceledException` (יורש מ-`OperationCanceledException`) | לתפוס בנפרד מ-Exception כללי |
 | JSON לא צפוי | `JsonException` | לוג + fallback |
 
+<div dir="ltr">
+
 ```csharp
 try
 {
@@ -173,6 +201,8 @@ catch (HttpRequestException ex) { Console.WriteLine($"HTTP error: {ex.StatusCode
 catch (OperationCanceledException) { Console.WriteLine("timeout / cancelled"); }
 catch (JsonException ex) { Console.WriteLine($"bad JSON: {ex.Message}"); }
 ```
+
+</div>
 
 ## שירותים חיצוניים לתרגול
 
@@ -186,6 +216,8 @@ catch (JsonException ex) { Console.WriteLine($"bad JSON: {ex.Message}"); }
 
 מפתח שנכנס ל-Git נשאר שם לנצח (גם אחרי מחיקה — בהיסטוריה). הכלים:
 
+<div dir="ltr">
+
 ```bash
 # פיתוח: dotnet user-secrets (נשמר מחוץ לפרויקט, לא עולה ל-Git)
 dotnet user-secrets init
@@ -195,6 +227,10 @@ dotnet user-secrets set "Weather:ApiKey" "abc123"
 export WEATHER__APIKEY=abc123        # __ מפריד היררכיה בקונפיגורציה של .NET
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```csharp
 // בקונסול פשוט:
 var apiKey = Environment.GetEnvironmentVariable("WEATHER_API_KEY")
@@ -203,11 +239,15 @@ var apiKey = Environment.GetEnvironmentVariable("WEATHER_API_KEY")
 // עם Microsoft.Extensions.Configuration (יום 4): config["Weather:ApiKey"]
 ```
 
+</div>
+
 הוסיפו `appsettings.*.json` עם סודות ל-`.gitignore`, והשתמשו ב-`appsettings.json` רק לערכי ברירת מחדל לא רגישים.
 
 ## בדיקת API ידנית
 
 לפני שכותבים קוד C#, בודקים שה-API עונה כמו שחושבים:
+
+<div dir="ltr">
 
 ```bash
 curl http://localhost:5080/api/products/1
@@ -217,9 +257,13 @@ curl -i -X POST http://localhost:5080/api/products \
 curl -i -X DELETE http://localhost:5080/api/products/7
 ```
 
+</div>
+
 - **curl** — בכל טרמינל (`-i` מציג headers, `-X` method, `-d` body).
 - **Postman** — GUI, אוספי בקשות, סביבות (dev/prod) ומשתנים.
 - **VS Code REST Client** (תוסף `humao.rest-client`) — קובץ `.http` בתוך הפרויקט; גם Visual Studio 2022+ תומך בקבצי `.http`:
+
+<div dir="ltr">
 
 ```text
 ### get products
@@ -231,6 +275,8 @@ Content-Type: application/json
 
 { "name": "Webcam", "price": 199, "category": "Video", "stock": 10 }
 ```
+
+</div>
 
 ## טעויות נפוצות
 
@@ -259,3 +305,5 @@ Content-Type: application/json
 - [System.Net.Http.Json extensions](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.json.httpclientjsonextensions)
 - [Safe storage of app secrets in development](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets)
 - [HTTP response status codes (MDN)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+</div>

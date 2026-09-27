@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # C# Programming in the .NET Framework — קורס מעשי (4 ימים)
 
 חומרי קורס מלאים לפי הסילבוס: הרצאות (Notes), מצגות (PPTX), דמואים, תרגילים קצרים, מעבדות עם פרויקט התחלה ופתרון מלא, ומדריך התקנה — הכול בעברית, עם קוד ב-C# 13 / .NET 10.
@@ -17,14 +19,20 @@
 1. עברו על [`00-Setup/INSTALL.md`](00-Setup/INSTALL.md) והתקינו את הכלים (.NET 10 SDK, Visual Studio, Git, ולקראת יום 4 — חשבונות לכלי AI).
 2. הריצו את בדיקת הסביבה:
 
+<div dir="ltr">
+
 ```bash
 cd 00-Setup/VerifySetup
 dotnet run
 ```
 
+</div>
+
 3. קראו את [`00-Setup/COURSE-OVERVIEW.md`](00-Setup/COURSE-OVERVIEW.md) כדי להבין איך החומר מאורגן ואיך עובדים על מעבדות.
 
 ## מה יש בכל תיקיית יום
+
+<div dir="ltr">
 
 ```text
 DayN-<Name>/
@@ -36,12 +44,18 @@ DayN-<Name>/
   Labs/LabK-<Name>/  מעבדה: README.md (הנחיות), Starter/ (פרויקט התחלה), Solution/ (פתרון מלא + NOTES.md)
 ```
 
+</div>
+
 ## בנייה ובדיקה של כל הקוד
+
+<div dir="ltr">
 
 ```bash
 ./tools/build-all.sh        # Linux / macOS
 .\tools\build-all.ps1       # Windows (PowerShell)
 ```
+
+</div>
 
 פרויקטי WPF/WinForms (יום 3 ויום 4) מתקמפלים בכל מערכת הפעלה בזכות `EnableWindowsTargeting`, אבל **רצים רק ב-Windows**.
 
@@ -49,14 +63,20 @@ DayN-<Name>/
 
 המצגות נבנות מקובצי טקסט (`Slides/DayN.slides.js`) — קל לערוך אותן ולבנות מחדש:
 
+<div dir="ltr">
+
 ```bash
 cd tools/slides
 npm install
 npm run build
 ```
 
+</div>
+
 פירוט בפורמט ובסוגי השקפים: [`tools/slides/README.md`](tools/slides/README.md).
 
 ## רישיון ושימוש
 
 החומרים נועדו להוראה. קוד הדוגמאות חופשי לשימוש ולשינוי.
+
+</div>

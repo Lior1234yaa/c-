@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Day2.LocalApi — REST API מקומי למעבדות
 
 API קטן שרץ בזיכרון (ללא מסד נתונים) ומדמה חנות: מוצרים (Products) והזמנות (Orders).
@@ -5,11 +7,15 @@ API קטן שרץ בזיכרון (ללא מסד נתונים) ומדמה חנו�
 
 ## הרצה
 
+<div dir="ltr">
+
 ```bash
 cd Day2-Async-APIs/Demos/Day2.LocalApi
 dotnet run
 # Day2.LocalApi listening on http://localhost:5080
 ```
+
+</div>
 
 השאירו את החלון פתוח במשך היום. עצירה: `Ctrl+C`. הנתונים מתאפסים בכל הפעלה מחדש (או ב-`POST /api/reset`).
 
@@ -36,6 +42,8 @@ dotnet run
 
 ## מבנה ה-JSON
 
+<div dir="ltr">
+
 ```json
 // Product
 { "id": 1, "name": "Laptop", "price": 4500, "category": "Computers", "stock": 12 }
@@ -54,9 +62,13 @@ dotnet run
 { "customer": "Dana", "items": [ { "productId": 1, "quantity": 2 } ] }
 ```
 
+</div>
+
 שימו לב: שמות השדות ב-camelCase, ו-enum (`status`) מוחזר כמחרוזת.
 
 ## דוגמאות curl
+
+<div dir="ltr">
 
 ```bash
 curl http://localhost:5080/api/products
@@ -68,8 +80,12 @@ curl "http://localhost:5080/api/slow?ms=2000"
 curl -i "http://localhost:5080/api/flaky?failRate=0.7"
 ```
 
+</div>
+
 ## הערות למרצה
 
 - הפורט קבוע (5080) בקוד: `builder.WebHost.UseUrls("http://localhost:5080")`. אם הוא תפוס — שנו כאן ובלקוחות.
 - הקוד עצמו הוא דוגמה טובה ל-Minimal API ול-`ConcurrentDictionary` + `Interlocked` (המחסן משותף בין בקשות מקבילות).
 - `/api/slow` מכבד `CancellationToken` של הבקשה — אם הלקוח מתנתק, ה-`Task.Delay` מבוטל.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 1 — מערכת ספרייה (45 דקות)
 
 ## מטרה
@@ -11,10 +13,14 @@
 
 ## התחלה
 
+<div dir="ltr">
+
 ```bash
 cd Labs/Lab1-LibrarySystem/Starter
 dotnet run
 ```
+
+</div>
 
 הפרויקט מתקמפל כבר עכשיו, אבל כל מתודה זורקת `NotImplementedException`. עברו על ה-`// TODO` לפי הסדר.
 
@@ -61,3 +67,5 @@ dotnet run
 - `_books.FirstOrDefault(b => b.Isbn == isbn)` מחזיר `null` כשאין התאמה.
 - `List<T>` מממש `IReadOnlyList<T>`, אז `public IReadOnlyList<Book> Books => _books;` עובד.
 - `DateTime.Now.Year` — השנה הנוכחית.
+
+</div>

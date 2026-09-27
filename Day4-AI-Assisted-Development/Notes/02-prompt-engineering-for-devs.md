@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 2 — Prompt Engineering למפתחים
 
 ## למה זה חשוב
@@ -19,6 +21,8 @@ Prompt טוב מכיל שישה מרכיבים (לא כולם חובה בכל פ
 
 דוגמה מלאה:
 
+<div dir="ltr">
+
 ```text
 You are a senior C# developer.
 Context: .NET 10 console app, nullable enabled, file-scoped namespaces.
@@ -31,6 +35,8 @@ Examples:
   "say ""hi""" -> ["say \"hi\""]
 Output: the method only, with XML doc comments, plus 5 xUnit test cases.
 ```
+
+</div>
 
 ## תנו לכלי את הקוד — "Give the code context"
 
@@ -56,6 +62,8 @@ Output: the method only, with XML doc comments, plus 5 xUnit test cases.
 
 תבנית חזקה במיוחד: לבקש קודם בדיקות, לקרוא אותן (קל יותר לבדוק בדיקות מאשר מימוש), ורק אז לבקש מימוש שעובר אותן.
 
+<div dir="ltr">
+
 ```text
 Before implementing, write xUnit tests for `IDiscountRule.Apply(Order)` based on this spec:
 - 5% off when subtotal > 250
@@ -65,14 +73,20 @@ Before implementing, write xUnit tests for `IDiscountRule.Apply(Order)` based on
 Use [Theory] with InlineData. Do not implement yet.
 ```
 
+</div>
+
 אחרי שאישרתם את הבדיקות: "Now implement the rules so the tests pass. Show the diff only."
 
 ## בקשו חלופות ו-trade-offs
+
+<div dir="ltr">
 
 ```text
 Give me 2–3 ways to persist app settings in a WPF app (JSON file, registry, user settings).
 For each: 3 lines of pros/cons and when you would choose it. No code yet.
 ```
+
+</div>
 
 כך אתם מקבלים החלטת עיצוב במקום מימוש שרירותי.
 
@@ -115,6 +129,8 @@ For each: 3 lines of pros/cons and when you would choose it. No code yet.
 
 דוגמה מלאה ל-`CLAUDE.md` עבור פתרון WPF (הגרסה המלאה ב-`Demos/Prompts/CLAUDE.md`):
 
+<div dir="ltr">
+
 ```text
 # Orders Desktop — project instructions
 
@@ -149,6 +165,8 @@ For each: 3 lines of pros/cons and when you would choose it. No code yet.
 3. Do not add NuGet packages without asking.
 ```
 
+</div>
+
 הקובץ הזה חוסך זמן, אבל חשוב יותר: הוא **מתעד את המוסכמות לבני אדם** באותה הזדמנות.
 
 ## MCP — Model Context Protocol (בקצרה)
@@ -180,3 +198,5 @@ MCP הוא פרוטוקול פתוח שמאפשר לכלי AI להתחבר ל"ש
 - Claude Code — CLAUDE.md and memory: https://docs.claude.com/en/docs/claude-code/memory
 - Prompt engineering (Anthropic docs): https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview
 - MCP: https://modelcontextprotocol.io
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 06 — טיפול בחריגות ואסטרטגיות דיבוג
 
 תוכנה נכשלת: קובץ לא קיים, המשתמש הקליד "abc" במקום מספר, הרשת נפלה, ומישהו ניסה למשוך יותר ממה שיש בחשבון. ההבדל בין תוכנה טובה לרעה הוא לא שהראשונה לא נכשלת, אלא שהיא נכשלת **בצורה מבוקרת**: הודעה ברורה, מצב עקבי, משאבים משוחררים. במודול הזה נלמד את מנגנון החריגות של .NET, מתי להשתמש בו ומתי לא, ואז את הכלי שיחסוך לכם הכי הרבה שעות בקריירה — הדיבאגר.
@@ -9,6 +11,8 @@
 חריגות נפוצות שתפגשו: `NullReferenceException` (גישה ל-null), `ArgumentException` / `ArgumentNullException` / `ArgumentOutOfRangeException` (פרמטר לא תקין), `InvalidOperationException` (הפעולה לא חוקית במצב הנוכחי), `FormatException` (פרסינג), `KeyNotFoundException`, `IndexOutOfRangeException`, `IOException`, `HttpRequestException`.
 
 ## `try` / `catch` / `finally`
+
+<div dir="ltr">
 
 ```csharp
 try
@@ -36,6 +40,8 @@ finally
 }
 ```
 
+</div>
+
 - ה-`catch` הראשון שמתאים (לפי סדר, כולל ירושה) מטפל. לכן ספציפי לפני כללי — המהדר אפילו יזהיר אם הסדר הפוך.
 - `finally` רץ תמיד: אחרי הצלחה, אחרי `catch`, אחרי `return` בתוך ה-`try`, ואפילו אחרי `continue`. זה המקום לשחרר משאבים.
 - אפשר `try/finally` בלי `catch` — "לא מטפל, אבל מנקה".
@@ -43,6 +49,8 @@ finally
 ### Exception filters — `when`
 
 פילטר מאפשר לתפוס רק כשמתקיים תנאי, בלי לתפוס ולזרוק מחדש:
+
+<div dir="ltr">
 
 ```csharp
 catch (InsufficientFundsException ex) when (ex.Shortfall > 1000)
@@ -56,11 +64,15 @@ catch (InsufficientFundsException ex)
 catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound) { }
 ```
 
+</div>
+
 יתרון עדין: כשהפילטר מחזיר `false`, ה-stack לא "נפרש" — ובדיבאגר תראו את מקום הזריקה המקורי. טריק נפוץ ללוגים: `catch (Exception ex) when (Log(ex))` כש-`Log` מחזיר `false` — רושם ולא תופס.
 
 ## `throw;` מול `throw ex;`
 
 כשתופסים חריגה ורוצים להעביר אותה הלאה (אחרי לוג, למשל):
+
+<div dir="ltr">
 
 ```csharp
 catch (Exception ex)
@@ -71,11 +83,15 @@ catch (Exception ex)
 }
 ```
 
+</div>
+
 אם רוצים לעטוף בחריגה משלכם, העבירו את המקורית כ-`InnerException`: `throw new DataAccessException("failed to load orders", ex);`. כך לא מאבדים מידע.
 
 ## חריגות מותאמות אישית
 
 הגדירו חריגה משלכם כשלמטפל יש **מה לעשות** עם המידע: סוג שגיאה עסקית, נתונים נלווים.
+
+<div dir="ltr">
 
 ```csharp
 public class BankException(string message) : Exception(message);   // בסיס לכל החריגות של הדומיין
@@ -90,11 +106,15 @@ public class InsufficientFundsException(string accountId, decimal requested, dec
 }
 ```
 
+</div>
+
 מוסכמות: סיומת `Exception`, ירושה מ-`Exception` (לא `ApplicationException`), הודעה ברורה שנבנית בבנאי, properties לנתונים. היררכיה (`BankException` כבסיס) מאפשרת `catch (BankException)` אחד לכל השגיאות העסקיות, ו-`catch` ספציפי כשצריך.
 
 ## `using` ו-`IDisposable`
 
 אובייקטים שמחזיקים משאב חיצוני — קובץ, חיבור DB, socket, `HttpClient` — מממשים `IDisposable`. חייבים לקרוא ל-`Dispose()` כשמסיימים, **גם אם הייתה חריגה**. `using` עושה בדיוק את זה: `try/finally` שקורא ל-`Dispose`.
+
+<div dir="ltr">
 
 ```csharp
 using (var writer = new StreamWriter("log.txt"))
@@ -106,11 +126,15 @@ using var reader = new StreamReader("data.csv");   // using declaration (C# 8): 
 var header = reader.ReadLine();
 ```
 
+</div>
+
 בלי `using`, קובץ עלול להישאר פתוח (ותוכנית אחרת לא תוכל לגשת אליו) או שה-buffer לא ייכתב לדיסק (הלוג "ריק"). כשאתם כותבים מחלקה שמחזיקה `IDisposable` — ממשו `IDisposable` בעצמכם והעבירו את ה-`Dispose` הלאה.
 
 ## Guard clauses — נכשלים מוקדם
 
 בדקו פרמטרים **בכניסה** למתודה וזרקו מיד. השגיאה נתפסת קרוב למקור, ושאר המתודה נקי מ-`if`-ים:
+
+<div dir="ltr">
 
 ```csharp
 public void Transfer(Account? from, Account? to, decimal amount)
@@ -130,11 +154,15 @@ public Book(string isbn, string title)
 }
 ```
 
+</div>
+
 המתודות הסטטיות `ThrowIfNull`, `ThrowIfNullOrEmpty`, `ThrowIfNullOrWhiteSpace`, `ThrowIfNegative`, `ThrowIfNegativeOrZero`, `ThrowIfGreaterThan` וכו' (מ-.NET 6–8) חוסכות שורות ומשתמשות אוטומטית בשם הפרמטר בהודעה.
 
 ## מתי **לא** לזרוק: ה-TryParse pattern
 
 חריגות יקרות (יחסית) ומיועדות למצבים **חריגים**. קלט לא תקין מהמשתמש הוא לא חריג — הוא צפוי. לכן ל-.NET יש זוגות `Parse`/`TryParse`:
+
+<div dir="ltr">
 
 ```csharp
 Console.Write("age: ");
@@ -144,6 +172,8 @@ if (int.TryParse(line, out int age) && age is >= 0 and <= 120)
 else
     Console.WriteLine("please enter a number between 0 and 120");
 ```
+
+</div>
 
 אותו רעיון: `Dictionary.TryGetValue`, `Dictionary.TryAdd`, `Queue.TryDequeue`, `Enum.TryParse`, `DateTime.TryParse`. ולמתודות שלכם: אם כישלון הוא תוצאה שגרתית (חיפוש שלא מצא), החזירו `bool`/`null`; אם הוא הפרת כללים (משיכה מעל היתרה, פרמטר לא חוקי) — זרקו.
 
@@ -206,3 +236,5 @@ else
 - [Debugging in Visual Studio](https://learn.microsoft.com/visualstudio/debugger/)
 - [Navigate through code with the debugger](https://learn.microsoft.com/visualstudio/debugger/navigating-through-code-with-the-debugger)
 - [Manage exceptions with the debugger](https://learn.microsoft.com/visualstudio/debugger/managing-exceptions-with-the-debugger)
+
+</div>

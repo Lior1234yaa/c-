@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 04 — Data Binding ו-MVVM-lite
 
 ## הבעיה עם code-behind
@@ -12,6 +14,8 @@
 לכל אלמנט ב-WPF יש `DataContext` — האובייקט שה-binding-ים שלו מתייחסים אליו כברירת מחדל. הוא **עובר
 בירושה** במורד העץ: מגדירים פעם אחת על החלון, וכל הילדים רואים אותו.
 
+<div dir="ltr">
+
 ```csharp
 public MainWindow()
 {
@@ -20,11 +24,17 @@ public MainWindow()
 }
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <TextBox Text="{Binding NewTitle}" />
 <TextBlock Text="{Binding Summary}" />
 <Button Command="{Binding AddCommand}" />
 ```
+
+</div>
 
 `{Binding NewTitle}` = "קח את `NewTitle` מה-DataContext". ‏`Path` יכול להיות עמוק: `{Binding Selected.Name}`,
 `{Binding Items.Count}`, `{Binding Items[0]}`.
@@ -51,6 +61,8 @@ public MainWindow()
 
 Binding ל-property רגיל עובד פעם אחת. כדי שהפקד יתעדכן כשהערך משתנה, המקור צריך להודיע:
 
+<div dir="ltr">
+
 ```csharp
 public interface INotifyPropertyChanged
 {
@@ -58,7 +70,11 @@ public interface INotifyPropertyChanged
 }
 ```
 
+</div>
+
 במקום לממש את זה בכל מחלקה, כותבים מחלקת בסיס אחת:
+
+<div dir="ltr">
 
 ```csharp
 public abstract class ObservableObject : INotifyPropertyChanged
@@ -78,7 +94,11 @@ public abstract class ObservableObject : INotifyPropertyChanged
 }
 ```
 
+</div>
+
 `[CallerMemberName]` גורם לקומפיילר למלא את שם ה-property שקרא — בלי מחרוזות קסם. ואז:
+
+<div dir="ltr">
 
 ```csharp
 public class TodoItem : ObservableObject
@@ -91,6 +111,8 @@ public class TodoItem : ObservableObject
 }
 ```
 
+</div>
+
 Property **מחושב** (`Summary => $"{DoneCount}/{Count}"`) לא יודע להודיע לבד — צריך לקרוא
 `OnPropertyChanged(nameof(Summary))` כשאחד ממרכיביו משתנה.
 
@@ -99,13 +121,21 @@ Property **מחושב** (`Summary => $"{DoneCount}/{Count}"`) לא יודע לה
 `List<T>` לא מודיע כשמוסיפים פריט. `ObservableCollection<T>` מממש `INotifyCollectionChanged`, וכל
 `Add`/`Remove`/`Clear` מעדכן את הרשימה על המסך:
 
+<div dir="ltr">
+
 ```csharp
 public ObservableCollection<TodoItem> Items { get; } = [];
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}" />
 ```
+
+</div>
 
 שימו לב: האוסף מודיע על **הוספה/הסרה**, לא על שינוי בתוך פריט. בשביל זה הפריט עצמו צריך להיות
 `ObservableObject`. ועוד: מותר לשנות `ObservableCollection` רק מה-UI thread.
@@ -114,6 +144,8 @@ public ObservableCollection<TodoItem> Items { get; } = [];
 
 בלי template, ListBox מציג `ToString()`. עם `DataTemplate` מגדירים UI לכל פריט, וה-`DataContext`
 בתוכו הוא הפריט:
+
+<div dir="ltr">
 
 ```xml
 <ListBox ItemsSource="{Binding Items}">
@@ -129,10 +161,14 @@ public ObservableCollection<TodoItem> Items { get; } = [];
 </ListBox>
 ```
 
+</div>
+
 אותו רעיון עובד ב-ComboBox, ItemsControl, DataGrid (‏`DataGridTemplateColumn`) ו-TabControl.
 `DisplayMemberPath="Name"` הוא קיצור כשרוצים רק טקסט מ-property אחד.
 
 ## StringFormat
+
+<div dir="ltr">
 
 ```xml
 <TextBlock Text="{Binding Price, StringFormat={}{0:C}}" />
@@ -140,12 +176,16 @@ public ObservableCollection<TodoItem> Items { get; } = [];
 <TextBlock Text="{Binding Date, StringFormat=yyyy-MM-dd}" />
 ```
 
+</div>
+
 ה-`{}` בהתחלה הוא escape — אחרת XAML חושב ש-`{0:C}` הוא markup extension. אם יש טקסט לפני `{0}`
 ה-escape לא נחוץ. `StringFormat` עובד רק כשהיעד הוא `string` (לא על `Content` של Button — שם צריך converter או `ContentStringFormat`).
 
 ## Converters: IValueConverter
 
 כשהמקור והיעד מסוגים שונים (bool → צבע, enum → טקסט, מספר → Visibility):
+
+<div dir="ltr">
 
 ```csharp
 public class BoolToBrushConverter : IValueConverter
@@ -158,6 +198,10 @@ public class BoolToBrushConverter : IValueConverter
 }
 ```
 
+</div>
+
+<div dir="ltr">
+
 ```xml
 <Window.Resources>
     <conv:BoolToBrushConverter x:Key="DoneBrush" />
@@ -165,12 +209,16 @@ public class BoolToBrushConverter : IValueConverter
 <TextBlock Foreground="{Binding IsDone, Converter={StaticResource DoneBrush}}" />
 ```
 
+</div>
+
 `ConverterParameter` מאפשר להעביר ערך מה-XAML (למשל סף). ‏`BooleanToVisibilityConverter` מגיע מובנה
 ב-WPF — הנפוץ ביותר: `Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"`.
 
 ## MVVM-lite: ארבע שכבות, בלי דוגמה
 
 **MVVM** (Model–View–ViewModel) הוא התבנית הטבעית ל-WPF. בגרסה הפרגמטית שלנו:
+
+<div dir="ltr">
 
 ```text
 View (XAML + code-behind מינימלי)
@@ -185,6 +233,8 @@ Service (IProductService, IContactsStore: I/O, HTTP, קבצים)
 Model (Product, Contact: נתונים; לעיתים גם ObservableObject)
 ```
 
+</div>
+
 הכללים הפרקטיים:
 
 1. **ה-View לא מכיל לוגיקה.** ה-code-behind יוצר את ה-VM, מגדיר `DataContext`, ומטפל בדברים שהם
@@ -193,6 +243,8 @@ Model (Product, Contact: נתונים; לעיתים גם ObservableObject)
    ו-commands, וזהו. ככה אפשר לבדוק אותו ב-xUnit.
 3. **Services מאחורי ממשקים.** `IProductService` עם `Fake` ו-`Http` — ה-VM לא יודע מי מהם רץ.
 4. **DI-lite:** ה-VM מקבל את ה-services בבנאי. ה-View (או `App`) הוא ה-composition root.
+
+<div dir="ltr">
 
 ```csharp
 public class MainViewModel : ObservableObject
@@ -211,6 +263,8 @@ public class MainViewModel : ObservableObject
 }
 ```
 
+</div>
+
 זה כל ה-VM. אין כאן שום דבר של WPF חוץ מ-`ICommand` (שיושב ב-`System.Windows.Input`, אבל הוא ממשק
 פשוט). ראו `Demos/Day3.Demo.Binding` לגרסה המלאה עם פאנל פרטים ו-`RelativeSource`.
 
@@ -219,15 +273,21 @@ public class MainViewModel : ObservableObject
 בתוך `DataTemplate` או פאנל עם `DataContext="{Binding Selected}"`, ה-binding רואה את הפריט — לא את ה-VM.
 כדי להגיע לפקודה של ה-VM:
 
+<div dir="ltr">
+
 ```xml
 <Button Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
 ```
+
+</div>
 
 ## CommunityToolkit.Mvvm: אותו דבר עם פחות קוד
 
 בפרויקטים אמיתיים משתמשים בחבילת NuGet [`CommunityToolkit.Mvvm`](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/)
 של Microsoft. היא מספקת `ObservableObject`, `RelayCommand`, `AsyncRelayCommand` — ו**source generators**
 שכותבים את ה-boilerplate בשבילכם:
+
+<div dir="ltr">
 
 ```csharp
 public partial class MainViewModel : ObservableObject
@@ -242,6 +302,8 @@ public partial class MainViewModel : ObservableObject
 }
 ```
 
+</div>
+
 בקורס אנחנו כותבים את המימוש הפשוט ידנית — כדי להבין מה קורה מתחת, ולהישאר ללא תלויות. כשתתחילו
 פרויקט אמיתי, קחו את ה-toolkit.
 
@@ -249,11 +311,15 @@ public partial class MainViewModel : ObservableObject
 
 שלושה פרמטרים קטנים שחוסכים המון converters:
 
+<div dir="ltr">
+
 ```xml
 <TextBlock Text="{Binding Selected.Name, FallbackValue=No selection}" />
 <TextBlock Text="{Binding Notes, TargetNullValue=(none)}" />
 <TextBlock Text="{Binding ElementName=Amount, Path=Value}" />
 ```
+
+</div>
 
 `FallbackValue` מוצג כשה-binding **נכשל** (למשל `Selected` הוא null ולכן `Selected.Name` לא קיים) —
 ומונע גם את הודעת השגיאה ב-Output. `TargetNullValue` מוצג כשהערך עצמו הוא null. `ElementName` קושר
@@ -264,6 +330,8 @@ public partial class MainViewModel : ObservableObject
 כשמציגים `ObservableCollection` ב-ListBox, WPF יוצר מעליה בשקט `ICollectionView` — "תצוגה" עם
 סינון, מיון וקיבוץ, בלי לשנות את האוסף עצמו:
 
+<div dir="ltr">
+
 ```csharp
 ContactsView = CollectionViewSource.GetDefaultView(Contacts);
 ContactsView.Filter = o => o is Contact c && c.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase);
@@ -271,6 +339,8 @@ ContactsView.SortDescriptions.Add(new SortDescription(nameof(Contact.FirstName),
 // כשהסינון משתנה:
 ContactsView.Refresh();
 ```
+
+</div>
 
 קושרים את ה-`ItemsSource` ל-`ContactsView` (או ישירות לאוסף — ה-view ברירת המחדל זהה). זה מה
 שמאפשר ב-Lab 2 ו-Lab 3 חיפוש מיידי בלי להחזיק "רשימה מסוננת" נפרדת. ה-view גם מחזיק את
@@ -333,3 +403,5 @@ ContactsView.Refresh();
 - [ObservableCollection<T>](https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1)
 - [Data templating overview](https://learn.microsoft.com/dotnet/desktop/wpf/data/data-templating-overview)
 - [CommunityToolkit.Mvvm](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/)
+
+</div>

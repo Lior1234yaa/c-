@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 3 — סקירת קוד שנוצר ב-AI (45 דקות)
 
 ## המטרה
@@ -29,6 +31,8 @@
 
 ### שלב 2 — סקירה שנייה עם AI (10 דק')
 Prompt (תבנית 13):
+<div dir="ltr">
+
 ```text
 Review the following C# as a strict senior reviewer. Check specifically: null handling, async correctness
 (async void, .Result/.Wait), culture-sensitive parsing/formatting, IDisposable/HttpClient usage, thread safety,
@@ -36,6 +40,8 @@ exception swallowing, injection/path traversal, secrets, off-by-one. For each fi
 Do not rewrite the file.
 {הדביקו קובץ אחד בכל פעם}
 ```
+
+</div>
 השוו: מה ה-AI מצא שאתם פספסתם? מה **אתם** מצאתם שהוא פספס? מה הוא "מצא" שאינו באג (false positive)?
 
 ### שלב 3 — תיקון (15 דק')
@@ -54,3 +60,5 @@ Do not rewrite the file.
 ## רמזים
 - אם משהו "עובד על המחשב שלי" — שאלו: ומה עם `de-DE`? ומה עם 1,000 threads? ומה עם `..\`?
 - `catch {}` הוא כמעט תמיד ממצא.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 6 — שילוב AI בסביבת פיתוח ארגונית
 
 ## המעבר מ"אני" ל"אנחנו"
@@ -57,6 +59,8 @@
 
 דוגמת workflow (GitHub Actions) — השלד הרגיל, וה-AI מצטרף כשלב סקירה:
 
+<div dir="ltr">
+
 ```yaml
 name: ci
 on: [pull_request]
@@ -72,6 +76,8 @@ jobs:
       - run: dotnet format --verify-no-changes
       - run: dotnet test --no-build
 ```
+
+</div>
 
 סקירת AI על PR מופעלת בדרך כלל דרך הגדרות הריפו (Copilot) או אפליקציית GitHub (Claude) — לא צריך להמציא step; בדקו את התיעוד של הכלי. חשוב: תוצאת סקירת AI היא **הערה**, לא **check חוסם**, אלא אם החלטתם אחרת במודע.
 
@@ -139,3 +145,5 @@ jobs:
 - GitHub secret scanning: https://docs.github.com/code-security/secret-scanning/introduction/about-secret-scanning
 - DORA metrics: https://dora.dev
 - GitHub Actions for .NET: https://learn.microsoft.com/dotnet/devops/github-actions-overview
+
+</div>

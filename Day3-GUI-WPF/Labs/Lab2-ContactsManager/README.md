@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 2 — Contacts Manager: ‏MVVM-lite, ולידציה ושמירה ל-JSON
 
 **משך:** 75 דקות | **רמה:** ★★ | **מודולים:** 04–06 (Data binding, חיבור ללוגיקה, ולידציה)
@@ -6,6 +8,8 @@
 
 אפליקציית ניהול אנשי קשר במבנה MVVM-lite: רשימה (DataGrid) משמאל, טופס פרטים מימין,
 הוספה/עריכה/מחיקה, חיפוש, ולידציה עם `INotifyDataErrorInfo`, ושמירה/טעינה מקובץ JSON ב-`%AppData%`.
+
+<div dir="ltr">
 
 ```text
 +---------------------------------------------------------------+
@@ -24,7 +28,11 @@
 +---------------------------------------------------------------+
 ```
 
+</div>
+
 ## מבנה הפרויקט (Starter)
+
+<div dir="ltr">
 
 ```text
 Models/Contact.cs              ← המודל (TODO 1, 4)
@@ -36,6 +44,8 @@ Services/JsonContactsStore.cs  ← שמירה/טעינה (TODO 6)
 ViewModels/ContactsViewModel.cs← הפקודות והמצב (TODO 2, 5)
 MainWindow.xaml                ← ה-View (TODO 7, 8)
 ```
+
+</div>
 
 ## שלבים
 
@@ -94,3 +104,5 @@ MainWindow.xaml                ← ה-View (TODO 7, 8)
 - בטופס, `DataContext="{Binding Draft}"` — לכן כדי להגיע ל-`ApplyCommand` (שנמצא ב-VM של החלון) משתמשים
   ב-`RelativeSource AncestorType=Window` ו-`DataContext.ApplyCommand`.
 - `Closing` הוא סינכרוני; כדי לשמור async לפני סגירה — מבטלים את הסגירה, שומרים, ואז קוראים `Close()` שוב (ראו Solution).
+
+</div>

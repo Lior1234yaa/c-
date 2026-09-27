@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 1 — פיצ'ר ממפרט בעזרת AI, בדיקות קודם (60 דקות)
 
 ## המטרה
@@ -38,6 +40,8 @@
 
 Prompt לדוגמה:
 
+<div dir="ltr">
+
 ```text
 You are a senior C# developer. .NET 10, nullable enabled, file-scoped namespaces.
 Implement `DiscountEngine : IDiscountEngine` (interface and models below) so that the attached xUnit tests pass.
@@ -47,6 +51,8 @@ Constraints: pure function (no I/O, no static state), decimal math, no new packa
 Output: the class only, then a 3-line summary. Do not modify the tests.
 {הדביקו IDiscountEngine.cs, Models.cs, DiscountEngineTests.cs}
 ```
+
+</div>
 
 ### שלב 3 — אימות (10 דק')
 `dotnet build` → `dotnet test`. אם בדיקות נכשלות: הדביקו את הודעת הכישלון המלאה ב-prompt המשך ("Test X fails with … Fix minimally").
@@ -78,3 +84,5 @@ Output: the class only, then a 3-line summary. Do not modify the tests.
 - ה-AI נוטה לצבור הנחות (5% + 8%) — המפרט אומר "הגבוהה מנצחת".
 - "10 ₪ בנוסף" הוא סכום קבוע, לא אחוז.
 - עיגול פעם אחת בסוף, לא בכל שלב.
+
+</div>

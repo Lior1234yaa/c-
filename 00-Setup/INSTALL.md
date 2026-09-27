@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מה צריך להתקין — מדריך התקנה לקורס C# / .NET
 
 מסמך זה מלווה אתכם מאפס עד סביבת עבודה מוכנה לכל ארבעת ימי הקורס. המדריך כתוב **Windows-first** כי ביום 3 נבנה אפליקציות WPF (שרצות רק ב-Windows), אבל בימים 1, 2 ו-4 אפשר לעבוד גם על macOS או Linux — יש הערות מתאימות לאורך הדרך.
@@ -26,10 +28,14 @@
 
 אימות:
 
+<div dir="ltr">
+
 ```bash
 dotnet --version
 dotnet --info
 ```
+
+</div>
 
 הפלט של `dotnet --version` אמור להתחיל ב-`10.` (למשל `10.0.100`). `dotnet --info` מציג את כל ה-SDKs וה-Runtimes המותקנים ואת מערכת ההפעלה — שימושי מאוד לפתרון בעיות.
 
@@ -73,17 +79,25 @@ VS Code הוא עורך קל, חינמי וחוצה פלטפורמות (Windows 
 2. **חשבון GitHub**: פתחו חשבון חינמי ב-https://github.com/ — נצטרך אותו גם ל-GitHub Copilot ביום 4.
 3. הגדרה חד-פעמית של זהות:
 
+<div dir="ltr">
+
 ```bash
 git config --global user.name "השם שלכם"
 git config --global user.email "you@example.com"
 ```
 
+</div>
+
 4. שכפול (clone) של מאגר הקורס — הקישור המדויק יינתן על ידי המרצה:
+
+<div dir="ltr">
 
 ```bash
 git clone <course-repo-url>
 cd <course-repo-folder>
 ```
+
+</div>
 
 אימות: `git --version` מדפיס גרסה.
 
@@ -94,16 +108,24 @@ cd <course-repo-folder>
 - **Postman** (https://www.postman.com/downloads/) — ממשק גרפי מלא. מספיק החשבון החינמי.
 - **REST Client** (תוסף ל-VS Code) — כותבים בקשות בקובץ טקסט ולוחצים "Send Request". קל, מהיר, ונשמר ב-Git יחד עם הקוד. דוגמה לקובץ `requests.http`:
 
+<div dir="ltr">
+
 ```text
 GET https://api.github.com/repos/dotnet/runtime
 Accept: application/json
 ```
 
+</div>
+
 - **curl** — כלי שורת פקודה. מגיע מובנה ב-Windows 10/11, macOS ו-Linux:
+
+<div dir="ltr">
 
 ```bash
 curl -s https://api.github.com/repos/dotnet/runtime
 ```
+
+</div>
 
 שימו לב: ב-PowerShell `curl` הוא לפעמים כינוי (alias) ל-`Invoke-WebRequest` עם תחביר שונה. הקלידו `curl.exe` כדי להריץ את ה-curl האמיתי.
 
@@ -130,17 +152,25 @@ Node.js נדרש לשני דברים בקורס: התקנת **Claude Code** (מ�
 1. הורידו את גרסת ה-**LTS** מ-https://nodejs.org/ והתקינו עם ברירות המחדל.
 2. פתחו טרמינל חדש ובדקו:
 
+<div dir="ltr">
+
 ```bash
 node --version
 npm --version
 ```
 
+</div>
+
 3. התקינו את Claude Code:
+
+<div dir="ltr">
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 claude --version
 ```
+
+</div>
 
 ## 9. אופציונלי אבל שימושי
 
@@ -150,12 +180,18 @@ https://www.linqpad.net/ — "מחברת" ל-C#: כותבים ביטוי או ק
 ### dotnet tools
 כלים גלובליים שמותקנים דרך ה-CLI. שימושי ליום 2 (ניטור threads ו-GC):
 
+<div dir="ltr">
+
 ```bash
 dotnet tool install --global dotnet-counters
 dotnet-counters --version
 ```
 
+</div>
+
 ### .NET CLI — פקודות שכדאי להכיר
+
+<div dir="ltr">
 
 ```bash
 dotnet new list                       # רשימת התבניות הזמינות
@@ -172,15 +208,21 @@ dotnet --list-sdks                    # אילו SDKs מותקנים
 dotnet --list-runtimes                # אילו Runtimes מותקנים
 ```
 
+</div>
+
 ## 10. אימות ההתקנה
 
 ### תוכנית האימות
 בתיקייה `00-Setup/VerifySetup` יש פרויקט קונסולה קטן שבודק את הסביבה. הריצו:
 
+<div dir="ltr">
+
 ```bash
 cd 00-Setup/VerifySetup
 dotnet run
 ```
+
+</div>
 
 התוכנית מדפיסה את גרסת .NET, מערכת ההפעלה, האם יש SDK 10, האם יש גישה ל-NuGet, ומבצעת בדיקת JSON ו-async. בסוף מופיע סיכום עם ✅ / ⚠️ / ❌. סימן ⚠️ על Windows או על NuGet הוא אזהרה בלבד (למשל ב-macOS); ❌ פירושו שיש משהו לתקן.
 
@@ -214,6 +256,8 @@ dotnet run
 ### יש כמה SDKs מותקנים והפרויקט משתמש בגרסה הלא נכונה
 ה-CLI בוחר את ה-SDK **החדש ביותר** אלא אם יש קובץ `global.json` בתיקייה או באחת מתיקיות האב. בדקו עם `dotnet --version` בתוך תיקיית הפרויקט. כדי לנעול גרסה (למשל אם יש לכם גם 11 preview):
 
+<div dir="ltr">
+
 ```json
 {
   "sdk": {
@@ -223,12 +267,16 @@ dotnet run
 }
 ```
 
+</div>
+
 יוצרים אוטומטית עם `dotnet new globaljson --sdk-version 10.0.100`. אם מופיעה שגיאה "The specified SDK version could not be found" — או שמוחקים את `global.json`, או שמתקינים את הגרסה שהוא דורש.
 
 ### NuGet restore נכשל מאחורי proxy ארגוני
 תסמינים: `error NU1301: Unable to load the service index for source https://api.nuget.org/v3/index.json`.
 - הגדירו את ה-proxy כמשתני סביבה: `HTTPS_PROXY=http://proxy.company.com:8080` (ואם צריך גם `HTTP_PROXY`). NuGet וה-CLI מכבדים אותם.
 - לחלופין, בקובץ `NuGet.Config` (ב-Windows: `%AppData%\NuGet\NuGet.Config`) מוסיפים:
+
+<div dir="ltr">
 
 ```xml
 <configuration>
@@ -237,6 +285,8 @@ dotnet run
   </config>
 </configuration>
 ```
+
+</div>
 
 - ארגונים רבים מחליפים תעודות TLS (SSL inspection). אם מופיעה שגיאת "certificate" — בקשו מה-IT את תעודת ה-CA הארגונית והתקינו אותה במאגר התעודות של המערכת.
 - אם יש לכם NuGet פנימי (Artifactory / Azure Artifacts) — בקשו מה-IT את הכתובת והוסיפו: `dotnet nuget add source <url> -n corp`.
@@ -247,18 +297,26 @@ dotnet run
 ### HTTPS dev certificate — אזהרות אבטחה כשמריצים Web API מקומי
 אם ביום 2 תרימו Web API מקומי (`dotnet new webapi`) והדפדפן/הלקוח מתלונן על תעודה לא מהימנה:
 
+<div dir="ltr">
+
 ```bash
 dotnet dev-certs https --trust
 ```
+
+</div>
 
 ב-Windows ו-macOS תופיע בקשת אישור. ב-Linux הפקודה מייצרת את התעודה אבל לא תמיד מוסיפה אותה למאגר המהימן — ראו את ההוראות בפלט. לחלופין, עבדו מול הכתובת `http://` שמופיעה ב-`launchSettings.json`.
 
 ### PowerShell: "running scripts is disabled on this system"
 קורה כשמריצים סקריפט `.ps1` (למשל סקריפט התקנה או `dotnet-install.ps1`). פתרון למשתמש הנוכחי בלבד (לא דורש מנהל):
 
+<div dir="ltr">
+
 ```text
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
+
+</div>
 
 לחלופין הריצו את הסקריפט הבודד עם `powershell -ExecutionPolicy Bypass -File script.ps1`.
 
@@ -271,3 +329,5 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ### עדיין תקועים?
 - הריצו `dotnet --info` ושלחו את הפלט למרצה (בקבוצת הקורס או במייל) יחד עם הודעת השגיאה המלאה.
 - הגיעו 20 דקות מוקדם ביום הראשון — נקדיש את הזמן לפתרון בעיות התקנה.
+
+</div>

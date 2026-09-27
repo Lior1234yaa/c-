@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 07 — קוד נקי, תחזוקתי ורב-שימושי
 
 קוד נקרא הרבה יותר פעמים ממה שהוא נכתב. כל שורה שתכתבו היום, מישהו — כנראה אתם בעוד חצי שנה — יצטרך להבין, לשנות ולתקן. "קוד נקי" הוא לא עניין של יופי אלא של **עלות**: כמה זמן לוקח להבין מה הקוד עושה, וכמה בטוח לשנות אותו. במודול הזה נאסוף עקרונות פשוטים ומעשיים, נראה אותם על דוגמאות before/after, ונחבר אותם למה שלמדנו היום: ממשקים, גנריקה ואוספים הם הכלים שהופכים קוד לרב-שימושי.
@@ -11,6 +13,8 @@
 - **בלי קיצורים** שלא כולם מכירים (`cust`, `mgr`) ובלי הונגרית (`strName`, `iCount`).
 - **אורך לפי טווח**: `i` בלולאה של 3 שורות בסדר; `i` כשדה במחלקה — לא.
 
+<div dir="ltr">
+
 ```csharp
 // לפני
 static double c(double a, int t, bool m) { ... }
@@ -19,9 +23,13 @@ static double c(double a, int t, bool m) { ... }
 static decimal CalculatePriceWithVat(decimal basePrice, CustomerType customer, bool isMember) { ... }
 ```
 
+</div>
+
 ## מתודות קטנות שעושות דבר אחד
 
 מתודה צריכה להיקרא ולהיות מובנת בלי לגלול. כלל אצבע: עד ~20 שורות, רמת הזחה אחת או שתיים, ושם שמתאר בדיוק מה היא עושה. אם אתם צריכים "ו" בשם (`ValidateAndSave`) — אלה שתי מתודות. חילוץ מתודה (Extract Method, `Ctrl+R, Ctrl+M` ב-Visual Studio) הוא ה-refactoring הנפוץ ביותר.
+
+<div dir="ltr">
 
 ```csharp
 // לפני: הכל במקום אחד
@@ -45,9 +53,13 @@ public void ProcessOrder(Order order)
 }
 ```
 
+</div>
+
 ## מספרי קסם → קבועים ו-enums
 
 `if (status == 2)` או `price * 1.18` לא אומרים כלום לקורא, וכשהמע"מ ישתנה תצטרכו לחפש `1.18` בכל הפרויקט (ולפספס את ה-`1.18m` בקובץ אחר).
+
+<div dir="ltr">
 
 ```csharp
 const decimal VatRate = 1.18m;
@@ -57,6 +69,8 @@ static readonly TimeSpan LoanPeriod = TimeSpan.FromDays(14);     // readonly ל�
 enum OrderStatus { Pending, Paid, Shipped, Cancelled }
 if (order.Status == OrderStatus.Shipped) { }
 ```
+
+</div>
 
 `const` לערכים שידועים בקומפילציה (מספרים, מחרוזות); `static readonly` לאובייקטים. `enum` לקבוצה סגורה של אפשרויות — המהדר בודק, ה-IDE משלים, ו-`switch` יכול להזהיר על מקרה חסר.
 
@@ -82,13 +96,19 @@ if (order.Status == OrderStatus.Shipped) { }
 
 צוות צריך סגנון אחד, וכלי שאוכף אותו — לא ויכוחים ב-code review על רווחים. קובץ `.editorconfig` בשורש הפרויקט מגדיר את הכללים (הזחות, מיקום סוגריים, `var`, סדר `using`, ואפילו כללי ניתוח סטטי), ו-Visual Studio, VS Code ו-Rider מכבדים אותו אוטומטית.
 
+<div dir="ltr">
+
 ```bash
 dotnet new editorconfig       # יוצר קובץ עם ברירות המחדל של .NET
 dotnet format                 # מעצב את כל הפרויקט לפי הכללים
 dotnet format --verify-no-changes   # ב-CI: נכשל אם משהו לא מעוצב
 ```
 
+</div>
+
 דוגמה לכמה שורות מה-`.editorconfig`:
+
+<div dir="ltr">
 
 ```text
 [*.cs]
@@ -98,11 +118,15 @@ csharp_prefer_braces = true:warning
 dotnet_diagnostic.CA2200.severity = error     # throw ex; הופך לשגיאה
 ```
 
+</div>
+
 הוסיפו גם `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` ב-`.csproj` בפרויקטים חדשים — אזהרות מצטברות רק אם מרשים להן.
 
 ## Refactoring — לפני ואחרי
 
 שכתוב (refactoring) הוא שינוי **מבנה** הקוד בלי לשנות **התנהגות**. עושים אותו בצעדים קטנים, עם בדיקות (או לפחות הרצה) אחרי כל צעד.
+
+<div dir="ltr">
 
 ```csharp
 // לפני
@@ -136,6 +160,8 @@ static decimal ApplyCustomerDiscount(decimal price, CustomerType customer) => cu
 };
 ```
 
+</div>
+
 מה השתנה: שמות, `enum` במקום 1/2, קבועים, הכפילות `if (m) r -= 5` הוצאה החוצה, `switch` expression במקום שרשרת `if`, `decimal` לכסף. ההתנהגות זהה — תרגיל 14 בודק את זה.
 
 עוד refactorings יומיומיים: Extract Method, Rename (`F2` / `Ctrl+R, Ctrl+R`), Inline Variable, Replace Conditional with Polymorphism, Introduce Parameter Object (במקום 6 פרמטרים — record אחד), Guard Clauses במקום `if` מקונן.
@@ -149,6 +175,8 @@ static decimal ApplyCustomerDiscount(decimal price, CustomerType customer) => cu
 - **delegates** מפרידים בין מסגרת לפרטים: `Retry(Action op, int times)` עוטף כל פעולה.
 - **records + פונקציות טהורות** קלים להרכבה ולבדיקה.
 
+<div dir="ltr">
+
 ```csharp
 static T Retry<T>(Func<T> operation, int attempts = 3)       // רב-שימושי: כל פעולה, כל טיפוס
 {
@@ -161,6 +189,8 @@ static T Retry<T>(Func<T> operation, int attempts = 3)       // רב-שימוש�
 
 var data = Retry(() => client.GetString(url));
 ```
+
+</div>
 
 ## טעויות נפוצות
 
@@ -189,3 +219,5 @@ var data = Retry(() => client.GetString(url));
 - [Code analysis in .NET](https://learn.microsoft.com/dotnet/fundamentals/code-analysis/overview)
 - [Refactor code in Visual Studio](https://learn.microsoft.com/visualstudio/ide/refactoring-in-visual-studio)
 - [Architectural principles (SOLID, DRY)](https://learn.microsoft.com/dotnet/architecture/modern-web-apps-azure/architectural-principles)
+
+</div>

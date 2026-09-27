@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 4 — Rapid Dashboard: מ-wireframe לאפליקציה ב-45 דקות
 
 **משך:** 60 דקות (45 בנייה + 15 בונוס) | **רמה:** ★★ | **מודולים:** 07 (+ 02, 04)
@@ -9,6 +11,8 @@
 שמזין נתונים מזויפים. בונוס: החלפת theme (בהיר/כהה) בזמן ריצה.
 
 ## ה-wireframe
+
+<div dir="ltr">
 
 ```text
 +------------------------------------------------------------------------+
@@ -30,7 +34,11 @@ Orders tab:   DataGrid — # | Customer | Amount | Status | Time
 Settings tab: [x] Dark theme     Refresh every [====o----] 3 s
 ```
 
+</div>
+
 ## מבנה (Starter)
+
+<div dir="ltr">
 
 ```text
 Themes/Light.xaml          ← צבעים (מוכן)
@@ -41,6 +49,8 @@ ViewModels/DashboardViewModel.cs ← Tick(), Snapshot, RecentOrders, UsersHistor
 MainWindow.xaml(.cs)       ← TODO 3–7
 App.xaml.cs                ← TODO 7 (בונוס)
 ```
+
+</div>
 
 טיפ: עבדו עם **XAML Hot Reload** — הריצו את האפליקציה פעם אחת ותערכו XAML בזמן שהיא רצה.
 
@@ -75,3 +85,5 @@ App.xaml.cs                ← TODO 7 (בונוס)
 - `DynamicResource` (ולא `StaticResource`) הוא מה שמאפשר להחליף צבעים בזמן ריצה.
 - ב-`StatCard`, `x:Name="Root"` על ה-UserControl + `ElementName=Root` — אחרת ה-Binding יחפש ב-DataContext של החלון.
 - אם `Value` הוא מספר, WPF ימיר אותו ל-string לבד; ל-`StringFormat` צריך `{}` בהתחלה כדי לברוח מסוגריים.
+
+</div>

@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 03 — עקרונות OOP: אנקפסולציה, ירושה, פולימורפיזם, ממשקים והפשטה
 
 במודול הקודם למדנו לבנות מחלקה. עכשיו נלמד לבנות **מערכת** של מחלקות שמשתפות פעולה בלי לדעת יותר מדי אחת על השנייה. ארבעת העקרונות הקלאסיים של OOP הם לא רשימה לשינון אלא ארבע תשובות לשאלה אחת: איך לכתוב קוד שאפשר לשנות בלי לשבור? נלמד גם את הכלים של C# עצמה: access modifiers, `virtual`/`override`, `abstract`, `interface`, pattern matching, ודריסת `ToString`/`Equals`.
@@ -23,6 +25,8 @@ Access modifiers ב-C#:
 
 ירושה מאפשרת למחלקה (נגזרת) לקבל את כל החברים של מחלקה אחרת (בסיס) ולהוסיף או לשנות. השתמשו בה כשיש יחס אמיתי של **is-a**: מנהל הוא עובד, ריבוע הוא מלבן. C# תומכת בירושה יחידה בלבד — מחלקה יורשת ממחלקה אחת (אבל יכולה לממש כמה ממשקים).
 
+<div dir="ltr">
+
 ```csharp
 class Employee(int id, string name)
 {
@@ -45,6 +49,8 @@ sealed class Intern(int id, string name) : Employee(id, name)   // sealed — א
 }
 ```
 
+</div>
+
 - `virtual` במחלקת הבסיס אומר "יורשים רשאים להחליף את המימוש". בלי `virtual`, המתודה קבועה.
 - `override` ביורש מחליף. אם תכתבו מתודה באותו שם בלי `override`, תקבלו אזהרה על **hiding** (`new`) — כמעט תמיד טעות.
 - `base.X()` קורא למימוש של האב — שימושי כשרוצים "להרחיב" ולא "להחליף".
@@ -54,6 +60,8 @@ sealed class Intern(int id, string name) : Employee(id, name)   // sealed — א
 ## מחלקות אבסטרקטיות
 
 לפעמים למחלקת הבסיס אין משמעות בפני עצמה: מה זה "סתם צורה"? `abstract class` לא ניתנת ליצירה (`new Shape()` לא מתקמפל), ויכולה להכיל מתודות `abstract` — הצהרה בלי גוף שכל יורש **חייב** לממש.
+
+<div dir="ltr">
 
 ```csharp
 abstract class Shape
@@ -68,11 +76,15 @@ class Circle(double r) : Shape
 }
 ```
 
+</div>
+
 `Describe` משתמש ב-`Area` שעדיין לא קיים — זה בסדר: בזמן ריצה תיקרא הגרסה של היורש. זו תבנית חזקה: הבסיס מגדיר את השלד, היורשים ממלאים את החורים.
 
 ## פולימורפיזם — קריאה אחת, התנהגויות רבות
 
 פולימורפיזם ("ריבוי צורות") הוא התוצאה של `virtual`/`override`: משתנה מטיפוס הבסיס יכול להחזיק כל יורש, והקריאה למתודה מופנית למימוש של הטיפוס **האמיתי** בזמן ריצה.
+
+<div dir="ltr">
 
 ```csharp
 List<Shape> shapes = [new Circle(1), new Rectangle(2, 3), new Square(2)];
@@ -81,11 +93,15 @@ foreach (var s in shapes)
 double total = shapes.Sum(s => s.Area());
 ```
 
+</div>
+
 הקוד שמדפיס לא יודע ולא צריך לדעת אילו צורות קיימות. כשתוסיפו `Triangle` מחר, הלולאה הזו לא תשתנה. זה ה-**Open/Closed Principle**: פתוח להרחבה, סגור לשינוי. ההפך מזה הוא `switch` על "סוג" בכל מקום — כל צורה חדשה דורשת לעדכן את כל ה-switch-ים.
 
 ## ממשקים — חוזה בלי מימוש
 
 ממשק (`interface`) מגדיר **מה** אובייקט יודע לעשות, בלי לומר **איך**. מחלקה יכולה לממש כמה ממשקים, וממשק לא כופה היררכיה: `Contractor` ו-`Employee` יכולים שניהם להיות `IPayable` בלי אב משותף.
+
+<div dir="ltr">
 
 ```csharp
 interface IPayable
@@ -104,6 +120,8 @@ class Contractor(string company, decimal fee) : IPayable
 List<IPayable> payroll = [new Manager(1, "Noa", 360_000, 2_000), new Contractor("Acme", 12_000)];
 foreach (var p in payroll) Console.WriteLine(p.PaySlip());
 ```
+
+</div>
 
 - שמות ממשקים מתחילים ב-`I`. חברי ממשק הם ציבוריים אוטומטית.
 - **Default interface members** מאפשרים לתת מימוש ברירת מחדל — שימושי כדי להוסיף מתודה לממשק קיים בלי לשבור מממשים. הם נגישים רק דרך טיפוס הממשק. אל תהפכו את זה לתחליף למחלקת בסיס.
@@ -128,6 +146,8 @@ foreach (var p in payroll) Console.WriteLine(p.PaySlip());
 
 ירושה היא הקשר החזק ביותר בין שתי מחלקות — היורש תלוי בכל פרט של האב. לעיתים קרובות עדיף **הרכבה**: "יש לו" במקום "הוא". במקום `class OrderService : ConsoleLogger` (שירות הזמנות הוא לוגר?!) כותבים `class OrderService(ILogger logger)` — יש לו לוגר, וכל לוגר יתאים.
 
+<div dir="ltr">
+
 ```csharp
 interface ILogger { void Log(string message); }
 class ConsoleLogger : ILogger { public void Log(string m) => Console.WriteLine(m); }
@@ -138,11 +158,15 @@ class OrderService(ILogger logger)          // has-a
 }
 ```
 
+</div>
+
 כלל אצבע: ירושה למודל דומיין אמיתי (צורות, עובדים) ולמחלקות framework שנועדו לכך; הרכבה לכל השאר.
 
 ## `is`, `as` ו-pattern matching
 
 לפעמים כן צריך לדעת את הטיפוס האמיתי. הכלים המודרניים:
+
+<div dir="ltr">
 
 ```csharp
 if (shape is Circle c) Console.WriteLine(c.Radius);     // בדיקה + המרה + משתנה חדש
@@ -159,6 +183,8 @@ string label = shape switch
 };
 ```
 
+</div>
+
 הסדר ב-`switch` חשוב: מקרים ספציפיים לפני כלליים, אחרת המהדר יתלונן על case שלא ניתן להגיע אליו. ואם אתם מוצאים את עצמכם עושים `switch` על טיפוסים בכל מקום — אולי חסרה לכם מתודה `virtual`.
 
 ## `ToString`, `Equals`, `GetHashCode`
@@ -167,6 +193,8 @@ string label = shape switch
 
 - **`ToString()`** — ברירת המחדל מחזירה את שם הטיפוס. דרסו כדי לקבל הדפסה מועילה ב-`Console.WriteLine(obj)` ובדיבאגר.
 - **`Equals(object)`** ו-**`GetHashCode()`** — ברירת המחדל משווה הפניות. אם אובייקטים "שווים לפי תוכן" (למשל `Money(10, "ILS")`), דרסו את **שניהם יחד**: `Dictionary` ו-`HashSet` משתמשים ב-`GetHashCode` כדי למצוא את ה"דלי" ואז ב-`Equals` — אם הם לא עקביים, האוסף יתנהג מוזר.
+
+<div dir="ltr">
 
 ```csharp
 class Money(decimal amount, string currency)
@@ -180,6 +208,8 @@ class Money(decimal amount, string currency)
     public override string ToString() => $"{Amount} {Currency}";
 }
 ```
+
+</div>
 
 ...או פשוט `record Money(decimal Amount, string Currency);` — והמהדר עושה את זה בשבילכם. זו הסיבה העיקרית ש-records קיימים.
 
@@ -210,3 +240,5 @@ class Money(decimal amount, string currency)
 - [Access modifiers](https://learn.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers)
 - [Pattern matching](https://learn.microsoft.com/dotnet/csharp/fundamentals/functional/pattern-matching)
 - [Equality comparisons](https://learn.microsoft.com/dotnet/csharp/programming-guide/statements-expressions-operators/equality-comparisons)
+
+</div>

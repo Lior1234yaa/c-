@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 01 — מבוא לפיתוח GUI ב-.NET: ‏WPF מול WinForms
 
 ## למה בכלל אפליקציית שולחן עבודה?
@@ -34,16 +36,22 @@ WinForms נלמד בקצרה במודול 07 — כי לכלי פנימי חד-�
 
 מה-CLI:
 
+<div dir="ltr">
+
 ```bash
 dotnet new wpf -n MyFirstWpf
 cd MyFirstWpf
 dotnet run
 ```
 
+</div>
+
 מ-Visual Studio: **File → New → Project → "WPF Application"** (ודאו שמותקן ה-workload
 "‎.NET desktop development" — ראו `00-Setup/INSTALL.md`).
 
 ה-`.csproj` שנוצר:
+
+<div dir="ltr">
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -57,11 +65,15 @@ dotnet run
 </Project>
 ```
 
+</div>
+
 שימו לב ל-`net10.0-windows` (ולא `net10.0`) ול-`UseWPF`. ‏`OutputType=WinExe` אומר "בלי חלון קונסולה".
 בקורס אנחנו מוסיפים גם `<EnableWindowsTargeting>true</EnableWindowsTargeting>` — זה מאפשר לקמפל את
 הפרויקט גם על Linux/macOS (למשל ב-CI), אבל **להריץ** אפשר רק ב-Windows.
 
 ## מבנה הפרויקט
+
+<div dir="ltr">
 
 ```text
 MyFirstWpf/
@@ -72,7 +84,11 @@ MyFirstWpf/
   AssemblyInfo.cs
 ```
 
+</div>
+
 `App.xaml`:
+
+<div dir="ltr">
 
 ```xml
 <Application x:Class="MyFirstWpf.App"
@@ -85,9 +101,13 @@ MyFirstWpf/
 </Application>
 ```
 
+</div>
+
 `StartupUri` אומר איזה חלון לפתוח בהפעלה. אין `Main()` בקוד שלכם — הוא נוצר אוטומטית.
 
 `MainWindow.xaml`:
+
+<div dir="ltr">
 
 ```xml
 <Window x:Class="MyFirstWpf.MainWindow"
@@ -102,7 +122,11 @@ MyFirstWpf/
 </Window>
 ```
 
+</div>
+
 `MainWindow.xaml.cs`:
+
+<div dir="ltr">
 
 ```csharp
 using System.Windows;
@@ -123,6 +147,8 @@ public partial class MainWindow : Window
 }
 ```
 
+</div>
+
 איך `Greeting` ו-`NameBox` הפכו לשדות? המחלקה היא `partial`: בזמן build, ה-XAML מתורגם לקובץ
 `MainWindow.g.cs` שמכיל את `InitializeComponent()` ושדה לכל `x:Name`. לכן:
 
@@ -133,17 +159,27 @@ public partial class MainWindow : Window
 
 XAML הוא XML שמתאר עץ של אובייקטים. כל אלמנט = מחלקה, כל attribute = property:
 
+<div dir="ltr">
+
 ```xml
 <Button Content="OK" Width="80" Margin="4" />
 ```
 
+</div>
+
 שקול ל:
+
+<div dir="ltr">
 
 ```csharp
 var b = new Button { Content = "OK", Width = 80, Margin = new Thickness(4) };
 ```
 
+</div>
+
 **Property element syntax** — כשהערך מורכב מדי ל-attribute:
+
+<div dir="ltr">
 
 ```xml
 <Button>
@@ -156,6 +192,8 @@ var b = new Button { Content = "OK", Width = 80, Margin = new Thickness(4) };
 </Button>
 ```
 
+</div>
+
 **Namespaces** — שתי השורות הקבועות בכל קובץ:
 
 - `xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"` — הפקדים של WPF.
@@ -165,6 +203,8 @@ var b = new Button { Content = "OK", Width = 80, Margin = new Thickness(4) };
 **x:Name** נותן שם לאלמנט כדי לגשת אליו מהקוד או מ-binding (`ElementName=`).
 
 **Resources** — אובייקטים לשימוש חוזר (צבעים, סגנונות, converters) עם מפתח `x:Key`:
+
+<div dir="ltr">
 
 ```xml
 <Window.Resources>
@@ -177,6 +217,8 @@ var b = new Button { Content = "OK", Width = 80, Margin = new Thickness(4) };
 ...
 <TextBlock Foreground="{StaticResource AccentBrush}" />
 ```
+
+</div>
 
 `{StaticResource ...}` הוא **markup extension** — סוגריים מסולסלים בתוך attribute. נפגוש עוד: `{Binding}`,
 `{DynamicResource}`, `{x:Type}`. ‏Style בלי `x:Key` חל על כל הפקדים מהסוג בהיקף שלו (implicit style).
@@ -254,3 +296,5 @@ var b = new Button { Content = "OK", Width = 80, Margin = new Thickness(4) };
 - [Tutorial: Create a WPF app](https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio)
 - [Windows Forms overview](https://learn.microsoft.com/dotnet/desktop/winforms/overview/)
 - [Choose a .NET UI technology](https://learn.microsoft.com/dotnet/desktop/)
+
+</div>

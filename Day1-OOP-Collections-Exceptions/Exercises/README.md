@@ -1,13 +1,19 @@
+<div dir="rtl">
+
 # תרגילים — יום 1
 
 תרגילים קצרים (5–15 דקות כל אחד), מקובצים לפי מודול. דרגת קושי: ★ קל, ★★ בינוני, ★★★ מאתגר.
 הפתרונות בפרויקט `Solutions/` — הרצה של תרגיל בודד:
+
+<div dir="ltr">
 
 ```bash
 cd Exercises/Solutions
 dotnet run -- 3        # מריץ את תרגיל 3
 dotnet run             # תפריט
 ```
+
+</div>
 
 מומלץ לפתור כל תרגיל בפרויקט חדש משלכם (`dotnet new console -n Ex03`) ורק אז להשוות לפתרון.
 
@@ -70,6 +76,8 @@ dotnet run             # תפריט
 ### תרגיל 14 ★★ — refactoring
 נתונה המתודה הבאה. שכתבו אותה: שמות ברורים, קבועים במקום מספרי קסם, `enum` לסוג הלקוח, חילוץ מתודות קטנות, והסרת כפילות. התנהגות זהה.
 
+<div dir="ltr">
+
 ```csharp
 static double c(double a, int t, bool m)
 {
@@ -81,3 +89,7 @@ static double c(double a, int t, bool m)
     return r * 1.18;
 }
 ```
+
+</div>
+
+</div>

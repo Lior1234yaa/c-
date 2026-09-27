@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # Lab 4 — הערות על הפתרון
 
 ## החלטות מרכזיות
@@ -20,3 +22,5 @@
 - זה הזמן להראות XAML Hot Reload: לשנות צבע ב-Light.xaml או Margin בכרטיס בזמן ריצה.
 - לרמוז ליום 4: את כל ה-boilerplate של DP ו-Styles כלי AI מייצרים היטב — אבל צריך לדעת לקרוא אותו.
 - שאלה טובה לדיון: מה היה קורה אם `Tick()` היה נקרא מ-`System.Timers.Timer`? (cross-thread exception.)
+
+</div>

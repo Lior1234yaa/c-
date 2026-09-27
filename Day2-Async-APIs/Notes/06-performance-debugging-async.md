@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # מודול 06 — ביצועים ודיבוג של קוד אסינכרוני
 
 ## הבאג מספר 1: Sync-over-Async
@@ -6,6 +8,8 @@
 
 1. **חסימת תהליכון** — התהליכון יושב ומחכה במקום לעבוד. בשרת עם 100 בקשות מקבילות, 100 תהליכונים חסומים = ThreadPool ריק = "הרעבה" (thread starvation) וה-latency קופץ לשניות.
 2. **Deadlock ב-UI ובסביבות עם SynchronizationContext** (WPF, WinForms, ASP.NET הישן). התסריט:
+
+<div dir="ltr">
 
 ```csharp
 // WPF button click — קופא לנצח!
@@ -22,7 +26,11 @@ private async Task<string> LoadAsync()
 }
 ```
 
+</div>
+
 הפתרון: **async all the way**. מהרגע שיש `await` בתחתית, כל השרשרת עד למעלה חייבת להיות `async` — כולל ה-event handler (`async void`) ו-`Main` (`static async Task Main`).
+
+<div dir="ltr">
 
 ```csharp
 private async void Button_Click(object sender, RoutedEventArgs e)
@@ -31,11 +39,15 @@ private async void Button_Click(object sender, RoutedEventArgs e)
 }
 ```
 
+</div>
+
 בקונסול ובשרתי ASP.NET Core **אין** SynchronizationContext, ולכן `.Result` לא יגרום ל-deadlock — אבל עדיין יחסום תהליכון. אל תתרגלו לזה.
 
 ## `ConfigureAwait(false)` — לספריות
 
 אחרי `await`, ברירת המחדל היא לחזור ל-**context** המקורי (תהליכון ה-UI ב-WPF). זה מה שמאפשר לעדכן פקדים אחרי `await` בלי `Dispatcher`. אבל בקוד **ספרייה** — שלא נוגע ב-UI — החזרה הזו מיותרת, יקרה, והיא הצד השני של ה-deadlock שראינו:
+
+<div dir="ltr">
 
 ```csharp
 // בתוך ספרייה / קוד תשתית — לא ב-UI ולא ב-controller:
@@ -45,6 +57,8 @@ public async Task<string> GetDataAsync()
     return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 }
 ```
+
+</div>
 
 כללים: בספריות NuGet ובקוד שיתופי — `ConfigureAwait(false)` על כל `await`. באפליקציה עצמה (WPF, קונסול, ASP.NET Core) — לא צריך; ב-WPF זה אפילו יזיק, כי אחרי `await` לא תוכלו לגעת ב-UI.
 
@@ -67,6 +81,8 @@ public async Task<string> GetDataAsync()
 
 לפני שמייעלים — מודדים. הכלי הבסיסי:
 
+<div dir="ltr">
+
 ```csharp
 var sw = Stopwatch.StartNew();
 await ProcessAllAsync();
@@ -76,14 +92,20 @@ Console.WriteLine($"took {sw.ElapsedMilliseconds} ms ({sw.Elapsed.TotalSeconds:F
 // השוואה הוגנת: להריץ כל גרסה כמה פעמים, "חימום" ראשון לא נספר, ולהשוות חציונים
 ```
 
+</div>
+
 - `DateTime.Now` **לא** מתאים למדידה — רזולוציה גסה ותלוי בשעון המערכת. `Stopwatch` (או `Stopwatch.GetTimestamp()` + `GetElapsedTime`) הוא הכלי.
 - למדידות micro (מיקרו-שניות, השוואת שתי מימושים) — ספריית **BenchmarkDotNet**.
 - למעקב אחרי תהליך חי: **`dotnet-counters`** (`dotnet tool install -g dotnet-counters`, ואז `dotnet-counters monitor -p <pid>`) מציג בזמן אמת את `ThreadPool Thread Count`, `ThreadPool Queue Length`, GC, חריגות לשנייה. תור שגדל ומספר תהליכונים שמטפס לאט = הרעבה.
+
+<div dir="ltr">
 
 ```csharp
 // "מונים" זולים שאפשר להדפיס בעצמכם:
 Console.WriteLine($"pool threads: {ThreadPool.ThreadCount}, pending: {ThreadPool.PendingWorkItemCount}");
 ```
+
+</div>
 
 ## דיבוג async ב-Visual Studio
 
@@ -100,6 +122,8 @@ Console.WriteLine($"pool threads: {ThreadPool.ThreadCount}, pending: {ThreadPool
 
 בקוד מקבילי `Console.WriteLine` מערבב שורות ולא אומר מי כתב. `Microsoft.Extensions.Logging` נותן רמות (Trace/Debug/Information/Warning/Error/Critical), קטגוריות, ופלט מובנה:
 
+<div dir="ltr">
+
 ```csharp
 // dotnet add package Microsoft.Extensions.Logging.Console   (בקונסול; ב-ASP.NET Core מובנה)
 using Microsoft.Extensions.Logging;
@@ -111,6 +135,8 @@ logger.LogInformation("fetching {Source} (attempt {Attempt})", "weather", 2);   
 try { await FetchAsync(); }
 catch (HttpRequestException ex) { logger.LogWarning(ex, "fetch failed for {Source}", "weather"); }
 ```
+
+</div>
 
 שימו לב לתבנית `{Source}` במקום `$"..."` — כך הלוגר שומר את הפרמטרים כשדות (structured logging) שאפשר לסנן ולחפש. במעבדה 4 נבנה logger פשוט על `Channel<T>` — אותו רעיון: הכתיבה לא חוסמת, ותהליכון אחד מסדר את הפלט.
 
@@ -154,3 +180,5 @@ catch (HttpRequestException ex) { logger.LogWarning(ex, "fetch failed for {Sourc
 - [dotnet-counters](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters)
 - [Logging in .NET](https://learn.microsoft.com/en-us/dotnet/core/extensions/logging)
 - [Diagnosing ThreadPool starvation](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/debug-threadpool-starvation)
+
+</div>

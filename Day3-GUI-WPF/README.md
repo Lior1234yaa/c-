@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # יום 3 — פיתוח GUI מהיר עם WPF
 
 **קורס:** C# Programming in the .NET Framework — Updated Practical Training
@@ -97,9 +99,15 @@
 
 ## בניית הכל (בדיקה)
 
+<div dir="ltr">
+
 ```bash
 # מכל תיקיית פרויקט:
 dotnet build
 # או לכל הפרויקטים של היום:
 find Day3-GUI-WPF -name "*.csproj" -exec dotnet build {} \;
 ```
+
+</div>
+
+</div>
