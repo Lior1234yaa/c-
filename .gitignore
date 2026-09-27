@@ -1,0 +1,15 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.swp
+# Node (slide builder)
+node_modules/
+# OS
+.DS_Store
+Thumbs.db
+# temp renders
+*.pdf
+slide-*.jpg
