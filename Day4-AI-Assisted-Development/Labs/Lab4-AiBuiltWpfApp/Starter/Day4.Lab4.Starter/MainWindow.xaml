@@ -1,0 +1,10 @@
+<Window x:Class="Day4.Lab4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="מעקב הוצאות" Width="1000" Height="650" MinWidth="900" MinHeight="600"
+        FlowDirection="RightToLeft" FontFamily="Segoe UI" FontSize="14">
+    <!-- TODO (שלב 4): החליפו ב-XAML שנוצר לפי SPEC.md. עד אז: placeholder. -->
+    <Grid>
+        <TextBlock Text="TODO: בנו את המסך לפי SPEC.md" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+</Window>

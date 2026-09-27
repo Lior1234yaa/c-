@@ -1,0 +1,12 @@
+# Cursor rules — Orders Desktop (WPF, .NET 10, C# 14)
+
+- MVVM without third-party frameworks. ViewModels: ObservableObject + RelayCommand (ViewModels/Mvvm.cs). No logic in code-behind.
+- Layers: Domain (no deps) <- Application (services, interfaces) <- Wpf; Infrastructure implements Application interfaces. Dependencies point inward.
+- DI via Microsoft.Extensions.Hosting, host built in App.xaml.cs. Constructor injection only; no service locator.
+- decimal for money, DateTimeOffset for time, inject IClock (never DateTime.Now in business logic).
+- System.Text.Json only; cache JsonSerializerOptions. CultureInfo.InvariantCulture for machine data.
+- Async: *Async suffix, CancellationToken, no async void (except WPF event handlers), no .Result/.Wait().
+- Never swallow exceptions; ILogger<T> with structured placeholders. Never hardcode secrets.
+- XAML: FlowDirection="RightToLeft", Hebrew labels, styles/brushes from Themes/*.xaml via StaticResource, standard WPF controls only, loading/empty/error states, AutomationProperties.Name.
+- Tests: xUnit, Method_Scenario_Expected, tests before implementation.
+- Before finishing: dotnet build, dotnet test, dotnet format --verify-no-changes. Ask before adding NuGet packages.

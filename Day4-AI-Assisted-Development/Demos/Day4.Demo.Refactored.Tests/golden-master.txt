@@ -1,0 +1,33 @@
+=== ORDER REPORT ===
+
+Order 1001 | Dana Levi    | VIP |   3 x  120.50 | sub   361.50 | disc   43.38 | ship   0.00 | vat   57.26 | TOTAL    375.38
+Order 1002 | Yossi Cohen  | REG |  12 x   15.00 | sub   180.00 | disc    9.00 | ship  25.00 | vat   35.28 | TOTAL    231.28
+Order 1003 | ACME Ltd     | BIZ |  40 x    9.99 | sub   399.60 | disc   39.96 | ship  60.00 | vat    0.00 | TOTAL    419.64 (pending)
+Order 1004 | Dana Levi    | VIP |   1 x  999.00 | sub   999.00 | disc  119.88 | ship   0.00 | vat  158.24 | TOTAL   1037.36
+Order 1005 (Noa Bar) - CANCELLED, skipped
+Order 1006 | Yossi Cohen  | REG |   1 x   15.00 | sub    15.00 | disc    0.00 | ship  25.00 | vat    7.20 | TOTAL     47.20 (pending)
+Order 1007 | ACME Ltd     | BIZ | 100 x    4.50 | sub   450.00 | disc   90.00 | ship  60.00 | vat    0.00 | TOTAL    420.00
+Order 1008 | Lior Katz    | NEW |   5 x   20.00 | sub   100.00 | disc    7.00 | ship  25.00 | vat   21.24 | TOTAL    139.24
+Order 1009 | Noa Bar      | REG |   7 x   33.30 | sub   233.10 | disc    0.00 | ship  45.00 | vat    0.00 | TOTAL    278.10
+Order 1010 | Lior Katz    | NEW |   1 x  250.00 | sub   250.00 | disc   17.50 | ship  45.00 | vat    0.00 | TOTAL    277.50
+
+--- Summary ---
+Orders processed:    9
+Total discounts :     326.72
+Total shipping  :     285.00
+Total VAT       :     279.22
+Grand total     :    3225.70
+
+--- By customer ---
+ACME Ltd     :     839.64
+Dana Levi    :    1412.74  *TOP*
+Lior Katz    :     416.74
+Noa Bar      :     278.10
+Yossi Cohen  :     278.48
+
+--- By status ---
+CANCELLED    :    1
+PAID         :    7
+PENDING      :    2
+
+log lines: 11

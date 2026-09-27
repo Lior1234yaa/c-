@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="AccentBrush" Color="#512BD4" />
+    <SolidColorBrush x:Key="CardBrush" Color="#F3F0FF" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#6B6480" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#C62828" />
+    <SolidColorBrush x:Key="AltRowBrush" Color="#FAF9FF" />
+    <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CardBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="12" />
+    </Style>
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="14,6" />
+    </Style>
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="Padding" Value="14,6" />
+    </Style>
+    <Style x:Key="FieldLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+        <Setter Property="Margin" Value="0,0,0,2" />
+    </Style>
+    <!-- תבנית שגיאה: טקסט אדום מתחת לשדה -->
+    <ControlTemplate x:Key="ErrorBelow">
+        <StackPanel>
+            <AdornedElementPlaceholder />
+            <TextBlock Foreground="{StaticResource DangerBrush}" FontSize="11" Margin="0,2,0,0"
+                       Text="{Binding [0].ErrorContent}" />
+        </StackPanel>
+    </ControlTemplate>
+</ResourceDictionary>

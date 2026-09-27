@@ -1,0 +1,125 @@
+<Window x:Class="Day4.Demo.AiGeneratedUi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Day4.Demo.AiGeneratedUi.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:DesignOrdersDashboardViewModel, IsDesignTimeCreatable=True}"
+        Title="לוח הזמנות" Width="1000" Height="650" MinWidth="900" MinHeight="600"
+        FlowDirection="RightToLeft" FontFamily="Segoe UI" FontSize="14"
+        WindowStartupLocation="CenterScreen">
+    <!--
+      זהו XAML שנוצר בעזרת AI (ראו Notes/07 — ה-prompt הראשון והשני), אחרי סקירה ותיקונים:
+      - הוסר namespace של ספריית controls חיצונית שלא ביקשנו
+      - צבעים וסטיילים עברו ל-Themes/Dashboard.xaml
+      - נוספו: empty state, ProgressBar ל-IsBusy, AutomationProperties
+    -->
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- שורה 0: כותרת + סרגל כלים -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock DockPanel.Dock="Right" Text="לוח הזמנות" FontSize="24" FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBox Width="220" Margin="0,0,8,0" VerticalContentAlignment="Center"
+                         AutomationProperties.Name="חיפוש הזמנות"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox Width="140" Margin="0,0,8,0" ItemsSource="{Binding Statuses}"
+                          AutomationProperties.Name="סינון לפי סטטוס"
+                          SelectedItem="{Binding SelectedStatus}" />
+                <Button Content="רענן" Style="{StaticResource SecondaryButton}"
+                        AutomationProperties.Name="רענן רשימה"
+                        Command="{Binding RefreshCommand}" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- שורה 1: כרטיסי KPI -->
+        <UniformGrid Grid.Row="1" Columns="4">
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="הזמנות היום" Style="{StaticResource KpiLabel}" />
+                    <TextBlock Text="{Binding TodayOrders}" Style="{StaticResource KpiValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="הכנסות היום" Style="{StaticResource KpiLabel}" />
+                    <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:N0} ₪'}" Style="{StaticResource KpiValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="ממתינות" Style="{StaticResource KpiLabel}" />
+                    <TextBlock Text="{Binding PendingOrders}" Style="{StaticResource KpiValue}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="לקוחות פעילים" Style="{StaticResource KpiLabel}" />
+                    <TextBlock Text="{Binding ActiveCustomers}" Style="{StaticResource KpiValue}" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- שורה 2: טבלה + empty state -->
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <DataGrid ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}"
+                      Style="{StaticResource DashboardGrid}"
+                      ColumnHeaderStyle="{StaticResource GridHeader}"
+                      AutomationProperties.Name="טבלת הזמנות">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="מס'" Binding="{Binding Id}" Width="70" />
+                    <DataGridTextColumn Header="לקוח" Binding="{Binding Customer}" Width="*" />
+                    <DataGridTextColumn Header="תאריך" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="110" />
+                    <DataGridTextColumn Header="סכום" Binding="{Binding Total, StringFormat='{}{0:N2} ₪'}" Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FlowDirection" Value="LeftToRight" />
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="סטטוס" Binding="{Binding Status}" Width="110" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Text="אין הזמנות להצגה" FontSize="18" Foreground="{StaticResource MutedBrush}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Orders.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <!-- שורה 3: שורת סטטוס + פעולות -->
+        <DockPanel Grid.Row="3" Margin="0,12,0,0">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <Button Content="הזמנה חדשה" Style="{StaticResource PrimaryButton}"
+                        AutomationProperties.Name="יצירת הזמנה חדשה"
+                        Command="{Binding NewOrderCommand}" />
+                <Button Content="ייצוא" Style="{StaticResource SecondaryButton}"
+                        AutomationProperties.Name="ייצוא לקובץ"
+                        Command="{Binding ExportCommand}" />
+            </StackPanel>
+            <ProgressBar DockPanel.Dock="Left" IsIndeterminate="True" Width="120" Height="6" Margin="12,0"
+                         VerticalAlignment="Center"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}" />
+            <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center"
+                       Foreground="{StaticResource MutedBrush}" />
+        </DockPanel>
+    </Grid>
+</Window>

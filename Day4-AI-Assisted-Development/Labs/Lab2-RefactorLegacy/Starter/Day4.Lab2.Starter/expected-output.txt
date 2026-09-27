@@ -1,0 +1,21 @@
+=== MONTHLY BILLING ===
+
+S-01 | Dana Levi    | PRO   | addons  2 | days 30 | sub  108.80 | pror  108.80 | disc  10.88 | tax  17.63 | TOTAL   115.55
+S-02 | Yossi Cohen  | BASIC | addons  0 | days 30 | sub   29.90 | pror   29.90 | disc   0.00 | tax   5.38 | TOTAL    35.28
+S-03 | ACME Ltd     | TEAM  | addons  5 | days 30 | sub  288.50 | pror  288.50 | disc  53.28 | tax  42.34 | TOTAL   277.57 [LOYAL]
+S-04 | Noa Bar      | PRO   | addons  1 | days 15 | sub   93.90 | pror   46.95 | disc   9.39 | tax   6.76 | TOTAL    44.32 [WELCOME] (partial)
+S-05 | Lior Katz    | BASIC | addons  3 | days 30 | sub   59.60 | pror   59.60 | disc   0.00 | tax  10.73 | TOTAL    70.33
+S-06 | Beta Inc     | TEAM  | addons  0 | days 10 | sub  199.00 | pror   66.33 | disc   0.00 | tax  11.94 | TOTAL    78.27 (partial)
+S-07 | Dana Levi    | BASIC | addons  1 | days 30 | sub   39.80 | pror   39.80 | disc   8.98 | tax   5.55 | TOTAL    36.37 [LOYAL]
+S-08 | Gal Peretz   | PRO   | addons  0 | days 30 | sub   79.00 | pror   79.00 | disc  39.50 | tax   7.11 | TOTAL    46.61 [WELCOME]
+
+--- Totals ---
+Subscriptions :    8
+Discounts     :    122.03
+Tax           :    107.43
+Grand total   :    704.29
+
+--- By plan ---
+BASIC  :    141.98  (20.2%)
+PRO    :    206.48  (29.3%)
+TEAM   :    355.84  (50.5%)
