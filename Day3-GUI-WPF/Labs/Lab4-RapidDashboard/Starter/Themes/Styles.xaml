@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- TODO 1: להוסיף סגנונות: H1 (TextBlock גדול ומודגש), Muted (אפור קטן), AccentButton (כפתור מעוגל עם ControlTemplate).
+         השתמשו ב-DynamicResource לצבעים כדי שהחלפת theme (בונוס) תעבוד. -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="14" />
+        <Setter Property="Margin" Value="6" />
+    </Style>
+    <Style TargetType="TabItem">
+        <Setter Property="Padding" Value="14,6" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+</ResourceDictionary>

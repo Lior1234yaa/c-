@@ -1,0 +1,9 @@
+<Application x:Class="Day3.Demo.HelloWpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- משאבים ברמת האפליקציה: זמינים לכל החלונות -->
+        <SolidColorBrush x:Key="AccentBrush" Color="#512BD4" />
+    </Application.Resources>
+</Application>

@@ -1,0 +1,64 @@
+<Window x:Class="Day3.Lab3.Starter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Day3.Lab3.Starter.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:ProductsViewModel}"
+        Title="Products API Client" Height="560" Width="900" MinWidth="520" MinHeight="380"
+        Loaded="Window_Loaded">
+
+    <!-- TODO 7 (בונוס): InputBindings — F5 טוען, Escape מבטל -->
+
+    <DockPanel Background="#F6F6F8">
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="#DDD" BorderThickness="0,0,0,1" Padding="10,8">
+            <!-- TODO 6: להחליף ל-WrapPanel כדי שהסרגל יישבר לשורות בחלון צר -->
+            <StackPanel Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding Services}" SelectedItem="{Binding Service}" DisplayMemberPath="Name"
+                          Width="220" Margin="0,0,8,4" IsEnabled="{Binding IsIdle}" />
+                <Button Content="⟳ Load" Command="{Binding LoadCommand}" Margin="0,0,6,4" />
+                <Button Content="✕ Cancel" Command="{Binding CancelCommand}" Margin="0,0,14,4" />
+                <TextBlock Text="Search:" VerticalAlignment="Center" Margin="0,0,4,4" />
+                <TextBox Width="160" Margin="0,0,8,4" Padding="3" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" Width="130" Margin="0,0,8,4" />
+                <CheckBox Content="In stock only" IsChecked="{Binding OnlyInStock}" VerticalAlignment="Center" Margin="0,0,8,4" />
+            </StackPanel>
+        </Border>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="{Binding Status}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="{Binding VisibleCount, StringFormat=Showing {0}}" />
+            </StatusBarItem>
+            <!-- TODO 1b: ProgressBar קשור ל-Progress, מוצג רק כש-IsBusy (BooleanToVisibilityConverter כבר ב-App.xaml) -->
+        </StatusBar>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- TODO 2b: באנר שגיאה (Border אדמדם) עם TextBlock {Binding Error} וכפתור Retry, מוצג רק כש-HasError -->
+
+            <DataGrid Grid.Row="1" x:Name="ProductsGrid" Margin="10" ItemsSource="{Binding ProductsView}" SelectedItem="{Binding Selected}"
+                      AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" HeadersVisibility="Column"
+                      IsEnabled="{Binding IsIdle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="50" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" />
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:C}}" Width="100" />
+                    <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="70" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- TODO 5: תצוגת כרטיסים (ItemsControl + WrapPanel + DataTemplate) x:Name="CardsView", Collapsed כברירת מחדל -->
+            <!-- TODO 1c: שכבת "טוען…" חצי-שקופה מעל הטבלה עם ProgressBar וכפתור Cancel, מוצגת כש-IsBusy -->
+        </Grid>
+    </DockPanel>
+</Window>

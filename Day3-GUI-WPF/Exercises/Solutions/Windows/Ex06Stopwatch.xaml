@@ -1,0 +1,14 @@
+<Window x:Class="Day3.Exercises.Solutions.Windows.Ex06Stopwatch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ex06 — Stopwatch" Height="220" Width="360">
+    <StackPanel Margin="16" HorizontalAlignment="Center">
+        <TextBlock x:Name="TimeText" Text="00:00.0" FontFamily="Consolas" FontSize="44" HorizontalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="StartStop" Content="Start" Width="80" Click="StartStop_Click" />
+            <Button Content="Lap" Width="60" Click="Lap_Click" />
+            <Button Content="Reset" Width="70" Click="Reset_Click" />
+        </StackPanel>
+        <TextBlock x:Name="Laps" Foreground="Gray" HorizontalAlignment="Center" FontFamily="Consolas" />
+    </StackPanel>
+</Window>

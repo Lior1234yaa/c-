@@ -1,0 +1,73 @@
+<Window x:Class="Day3.Demo.Validation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:rules="clr-namespace:Day3.Demo.Validation.Rules"
+        Title="Validation &amp; UX" Height="520" Width="640">
+    <TabControl Margin="8">
+
+        <!-- ===== 1. ValidationRule בתוך Binding ===== -->
+        <TabItem Header="ValidationRule">
+            <StackPanel Margin="12" MaxWidth="360" HorizontalAlignment="Left">
+                <TextBlock Text="כמות (0–100):" />
+                <TextBox x:Name="QuantityBox" AutomationProperties.Name="Quantity"
+                         PreviewTextInput="Numeric_PreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="Quantity" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <rules:RangeRule Min="0" Max="100" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock Text="{Binding Quantity, StringFormat=הערך ב-source: {0}}" Foreground="Gray" />
+                <TextBlock TextWrapping="Wrap" Margin="0,12,0,0" Foreground="Gray"
+                           Text="PreviewTextInput חוסם אותיות; ה-ValidationRule בודק טווח. עם שגיאה — הערך לא מגיע ל-source." />
+            </StackPanel>
+        </TabItem>
+
+        <!-- ===== 2. INotifyDataErrorInfo + CanExecute ===== -->
+        <TabItem Header="INotifyDataErrorInfo">
+            <Grid Margin="12" DataContext="{Binding Form}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="360" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="_Name:" Target="{Binding ElementName=NameBox}" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="NameBox" TabIndex="0"
+                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Label Grid.Row="1" Content="_Email:" Target="{Binding ElementName=EmailBox}" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="EmailBox" TabIndex="1"
+                         Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="name@example.com" />
+
+                <Label Grid.Row="2" Content="_Age:" Target="{Binding ElementName=AgeBox}" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="AgeBox" TabIndex="2"
+                         Text="{Binding AgeText, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewTextInput="Numeric_PreviewTextInput" />
+
+                <!-- הכפתור מושבת עד שהטופס תקין — CanExecute -->
+                <Button Grid.Row="3" Grid.Column="1" Content="_Save" Command="{Binding SaveCommand}"
+                        HorizontalAlignment="Right" Padding="14,4" IsDefault="True" TabIndex="3" />
+                <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="{Binding Status}" Foreground="SeaGreen" Margin="0,8,0,0" TextWrapping="Wrap" />
+            </Grid>
+        </TabItem>
+
+        <!-- ===== 3. Dialogs & interaction ===== -->
+        <TabItem Header="Dialogs">
+            <StackPanel Margin="12" HorizontalAlignment="Left">
+                <Button Content="Open file…" Click="OpenFile_Click" Padding="12,4" Margin="0,0,0,6" ToolTip="OpenFileDialog" />
+                <Button Content="Save file…" Click="SaveFile_Click" Padding="12,4" Margin="0,0,0,6" ToolTip="SaveFileDialog" />
+                <Button Content="Custom dialog…" Click="CustomDialog_Click" Padding="12,4" Margin="0,0,0,6" />
+                <Button Content="Delete (confirmation)" Click="Delete_Click" Padding="12,4" Margin="0,0,0,6" Background="#FFD6D6" />
+                <TextBlock x:Name="DialogResultText" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="Gray" />
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</Window>

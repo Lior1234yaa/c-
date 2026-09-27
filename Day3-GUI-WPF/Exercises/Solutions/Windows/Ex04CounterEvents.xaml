@@ -1,0 +1,14 @@
+<Window x:Class="Day3.Exercises.Solutions.Windows.Ex04CounterEvents"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ex04 — Counter events" Height="240" Width="360"
+        Loaded="Window_Loaded" Closing="Window_Closing" KeyDown="Window_KeyDown">
+    <StackPanel Margin="16" HorizontalAlignment="Center">
+        <TextBlock x:Name="CountText" FontSize="48" FontWeight="Bold" HorizontalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="−" Width="60" FontSize="20" Click="Minus_Click" />
+            <Button Content="+" Width="60" FontSize="20" Click="Plus_Click" />
+        </StackPanel>
+        <TextBlock x:Name="Hint" Foreground="Gray" HorizontalAlignment="Center" Margin="0,8,0,0" />
+    </StackPanel>
+</Window>

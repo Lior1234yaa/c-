@@ -1,0 +1,33 @@
+<Window x:Class="Day3.Lab1.Starter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Unit Converter" Height="300" Width="460" MinWidth="380" MinHeight="260"
+        WindowStartupLocation="CenterScreen" FontSize="14">
+
+    <!-- TODO 3: בנו את הפריסה עם Grid: 3 עמודות (Auto, *, Auto) ו-6 שורות.
+         שורה 0: TextBlock "Value:" + TextBox x:Name="ValueBox"
+         שורה 1: "From:" + ComboBox x:Name="FromUnit"
+         שורה 2: "To:"   + ComboBox x:Name="ToUnit"
+         שורה 3: TextBlock x:Name="ErrorText" (אדום, Collapsed)
+         שורה 4 (Height="*"): TextBlock x:Name="ResultText" גדול וממורכז
+         שורה 5: כפתורים Convert (IsDefault="True") ו-Clear -->
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0" x:Name="ValueBox" Margin="0,4" Padding="6,4" />
+        <TextBlock Grid.Row="1" x:Name="ResultText" FontSize="26" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#512BD4" />
+        <TextBlock x:Name="ErrorText" Visibility="Collapsed" Foreground="#C00000" />
+        <ComboBox x:Name="FromUnit" Visibility="Collapsed" />
+        <ComboBox x:Name="ToUnit" Visibility="Collapsed" />
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="ConvertButton" Content="_Convert" IsDefault="True" Padding="16,6" Margin="0,0,8,0" Click="Convert_Click" />
+            <Button Content="C_lear" Padding="16,6" Click="Clear_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

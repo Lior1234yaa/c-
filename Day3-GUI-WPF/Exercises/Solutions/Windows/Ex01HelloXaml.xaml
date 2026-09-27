@@ -1,0 +1,10 @@
+<Window x:Class="Day3.Exercises.Solutions.Windows.Ex01HelloXaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ex01 — Hello XAML" Height="200" Width="360">
+    <StackPanel Margin="16">
+        <TextBox x:Name="NameBox" FontSize="14" />
+        <Button Content="Greet" Click="Greet_Click" IsDefault="True" HorizontalAlignment="Left" />
+        <TextBlock x:Name="Output" FontSize="20" FontWeight="Bold" Foreground="#512BD4" />
+    </StackPanel>
+</Window>

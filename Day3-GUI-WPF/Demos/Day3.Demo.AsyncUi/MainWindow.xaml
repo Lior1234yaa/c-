@@ -1,0 +1,37 @@
+<Window x:Class="Day3.Demo.AsyncUi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Async UI — never block the UI thread" Height="500" Width="720" MinWidth="480"
+        Closing="Window_Closing">
+    <DockPanel Margin="12">
+
+        <!-- סרגל פעולות -->
+        <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <Button x:Name="LoadButton" Content="Load (async)" Click="Load_Click" Padding="12,6" Margin="0,0,6,6" />
+            <Button x:Name="CancelButton" Content="Cancel" Click="Cancel_Click" Padding="12,6" Margin="0,0,6,6" IsEnabled="False" />
+            <Button Content="Block UI (bad!)" Click="Block_Click" Padding="12,6" Margin="0,0,6,6" Background="#FFD6D6" />
+            <Button Content="Background thread → Dispatcher" Click="BackgroundThread_Click" Padding="12,6" Margin="0,0,6,6" />
+            <CheckBox x:Name="SimulateErrors" Content="Simulate errors" VerticalAlignment="Center" Margin="6,0,0,6" />
+        </WrapPanel>
+
+        <!-- סינון -->
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <TextBlock Text="Filter:" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <TextBox x:Name="FilterBox" TextChanged="Filter_TextChanged" />
+        </DockPanel>
+
+        <!-- התקדמות + הודעת שגיאה inline (במקום MessageBox חוסם) -->
+        <StackPanel DockPanel.Dock="Bottom">
+            <ProgressBar x:Name="Progress" Height="16" Minimum="0" Maximum="100" Visibility="Collapsed" />
+            <TextBlock x:Name="StatusText" Margin="0,4,0,0" Foreground="Gray" Text="Ready" />
+            <Border x:Name="ErrorBanner" Background="#FFE0E0" BorderBrush="#C00" BorderThickness="1" Padding="8" Margin="0,6,0,0" Visibility="Collapsed">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Content="Retry" Click="Load_Click" Padding="8,2" />
+                    <TextBlock x:Name="ErrorText" TextWrapping="Wrap" Foreground="#900" />
+                </DockPanel>
+            </Border>
+        </StackPanel>
+
+        <DataGrid x:Name="Grid" IsReadOnly="True" AutoGenerateColumns="True" />
+    </DockPanel>
+</Window>

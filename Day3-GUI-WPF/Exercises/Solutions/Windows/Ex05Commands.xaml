@@ -1,0 +1,19 @@
+<Window x:Class="Day3.Exercises.Solutions.Windows.Ex05Commands"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ex05 — Commands" Height="240" Width="380">
+    <Window.InputBindings>
+        <KeyBinding Key="Up" Modifiers="Ctrl" Command="{Binding IncrementCommand}" />
+        <KeyBinding Key="Down" Modifiers="Ctrl" Command="{Binding DecrementCommand}" />
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding ResetCommand}" />
+    </Window.InputBindings>
+    <StackPanel Margin="16" HorizontalAlignment="Center">
+        <TextBlock Text="{Binding Value, StringFormat=Value: {0} / 10}" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="− (Ctrl+↓)" Command="{Binding DecrementCommand}" />
+            <Button Content="+ (Ctrl+↑)" Command="{Binding IncrementCommand}" />
+            <Button Content="Reset (Ctrl+R)" Command="{Binding ResetCommand}" />
+        </StackPanel>
+        <TextBlock Text="הכפתורים מושבתים אוטומטית בגבולות 0 ו-10 — CanExecute" Foreground="Gray" HorizontalAlignment="Center" Margin="0,8,0,0" />
+    </StackPanel>
+</Window>

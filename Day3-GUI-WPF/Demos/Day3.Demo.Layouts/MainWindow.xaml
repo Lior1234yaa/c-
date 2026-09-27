@@ -1,0 +1,173 @@
+<Window x:Class="Day3.Demo.Layouts.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Layouts &amp; Controls" Height="560" Width="820" MinWidth="420" MinHeight="380"
+        SizeChanged="Window_SizeChanged">
+
+    <!-- DockPanel: תפריט למעלה, שורת מצב למטה, והתוכן ממלא את השאר -->
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" InputGestureText="Ctrl+N" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Click="About_Click" />
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="SizeText" Text="Size: ?" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock x:Name="ModeText" Text="Mode: wide" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <TabControl Margin="6">
+
+            <!-- ===== Grid ===== -->
+            <TabItem Header="Grid">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Style="{StaticResource Box}" Grid.Row="0" Grid.ColumnSpan="3">
+                        <TextBlock Text="Row 0: Height=Auto, ColumnSpan=3" />
+                    </Border>
+                    <Border Style="{StaticResource Box}" Grid.Row="1" Grid.Column="0"><TextBlock Text="120px" /></Border>
+                    <Border Style="{StaticResource Box}" Grid.Row="1" Grid.Column="1"><TextBlock Text="*" /></Border>
+                    <Border Style="{StaticResource Box}" Grid.Row="1" Grid.Column="2"><TextBlock Text="2*" /></Border>
+                    <Border Style="{StaticResource Box}" Grid.Row="2" Grid.Column="0"><TextBlock Text="Row 2 = 2*" /></Border>
+                    <Border Style="{StaticResource Box}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                        <TextBlock Text="ColumnSpan=2 — הגריד מתאים את עצמו לגודל החלון (star sizing)" TextWrapping="Wrap" />
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== StackPanel / WrapPanel / DockPanel / Canvas ===== -->
+            <TabItem Header="Panels">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="StackPanel (Horizontal)" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="A" Margin="4" Padding="12,4" />
+                            <Button Content="B" Margin="4" Padding="12,4" />
+                            <Button Content="C" Margin="4" Padding="12,4" />
+                        </StackPanel>
+
+                        <TextBlock Text="WrapPanel (שובר שורה כשנגמר המקום)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <WrapPanel>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 1" /></Border>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 2" /></Border>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 3" /></Border>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 4" /></Border>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 5" /></Border>
+                            <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 6" /></Border>
+                        </WrapPanel>
+
+                        <TextBlock Text="DockPanel" FontWeight="Bold" Margin="0,12,0,0" />
+                        <DockPanel Height="120" LastChildFill="True">
+                            <Border Style="{StaticResource Box}" DockPanel.Dock="Top"><TextBlock Text="Top" /></Border>
+                            <Border Style="{StaticResource Box}" DockPanel.Dock="Left"><TextBlock Text="Left" /></Border>
+                            <Border Style="{StaticResource Box}" DockPanel.Dock="Right"><TextBlock Text="Right" /></Border>
+                            <Border Style="{StaticResource Box}"><TextBlock Text="Fill (last child)" /></Border>
+                        </DockPanel>
+
+                        <TextBlock Text="Canvas (מיקום מוחלט — לציור, לא לטפסים)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <Canvas Height="100" Background="#F7F5FF">
+                            <Ellipse Canvas.Left="10" Canvas.Top="10" Width="60" Height="60" Fill="#512BD4" />
+                            <Rectangle Canvas.Left="90" Canvas.Top="30" Width="80" Height="40" Fill="#FFB020" />
+                            <TextBlock Canvas.Left="190" Canvas.Top="40" Text="x=190, y=40" />
+                        </Canvas>
+
+                        <TextBlock Text="Viewbox (מגדיל/מקטין תוכן ביחס לשטח)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <Viewbox Height="60" HorizontalAlignment="Left">
+                            <TextBlock Text="Scaled!" FontWeight="Bold" />
+                        </Viewbox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===== Controls ===== -->
+            <TabItem Header="Controls">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="200" />
+                        <ColumnDefinition Width="*" MinWidth="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="TextBox" />
+                        <TextBox x:Name="InputBox" Text="Hello" Margin="0,2,0,8" />
+
+                        <TextBlock Text="ComboBox" />
+                        <ComboBox x:Name="Combo" SelectedIndex="0" Margin="0,2,0,8">
+                            <ComboBoxItem Content="Option A" />
+                            <ComboBoxItem Content="Option B" />
+                            <ComboBoxItem Content="Option C" />
+                        </ComboBox>
+
+                        <CheckBox Content="CheckBox — אני מסכים/ה" Margin="0,2,0,4" />
+                        <RadioButton GroupName="Size" Content="Small" IsChecked="True" />
+                        <RadioButton GroupName="Size" Content="Large" Margin="0,0,0,8" />
+
+                        <TextBlock Text="Slider → ProgressBar" />
+                        <Slider x:Name="Amount" Minimum="0" Maximum="100" Value="40" TickFrequency="10" IsSnapToTickEnabled="True" />
+                        <!-- ElementName binding: ה-ProgressBar עוקב אחרי ה-Slider בלי קוד -->
+                        <ProgressBar Height="18" Minimum="0" Maximum="100"
+                                     Value="{Binding ElementName=Amount, Path=Value}" />
+                        <TextBlock Text="{Binding ElementName=Amount, Path=Value, StringFormat=Value: {0:F0}}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="ListBox" />
+                        <ListBox Height="90" Margin="0,2,0,8">
+                            <ListBoxItem Content="Apple" />
+                            <ListBoxItem Content="Banana" />
+                            <ListBoxItem Content="Cherry" />
+                            <ListBoxItem Content="Date" />
+                        </ListBox>
+
+                        <TextBlock Text="DataGrid (AutoGenerateColumns)" />
+                        <DataGrid x:Name="PeopleGrid" Height="140" IsReadOnly="True" AutoGenerateColumns="True" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== Responsive ===== -->
+            <TabItem Header="Responsive">
+                <Grid x:Name="ResponsiveGrid" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="SideCol" Width="220" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border x:Name="SidePanel" Style="{StaticResource Box}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="פאנל צד. כשהחלון צר מ-600px הוא עובר מעל התוכן (ראו SizeChanged בקוד)." />
+                    </Border>
+                    <Border x:Name="MainPanel" Style="{StaticResource Box}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="תוכן ראשי. שנו את גודל החלון וצפו בשורת המצב ובפריסה. MinWidth/MinHeight על החלון מונעים מצב שבור." />
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

@@ -1,0 +1,10 @@
+<UserControl x:Class="Day3.Lab4.Starter.Controls.StatCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root" MinWidth="160">
+    <!-- TODO 2b: להציג Title (קטן, אפור), Value (גדול, מודגש), Subtitle, ונקודת צבע Accent.
+         ה-Binding-ים צריכים להצביע על ה-UserControl: {Binding Title, ElementName=Root} -->
+    <Border Style="{StaticResource Card}">
+        <TextBlock Text="{Binding Title, ElementName=Root}" />
+    </Border>
+</UserControl>

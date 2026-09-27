@@ -1,0 +1,35 @@
+<Window x:Class="Day3.Lab4.Starter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Day3.Lab4.Starter.ViewModels"
+        xmlns:c="clr-namespace:Day3.Lab4.Starter.Controls"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:DashboardViewModel}"
+        Title="Ops Dashboard" Height="600" Width="960" MinWidth="560" MinHeight="420"
+        Background="{DynamicResource WindowBackground}">
+
+    <DockPanel Margin="12">
+        <!-- TODO 3: כותרת: "Ops Dashboard" (Style H1) משמאל; מימין LastUpdated, CheckBox Live, וכפתור theme -->
+        <TextBlock DockPanel.Dock="Top" Text="Ops Dashboard" FontSize="22" FontWeight="Bold" Margin="6" />
+
+        <TabControl Background="Transparent" BorderThickness="0">
+            <TabItem Header="Overview">
+                <StackPanel>
+                    <!-- TODO 4: UniformGrid עם 4 כרטיסי StatCard: Orders today, Revenue (C0), Active users, Errors
+                         עם Binding ל-Snapshot.* ו-Accent שונה לכל אחד -->
+                    <UniformGrid Rows="1" Columns="4">
+                        <c:StatCard Title="Orders today" />
+                    </UniformGrid>
+
+                    <!-- TODO 5: "גרף" עמודות: ItemsControl על UsersHistory, ItemsPanel = StackPanel אופקי,
+                         ItemTemplate = Rectangle עם Height="{Binding Height}" -->
+                </StackPanel>
+            </TabItem>
+
+            <!-- TODO 6: טאב Orders עם DataGrid על RecentOrders (עמודות: #, Customer, Amount C, Status, Time HH:mm:ss) -->
+            <!-- TODO 7 (בונוס): טאב Settings עם CheckBox "Dark theme" (IsDark) ו-Slider ל-RefreshSeconds -->
+        </TabControl>
+    </DockPanel>
+</Window>

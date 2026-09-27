@@ -1,0 +1,30 @@
+<Application x:Class="Day3.Demo.Validation.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- תבנית שגיאה משותפת: מסגרת אדומה + סימן קריאה מימין -->
+        <ControlTemplate x:Key="ErrorTemplate">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right" Text="!" Foreground="Red" FontWeight="Bold" FontSize="16" Margin="4,0,0,0"
+                           ToolTip="{Binding AdornedElement.(Validation.Errors)/ErrorContent, ElementName=Adorner}" />
+                <Border BorderBrush="Red" BorderThickness="2" CornerRadius="2">
+                    <AdornedElementPlaceholder x:Name="Adorner" />
+                </Border>
+            </DockPanel>
+        </ControlTemplate>
+
+        <!-- Style שמציג את הודעת השגיאה ב-ToolTip של ה-TextBox עצמו -->
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,2,0,8" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)/ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>
