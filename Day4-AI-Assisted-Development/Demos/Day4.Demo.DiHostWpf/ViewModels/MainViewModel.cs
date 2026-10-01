@@ -40,7 +40,7 @@ public sealed class MainViewModel : ObservableObject
         if (!decimal.TryParse(TotalText, System.Globalization.NumberStyles.Number,
                 System.Globalization.CultureInfo.InvariantCulture, out var total))
         {
-            Status = "סכום לא תקין";
+            Status = "Invalid amount";
             return;
         }
 
@@ -48,7 +48,7 @@ public sealed class MainViewModel : ObservableObject
         {
             var order = _orders.Create(Customer, total);
             Orders.Add(order);
-            Status = $"נוספה הזמנה #{order.Id}";
+            Status = $"Added order #{order.Id}";
             Customer = "";
             TotalText = "";
         }

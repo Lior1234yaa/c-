@@ -808,7 +808,7 @@ cd C:\temp\LiveUi
 Remove-Item ViewModels\OrdersDashboardViewModel.cs, Themes\Dashboard.xaml
 # ערכו ידנית:
 #  App.xaml            — מחקו את השורה <ResourceDictionary Source="Themes/Dashboard.xaml" />
-#  MainWindow.xaml     — השאירו רק <Window x:Class=... Title="לוח הזמנות"> עם <Grid /> ריק (בלי d:DataContext)
+#  MainWindow.xaml     — השאירו רק <Window x:Class=... Title="Orders Dashboard"> עם <Grid /> ריק (בלי d:DataContext)
 #  MainWindow.xaml.cs  — הפכו להערה את DataContext = new OrdersDashboardViewModel();
 dotnet build        # חייב לעבור לפני השיעור
 git init; git add .; git commit -m "empty shell"
@@ -861,7 +861,7 @@ ObservableCollection). No DateTime.Now. No external libraries. Commands via Rela
    לאחר מכן הוסיפו `DataContext = new OrdersDashboardViewModel();` ב-`MainWindow.xaml.cs` והריצו `dotnet run`.
    - הקלידו "zzz" בחיפוש: ה-empty state מופיע. המשתתפים אוהבים את הרגע הזה (הערת הדובר בשקף 48).
    - בדקו ב-Output את ה-binding errors.
-7. **RTL (שקף 49)**: הראו את `FlowDirection="RightToLeft"` על החלון, ושהעמודה "סכום" צריכה `FlowDirection=LeftToRight` בתא. שאלו מי כבר נתקל ב-`DockPanel` "הפוך".
+7. **RTL (שקף 49)**: הראו את `FlowDirection="RightToLeft"` על החלון, ושהעמודה "Amount" צריכה `FlowDirection=LeftToRight` בתא. שאלו מי כבר נתקל ב-`DockPanel` "הפוך".
 8. **השוואה לגרסה הסופית (1 דק')**:
 
 <div dir="ltr">
