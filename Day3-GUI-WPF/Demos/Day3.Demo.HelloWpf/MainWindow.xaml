@@ -26,7 +26,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="שם:" VerticalAlignment="Center" Margin="0,0,8,0" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center" Margin="0,0,8,0" />
         <TextBox   Grid.Row="0" Grid.Column="1" x:Name="NameBox" FontSize="14"
                    KeyDown="NameBox_KeyDown" />
 

@@ -51,7 +51,7 @@
                     <Border Style="{StaticResource Box}" Grid.Row="1" Grid.Column="2"><TextBlock Text="2*" /></Border>
                     <Border Style="{StaticResource Box}" Grid.Row="2" Grid.Column="0"><TextBlock Text="Row 2 = 2*" /></Border>
                     <Border Style="{StaticResource Box}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
-                        <TextBlock Text="ColumnSpan=2 — הגריד מתאים את עצמו לגודל החלון (star sizing)" TextWrapping="Wrap" />
+                        <TextBlock Text="ColumnSpan=2 — the grid adapts to the window size (star sizing)" TextWrapping="Wrap" />
                     </Border>
                 </Grid>
             </TabItem>
@@ -67,7 +67,7 @@
                             <Button Content="C" Margin="4" Padding="12,4" />
                         </StackPanel>
 
-                        <TextBlock Text="WrapPanel (שובר שורה כשנגמר המקום)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <TextBlock Text="WrapPanel (wraps to a new line when out of space)" FontWeight="Bold" Margin="0,12,0,0" />
                         <WrapPanel>
                             <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 1" /></Border>
                             <Border Style="{StaticResource Box}" Width="110"><TextBlock Text="Item 2" /></Border>
@@ -85,14 +85,14 @@
                             <Border Style="{StaticResource Box}"><TextBlock Text="Fill (last child)" /></Border>
                         </DockPanel>
 
-                        <TextBlock Text="Canvas (מיקום מוחלט — לציור, לא לטפסים)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <TextBlock Text="Canvas (absolute positioning — for drawing, not forms)" FontWeight="Bold" Margin="0,12,0,0" />
                         <Canvas Height="100" Background="#F7F5FF">
                             <Ellipse Canvas.Left="10" Canvas.Top="10" Width="60" Height="60" Fill="#512BD4" />
                             <Rectangle Canvas.Left="90" Canvas.Top="30" Width="80" Height="40" Fill="#FFB020" />
                             <TextBlock Canvas.Left="190" Canvas.Top="40" Text="x=190, y=40" />
                         </Canvas>
 
-                        <TextBlock Text="Viewbox (מגדיל/מקטין תוכן ביחס לשטח)" FontWeight="Bold" Margin="0,12,0,0" />
+                        <TextBlock Text="Viewbox (scales content to the available space)" FontWeight="Bold" Margin="0,12,0,0" />
                         <Viewbox Height="60" HorizontalAlignment="Left">
                             <TextBlock Text="Scaled!" FontWeight="Bold" />
                         </Viewbox>
@@ -119,7 +119,7 @@
                             <ComboBoxItem Content="Option C" />
                         </ComboBox>
 
-                        <CheckBox Content="CheckBox — אני מסכים/ה" Margin="0,2,0,4" />
+                        <CheckBox Content="CheckBox — I agree" Margin="0,2,0,4" />
                         <RadioButton GroupName="Size" Content="Small" IsChecked="True" />
                         <RadioButton GroupName="Size" Content="Large" Margin="0,0,0,8" />
 
@@ -160,11 +160,11 @@
 
                     <Border x:Name="SidePanel" Style="{StaticResource Box}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
                         <TextBlock TextWrapping="Wrap"
-                                   Text="פאנל צד. כשהחלון צר מ-600px הוא עובר מעל התוכן (ראו SizeChanged בקוד)." />
+                                   Text="Side panel. When the window is narrower than 600px it moves above the content (see SizeChanged in code)." />
                     </Border>
                     <Border x:Name="MainPanel" Style="{StaticResource Box}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
                         <TextBlock TextWrapping="Wrap"
-                                   Text="תוכן ראשי. שנו את גודל החלון וצפו בשורת המצב ובפריסה. MinWidth/MinHeight על החלון מונעים מצב שבור." />
+                                   Text="Main content. Resize the window and watch the status bar and the layout. MinWidth/MinHeight on the window prevent a broken layout." />
                     </Border>
                 </Grid>
             </TabItem>

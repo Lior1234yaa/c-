@@ -60,7 +60,7 @@ public partial class MainWindow : Window
         catch (HttpRequestException ex)
         {
             // שגיאה צפויה: הודעה ידידותית inline + כפתור Retry
-            ShowError($"לא הצלחנו לטעון נתונים: {ex.Message}");
+            ShowError($"Could not load data: {ex.Message}");
             StatusText.Text = "Failed";
         }
         finally

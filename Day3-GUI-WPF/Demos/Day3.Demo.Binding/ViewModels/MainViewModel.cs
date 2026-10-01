@@ -46,8 +46,8 @@ public class MainViewModel : ObservableObject
 
         Items.CollectionChanged += OnItemsChanged;
 
-        foreach (var t in new[] { "ללמוד XAML", "לבנות ViewModel", "לשתות קפה" })
-            Items.Add(new TodoItem { Title = t, Priority = t.Contains("קפה") ? 1 : 2 });
+        foreach (var t in new[] { "Learn XAML", "Build a ViewModel", "Drink coffee" })
+            Items.Add(new TodoItem { Title = t, Priority = t.Contains("coffee") ? 1 : 2 });
         Items[2].IsDone = true;
     }
 

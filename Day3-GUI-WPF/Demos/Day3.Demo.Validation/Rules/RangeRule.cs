@@ -13,9 +13,9 @@ public class RangeRule : ValidationRule
     {
         var text = value as string ?? "";
         if (!int.TryParse(text, NumberStyles.Integer, cultureInfo, out var n))
-            return new ValidationResult(false, "יש להזין מספר שלם");
+            return new ValidationResult(false, "Please enter a whole number");
         if (n < Min || n > Max)
-            return new ValidationResult(false, $"הערך חייב להיות בין {Min} ל-{Max}");
+            return new ValidationResult(false, $"Value must be between {Min} and {Max}");
         return ValidationResult.ValidResult;
     }
 }

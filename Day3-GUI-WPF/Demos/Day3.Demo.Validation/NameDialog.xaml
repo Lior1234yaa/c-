@@ -4,7 +4,7 @@
         Title="Custom dialog" Width="320" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
     <StackPanel Margin="14">
-        <TextBlock Text="איך לקרוא לפרויקט?" />
+        <TextBlock Text="What should the project be called?" />
         <TextBox x:Name="NameBox" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- IsDefault = Enter, IsCancel = Escape (סוגר עם DialogResult=false אוטומטית) -->

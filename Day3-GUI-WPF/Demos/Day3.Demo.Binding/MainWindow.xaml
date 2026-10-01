@@ -67,7 +67,7 @@
                 <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="Priority (1–3)" Margin="0,8,0,2" />
                 <Slider Minimum="1" Maximum="3" Value="{Binding Priority}" TickFrequency="1" IsSnapToTickEnabled="True" />
-                <TextBlock Text="{Binding Priority, Converter={StaticResource PriorityText}, StringFormat=עדיפות: {0}}" />
+                <TextBlock Text="{Binding Priority, Converter={StaticResource PriorityText}, StringFormat=Priority: {0}}" />
                 <!-- OneWay: קריאה בלבד -->
                 <TextBlock Text="{Binding Created, Mode=OneWay, StringFormat=Created: {0:G}}" Foreground="Gray" Margin="0,8,0,0" />
                 <CheckBox Content="Done" IsChecked="{Binding IsDone}" Margin="0,8,0,0" />

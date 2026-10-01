@@ -21,9 +21,9 @@ public partial class MainWindow : Window
 
     private void OpenFile_Click(object sender, RoutedEventArgs e)
     {
-        var dlg = new OpenFileDialog { Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*", Title = "בחרו קובץ" };
+        var dlg = new OpenFileDialog { Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*", Title = "Choose a file" };
         if (dlg.ShowDialog(this) == true)
-            DialogResultText.Text = $"נבחר: {dlg.FileName} ({new FileInfo(dlg.FileName).Length} bytes)";
+            DialogResultText.Text = $"Selected: {dlg.FileName} ({new FileInfo(dlg.FileName).Length} bytes)";
     }
 
     private void SaveFile_Click(object sender, RoutedEventArgs e)
@@ -32,21 +32,21 @@ public partial class MainWindow : Window
         if (dlg.ShowDialog(this) == true)
         {
             File.WriteAllText(dlg.FileName, """{ "saved": true }""");
-            DialogResultText.Text = $"נשמר ל-{dlg.FileName}";
+            DialogResultText.Text = $"Saved to {dlg.FileName}";
         }
     }
 
     private void CustomDialog_Click(object sender, RoutedEventArgs e)
     {
         var dlg = new NameDialog { Owner = this };   // Owner: ממורכז מעל החלון וחוסם אותו
-        DialogResultText.Text = dlg.ShowDialog() == true ? $"שם הפרויקט: {dlg.ProjectName}" : "בוטל";
+        DialogResultText.Text = dlg.ShowDialog() == true ? $"Project name: {dlg.ProjectName}" : "Cancelled";
     }
 
     private void Delete_Click(object sender, RoutedEventArgs e)
     {
-        var r = MessageBox.Show(this, "למחוק את הפריט? הפעולה אינה הפיכה.", "אישור מחיקה",
+        var r = MessageBox.Show(this, "Delete this item? This cannot be undone.", "Confirm delete",
                                 MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
-        DialogResultText.Text = r == MessageBoxResult.Yes ? "נמחק" : "המחיקה בוטלה";
+        DialogResultText.Text = r == MessageBoxResult.Yes ? "Deleted" : "Delete cancelled";
     }
 }
 

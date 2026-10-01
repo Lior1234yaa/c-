@@ -21,8 +21,8 @@ public class PersonFormViewModel : ValidatableObject
             SetErrors(Validate());
             IEnumerable<string> Validate()
             {
-                if (string.IsNullOrWhiteSpace(value)) yield return "שם הוא שדה חובה";
-                else if (value.Trim().Length < 2) yield return "שם חייב להכיל לפחות 2 תווים";
+                if (string.IsNullOrWhiteSpace(value)) yield return "Name is required";
+                else if (value.Trim().Length < 2) yield return "Name must be at least 2 characters";
             }
         }
     }
@@ -33,7 +33,7 @@ public class PersonFormViewModel : ValidatableObject
         set
         {
             if (!SetProperty(ref _email, value)) return;
-            SetErrors(MailAddress.TryCreate(value, out _) ? [] : ["כתובת אימייל לא תקינה"]);
+            SetErrors(MailAddress.TryCreate(value, out _) ? [] : ["Invalid email address"]);
         }
     }
 
@@ -43,7 +43,7 @@ public class PersonFormViewModel : ValidatableObject
         set
         {
             if (!SetProperty(ref _ageText, value)) return;
-            SetErrors(int.TryParse(value, out var age) && age is >= 0 and <= 120 ? [] : ["גיל חייב להיות מספר בין 0 ל-120"]);
+            SetErrors(int.TryParse(value, out var age) && age is >= 0 and <= 120 ? [] : ["Age must be a number between 0 and 120"]);
         }
     }
 
@@ -60,5 +60,5 @@ public class PersonFormViewModel : ValidatableObject
 
     private bool Touched => _name.Length + _email.Length + _ageText.Length > 0;
 
-    private void Save() => Status = $"נשמר: {Name} <{Email}>, גיל {AgeText} ב-{DateTime.Now:T}";
+    private void Save() => Status = $"Saved: {Name} <{Email}>, age {AgeText} at {DateTime.Now:T}";
 }

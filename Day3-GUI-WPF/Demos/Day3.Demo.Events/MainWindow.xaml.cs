@@ -39,7 +39,7 @@ public partial class MainWindow : Window
     // ---- lifecycle ----
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        Add("Loaded — החלון מוצג, אפשר לטעון נתונים");
+        Add("Loaded — window is shown, safe to load data");
         _timer.Start();
         Input.Focus();
     }
@@ -47,7 +47,7 @@ public partial class MainWindow : Window
     private void Window_Closing(object sender, CancelEventArgs e)
     {
         if (!_dirty) return;
-        var r = MessageBox.Show("יש שינויים שלא נשמרו. לסגור בכל זאת?", "סגירה",
+        var r = MessageBox.Show("You have unsaved changes. Close anyway?", "Close",
                                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
         e.Cancel = r != MessageBoxResult.Yes;   // ביטול הסגירה
     }
@@ -61,7 +61,7 @@ public partial class MainWindow : Window
 
     private void ButtonB_Click(object sender, RoutedEventArgs e)
     {
-        Add("ButtonB.Click — e.Handled = true, הבעבוע נעצר כאן");
+        Add("ButtonB.Click — e.Handled = true, bubbling stops here");
         e.Handled = true;
     }
 

@@ -341,7 +341,7 @@ dotnet run
 
 **צעד אחר צעד:**
 
-1. להריץ: להקליד שם, Enter (הכפתור `IsDefault="True"`), ואז Escape (מנקה דרך `NameBox_KeyDown`). שם ריק → "שלום, אורח/ת!".
+1. להריץ: להקליד שם, Enter (הכפתור `IsDefault="True"`), ואז Escape (מנקה דרך `NameBox_KeyDown`). שם ריק → "Hello, guest!".
 2. לפתוח `App.xaml`: ‏`StartupUri` ו-`AccentBrush` כמשאב **גלובלי**.
 3. לפתוח `MainWindow.xaml`: ‏`Window.Resources` עם Style **ללא `x:Key`** לכל ה-Button-ים, שמפנה ל-`{StaticResource AccentBrush}` מ-App; ‏Grid עם `Auto`/`*`; ‏`_Say Hello` (Alt+S).
 4. לפתוח `MainWindow.xaml.cs`: ‏`partial`, ‏`InitializeComponent()` ראשון, ‏`Hello_Click(object sender, RoutedEventArgs e)` — "החתימה הזו תחזור כל היום".
@@ -554,7 +554,7 @@ dotnet run
 4. להקליד בתיבה: ‏`TextChanged` על כל תו; הכפתור **Save (Ctrl+S)** "מתעורר" (`CanExecute` = `_dirty`). ‏Ctrl+S או Enter → ‏`Saved ✔` והכפתור שוב מושבת.
 5. ‏Ctrl+L מנקה את היומן (ו-Clear log מושבת כשהיומן ריק).
 6. לשנות צבע ב-ComboBox: ‏`SelectionChanged` — ולהראות בקוד את `if (IsLoaded)` (אותו guard כמו ב-Lab 1).
-7. להקליד משהו ולסגור את החלון: ‏`Closing` שואל "יש שינויים שלא נשמרו" — ‏No מבטל את הסגירה (`e.Cancel`).
+7. להקליד משהו ולסגור את החלון: ‏`Closing` שואל "You have unsaved changes. Close anyway?" — ‏No מבטל את הסגירה (`e.Cancel`).
 
 **להדגיש בקוד:** ‏`DataContext = this` (הקדמה ל-binding), ‏`new RelayCommand(Save, () => _dirty)`, ו-`Window.InputBindings` ב-XAML.
 
@@ -615,10 +615,10 @@ dotnet run
 
 **צעד אחר צעד:**
 
-1. שלושה פריטים התחלתיים; "לשתות קפה" מסומן כבוצע (ירוק דרך `BoolToBrushConverter`). הסיכום למטה: `1 / 3 done`.
+1. שלושה פריטים התחלתיים; "Drink coffee" מסומן כבוצע (ירוק דרך `BoolToBrushConverter`). הסיכום למטה: `1 / 3 done`.
 2. לסמן CheckBox ברשימה → הצבע והסיכום מתעדכנים. להראות ב-`MainViewModel` את `OnItemsChanged`/`OnItemPropertyChanged` → ‏`RaiseSummary()` (property מחושב = הודעה ידנית).
 3. להקליד כותרת חדשה: ‏Add מושבת כל עוד השדה ריק — בזכות `UpdateSourceTrigger=PropertyChanged` + `CanExecute`. ‏Enter מוסיף (`IsDefault`).
-4. לבחור פריט: פאנל Details עם `DataContext="{Binding Selected}"`; לשנות Title — הרשימה מתעדכנת בזמן אמת; ‏Slider של Priority → ‏`PriorityToTextConverter` ("גבוהה/רגילה/נמוכה").
+4. לבחור פריט: פאנל Details עם `DataContext="{Binding Selected}"`; לשנות Title — הרשימה מתעדכנת בזמן אמת; ‏Slider של Priority → ‏`PriorityToTextConverter` ("High/Normal/Low").
 5. להראות ב-XAML את `Remove` עם `RelativeSource AncestorType=Window` ואת `IsEnabled` של הפאנל שקשור ל-`DataContext.HasSelection`.
 6. **שבירה מכוונת:** לשנות ב-XAML `{Binding Summary}` ל-`{Binding Sumary}`, להריץ מ-VS ולהראות את ההודעה ב-Output window.
 7. לציין: ‏`d:DataContext` / `mc:Ignorable="d"` בראש הקובץ — design-time data (יחזור במודול 07).
@@ -749,8 +749,8 @@ dotnet run
 
 **צעד אחר צעד (לפי הטאבים):**
 
-1. **ValidationRule:** לנסות להקליד אותיות — חסומות (`PreviewTextInput`). להקליד `150` → מסגרת אדומה + `!` עם ToolTip, והשורה "הערך ב-source" **נשארת** על הערך התקין האחרון. להדביק אותיות (Ctrl+V) — ה-Rule תופס.
-2. **INotifyDataErrorInfo:** ‏Save מושבת בטופס ריק (`!HasErrors && Touched`). למלא שם של תו אחד → "לפחות 2 תווים"; אימייל שגוי; גיל 200. לתקן הכל → ‏Save נדלק; Enter שומר (`IsDefault`) והסטטוס הירוק מופיע. להראות Alt+N / Alt+E / Alt+A (`Label.Target`).
+1. **ValidationRule:** לנסות להקליד אותיות — חסומות (`PreviewTextInput`). להקליד `150` → מסגרת אדומה + `!` עם ToolTip, והשורה "Value in source" **נשארת** על הערך התקין האחרון. להדביק אותיות (Ctrl+V) — ה-Rule תופס.
+2. **INotifyDataErrorInfo:** ‏Save מושבת בטופס ריק (`!HasErrors && Touched`). למלא שם של תו אחד → "Name must be at least 2 characters"; אימייל שגוי; גיל 200. לתקן הכל → ‏Save נדלק; Enter שומר (`IsDefault`) והסטטוס הירוק מופיע. להראות Alt+N / Alt+E / Alt+A (`Label.Target`).
 3. להראות ב-`App.xaml` את ה-`ErrorTemplate` המשותף וה-Style עם ה-Trigger על `Validation.HasError`.
 4. **Dialogs:** ‏Open file…, ‏Save file…, ‏Custom dialog… (`NameDialog` עם `Owner` ו-`DialogResult = true`), ו-**Delete (confirmation)** — להראות שברירת המחדל היא No (Enter לא מוחק).
 

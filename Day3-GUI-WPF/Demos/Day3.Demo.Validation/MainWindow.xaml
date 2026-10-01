@@ -8,7 +8,7 @@
         <!-- ===== 1. ValidationRule בתוך Binding ===== -->
         <TabItem Header="ValidationRule">
             <StackPanel Margin="12" MaxWidth="360" HorizontalAlignment="Left">
-                <TextBlock Text="כמות (0–100):" />
+                <TextBlock Text="Quantity (0–100):" />
                 <TextBox x:Name="QuantityBox" AutomationProperties.Name="Quantity"
                          PreviewTextInput="Numeric_PreviewTextInput">
                     <TextBox.Text>
@@ -19,9 +19,9 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBlock Text="{Binding Quantity, StringFormat=הערך ב-source: {0}}" Foreground="Gray" />
+                <TextBlock Text="{Binding Quantity, StringFormat=Value in source: {0}}" Foreground="Gray" />
                 <TextBlock TextWrapping="Wrap" Margin="0,12,0,0" Foreground="Gray"
-                           Text="PreviewTextInput חוסם אותיות; ה-ValidationRule בודק טווח. עם שגיאה — הערך לא מגיע ל-source." />
+                           Text="PreviewTextInput blocks letters; the ValidationRule checks the range. On error, the value does not reach the source." />
             </StackPanel>
         </TabItem>
 

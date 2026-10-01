@@ -23,7 +23,7 @@
                 PreviewMouseDown="Outer_PreviewMouseDown">
             <StackPanel>
                 <TextBlock Text="Routed events" FontWeight="Bold" />
-                <TextBlock Text="לחצו על כפתור: Preview (tunneling) נרשם קודם ב-Border, ואז Click מבעבע מהכפתור ל-Border."
+                <TextBlock Text="Click a button: Preview (tunneling) is logged first on the Border, then Click bubbles up from the button to the Border."
                            TextWrapping="Wrap" Foreground="Gray" Margin="0,0,0,6" />
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="BtnA" Content="Button A" Click="ButtonA_Click" Margin="4" Padding="10,4" />
