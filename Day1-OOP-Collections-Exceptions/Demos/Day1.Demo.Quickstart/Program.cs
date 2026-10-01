@@ -9,7 +9,7 @@
 // הרצה:  dotnet run
 // =====================================================================
 
-Console.WriteLine("=== 1. משתנים, var ואינטרפולציה ===");
+Console.WriteLine("=== 1. Variables, var and interpolation ===");
 int age = 30;                    // טיפוס ערך
 double price = 19.90;
 string name = "Dana";            // טיפוס הפניה (אך immutable)
@@ -17,23 +17,23 @@ var isActive = true;             // המהדר מסיק bool
 Console.WriteLine($"{name} is {age} years old, price={price:F2}, active={isActive}");
 Console.WriteLine($"Rounded: {Math.Round(price)}  |  Upper: {name.ToUpper()}  |  Len: {name.Length}");
 
-Console.WriteLine("\n=== 2. ערך מול הפניה ===");
+Console.WriteLine("\n=== 2. Value vs reference ===");
 int a = 5;
 int b = a;          // העתקה של הערך
 b++;
-Console.WriteLine($"a={a}, b={b}   (int הוא value type — b לא השפיע על a)");
+Console.WriteLine($"a={a}, b={b}   (int is a value type: changing b did not affect a)");
 
 int[] arr1 = { 1, 2, 3 };
 int[] arr2 = arr1;  // העתקה של ההפניה — שני השמות מצביעים לאותו מערך
 arr2[0] = 99;
-Console.WriteLine($"arr1[0]={arr1[0]}   (מערך הוא reference type — השינוי נראה דרך שתי ההפניות)");
+Console.WriteLine($"arr1[0]={arr1[0]}   (an array is a reference type: the change is visible through both references)");
 
 Point p1 = new(1, 2);
 Point p2 = p1;      // struct → העתקה
 p2.X = 100;
-Console.WriteLine($"p1.X={p1.X}, p2.X={p2.X}   (struct מועתק)");
+Console.WriteLine($"p1.X={p1.X}, p2.X={p2.X}   (struct is copied)");
 
-Console.WriteLine("\n=== 3. בקרת זרימה ===");
+Console.WriteLine("\n=== 3. Control flow ===");
 for (int i = 1; i <= 3; i++) Console.Write($"{i} ");
 Console.WriteLine();
 
@@ -54,12 +54,12 @@ string Grade(int score) => score switch
 };
 Console.WriteLine($"Grade(85) = {Grade(85)}, Grade(50) = {Grade(50)}");
 
-Console.WriteLine("\n=== 4. מתודות ===");
+Console.WriteLine("\n=== 4. Methods ===");
 Console.WriteLine(Add(2, 3));
 Console.WriteLine(Greet("Yossi"));
-Console.WriteLine(Greet("Yossi", "שלום"));
+Console.WriteLine(Greet("Yossi", "Shalom"));
 if (TryDivide(10, 2, out double result)) Console.WriteLine($"10/2 = {result}");
-if (!TryDivide(10, 0, out _)) Console.WriteLine("10/0 — חלוקה באפס לא מותרת");
+if (!TryDivide(10, 0, out _)) Console.WriteLine("10/0 — division by zero is not allowed");
 var (min, max) = MinMax([4, 9, 1, 7]);
 Console.WriteLine($"min={min}, max={max}");
 
