@@ -31,7 +31,7 @@ finally
     Console.WriteLine("finally always runs (cleanup)");
 }
 
-Console.WriteLine("\n=== 2. חריגה מותאמת אישית + exception filter ===");
+Console.WriteLine("\n=== 2. Custom exception + exception filter ===");
 var account = new Account("IL-1", 100);
 foreach (var amount in new[] { 30m, 500m, -5m })
 {
@@ -54,7 +54,7 @@ foreach (var amount in new[] { 30m, 500m, -5m })
     }
 }
 
-Console.WriteLine("\n=== 3. throw; מול throw ex; ===");
+Console.WriteLine("\n=== 3. throw; vs throw ex; ===");
 try { Level1(rethrowCorrectly: true); }
 catch (Exception ex) { Console.WriteLine("throw;    → stack keeps origin: " + FirstFrame(ex)); }
 try { Level1(rethrowCorrectly: false); }
@@ -83,7 +83,7 @@ foreach (var (name, qty) in new[] { ("pen", 3), ("", 3), ("ink", -1) })
     catch (ArgumentException ex) { Console.WriteLine($"  rejected: {ex.GetType().Name} ({ex.ParamName}): {ex.Message.Split(Environment.NewLine)[0]}"); }
 }
 
-Console.WriteLine("\n=== 6. TryParse במקום חריגות ===");
+Console.WriteLine("\n=== 6. TryParse instead of exceptions ===");
 foreach (var input in new[] { "42", "abc", "3.5", "" })
 {
     if (int.TryParse(input, out int value)) Console.WriteLine($"  '{input}' → {value}");

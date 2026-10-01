@@ -29,7 +29,7 @@ pipeline();   // multicast — כולם רצים לפי הסדר
 
 Console.WriteLine("\n=== 2. closures ===");
 var counter = MakeCounter();
-Console.WriteLine($"{counter()} {counter()} {counter()}   (ה-lambda 'זוכרת' את המשתנה count)");
+Console.WriteLine($"{counter()} {counter()} {counter()}   (the lambda 'remembers' the variable count)");
 
 Console.WriteLine("\n=== 3. events ===");
 var sensor = new Thermometer();
@@ -75,7 +75,7 @@ foreach (var (cust, total) in totalPerCustomer) Console.WriteLine($"  {cust} spe
 Console.WriteLine($"max={orders.Max(o => o.Total)}, avg={orders.Average(o => o.Total):F1}, count={orders.Count()}");
 Console.WriteLine($"Aggregate (sum manually) = {orders.Aggregate(0m, (acc, o) => acc + o.Total)}");
 
-Console.WriteLine("\n=== 5. query syntax (אותו דבר, תחביר אחר) ===");
+Console.WriteLine("\n=== 5. query syntax (same thing, different syntax) ===");
 var q = from o in orders
         where o.Category == "Electronics"
         orderby o.Total descending
@@ -86,12 +86,12 @@ Console.WriteLine("\n=== 6. deferred execution ===");
 var numbers = new List<int> { 1, 2, 3 };
 var evens = numbers.Where(n => n % 2 == 0);   // עדיין לא רץ!
 numbers.Add(4);
-Console.WriteLine($"evens = {string.Join(",", evens)}   (4 נכלל כי השאילתה רצה רק עכשיו)");
+Console.WriteLine($"evens = {string.Join(",", evens)}   (4 is included because the query runs only now)");
 var snapshot = numbers.Where(n => n % 2 == 0).ToList();   // ToList() מקפיא
 numbers.Add(6);
-Console.WriteLine($"snapshot = {string.Join(",", snapshot)}   (6 לא נכלל)");
+Console.WriteLine($"snapshot = {string.Join(",", snapshot)}   (6 is not included)");
 
-Console.WriteLine("\n=== 7. סגנון פונקציונלי ===");
+Console.WriteLine("\n=== 7. Functional style ===");
 var cart = new Cart([new("pen", 5m), new("book", 40m)]);
 var discounted = ApplyDiscount(cart, 0.10m);   // פונקציה טהורה — לא משנה את cart
 Console.WriteLine($"original total={cart.Total}, discounted total={discounted.Total}");

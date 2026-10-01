@@ -11,7 +11,7 @@
 // הרצה:  dotnet run
 // =====================================================================
 
-Console.WriteLine("=== 1. פולימורפיזם דרך מחלקת בסיס אבסטרקטית ===");
+Console.WriteLine("=== 1. Polymorphism via an abstract base class ===");
 List<Shape> shapes =
 [
     new Circle(1.5),
@@ -23,7 +23,7 @@ foreach (var s in shapes)
 
 Console.WriteLine($"\nTotal area: {shapes.Sum(s => s.Area()):F2}");
 
-Console.WriteLine("\n=== 2. ממשקים ו-default members ===");
+Console.WriteLine("\n=== 2. Interfaces and default members ===");
 IDescribable[] things = [new Circle(1), new Invoice(3, 99.9m)];
 foreach (var t in things) Console.WriteLine(t.Describe());
 IDescribable inv = new Invoice(1, 10m);
@@ -56,7 +56,7 @@ var m1 = new Money(10, "ILS");
 var m2 = new Money(10, "ILS");
 Console.WriteLine($"m1.Equals(m2) = {m1.Equals(m2)}, same hash = {m1.GetHashCode() == m2.GetHashCode()}");
 var set = new HashSet<Money> { m1, m2 };
-Console.WriteLine($"HashSet count = {set.Count} (הודות ל-Equals/GetHashCode)");
+Console.WriteLine($"HashSet count = {set.Count} (thanks to Equals/GetHashCode)");
 
 Console.WriteLine("\n=== 5. Composition over inheritance ===");
 var svc = new OrderService(new ConsoleLogger());

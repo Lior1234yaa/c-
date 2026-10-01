@@ -10,7 +10,7 @@
 // הרצה:  dotnet run
 // =====================================================================
 
-Console.WriteLine("=== 1. מערכים ===");
+Console.WriteLine("=== 1. Arrays ===");
 int[] scores = [90, 75, 88];
 int[,] grid = { { 1, 2, 3 }, { 4, 5, 6 } };
 int[][] jagged = [[1], [2, 3], [4, 5, 6]];
@@ -52,13 +52,13 @@ var stack = new Stack<string>();
 stack.Push("first"); stack.Push("second");
 Console.WriteLine($"stack pop → {stack.Pop()} (LIFO)");
 
-Console.WriteLine("\n=== 5. IEnumerable<T> ו-yield ===");
+Console.WriteLine("\n=== 5. IEnumerable<T> and yield ===");
 foreach (var n in EvenNumbers(10)) Console.Write($"{n} ");
 Console.WriteLine();
 IEnumerable<int> lazy = EvenNumbers(1_000_000);   // לא מחושב עד שעוברים עליו
 Console.WriteLine($"first 3 of a million: {string.Join(",", lazy.Take(3))}");
 
-Console.WriteLine("\n=== 6. Repository<T> גנרי ===");
+Console.WriteLine("\n=== 6. Generic Repository<T> ===");
 var repo = new Repository<Customer>();
 repo.Add(new Customer(1, "Dana"));
 repo.Add(new Customer(2, "Yossi"));
@@ -69,7 +69,7 @@ IReadOnlyList<Customer> all = repo.All;   // הקורא רואה, אבל לא י
 Console.WriteLine($"count via IReadOnlyList = {all.Count}");
 // all.Add(...) — לא קיים על IReadOnlyList — אנקפסולציה של האוסף
 
-Console.WriteLine("\n=== 7. יעילות: capacity ו-Span<T> ===");
+Console.WriteLine("\n=== 7. Efficiency: capacity and Span<T> ===");
 var big = new List<int>(capacity: 100_000);   // מונע הקצאות חוזרות
 for (int i = 0; i < 100_000; i++) big.Add(i);
 Console.WriteLine($"big.Count={big.Count}, Capacity={big.Capacity}");

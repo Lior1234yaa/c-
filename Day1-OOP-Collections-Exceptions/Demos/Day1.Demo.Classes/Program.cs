@@ -8,7 +8,7 @@
 // הרצה:  dotnet run
 // =====================================================================
 
-Console.WriteLine("=== 1. מחלקה בסיסית עם properties ===");
+Console.WriteLine("=== 1. Basic class with properties ===");
 var acc = new BankAccount("IL-001", "Dana");
 acc.Deposit(500);
 acc.Deposit(250);
@@ -16,7 +16,7 @@ Console.WriteLine(acc);
 Console.WriteLine($"Owner={acc.Owner}, Balance={acc.Balance}, IsEmpty={acc.IsEmpty}");
 // acc.Balance = 1000;  // שגיאת קומפילציה: ה-setter פרטי — עקרון האנקפסולציה
 
-Console.WriteLine("\n=== 2. בנאים מרובים ושרשור ===");
+Console.WriteLine("\n=== 2. Multiple constructors and chaining ===");
 var acc2 = new BankAccount("IL-002", "Yossi", initialDeposit: 1_000);
 Console.WriteLine(acc2);
 Console.WriteLine($"Total accounts created: {BankAccount.Count}");
@@ -32,19 +32,19 @@ temp.Read(23.1);
 temp.Read(24.0);
 Console.WriteLine($"{temp.Location}: last={temp.Last}, avg={temp.Average:F2}");
 
-Console.WriteLine("\n=== 5. static: מונה, קבועים ו-factory ===");
+Console.WriteLine("\n=== 5. static: counter, constants and factory ===");
 var free = Product.CreateFreeSample("Sticker");
 Console.WriteLine($"{free.Name} price={free.Price} (Product.MaxNameLength={Product.MaxNameLength})");
 
-Console.WriteLine("\n=== 6. record מול class ===");
+Console.WriteLine("\n=== 6. record vs class ===");
 var c1 = new PersonClass("Dana", 30);
 var c2 = new PersonClass("Dana", 30);
-Console.WriteLine($"class: c1 == c2 ? {c1 == c2}   Equals? {c1.Equals(c2)}   (הפניות שונות)");
+Console.WriteLine($"class: c1 == c2 ? {c1 == c2}   Equals? {c1.Equals(c2)}   (different references)");
 
 var r1 = new PersonRecord("Dana", 30);
 var r2 = new PersonRecord("Dana", 30);
-Console.WriteLine($"record: r1 == r2 ? {r1 == r2}   (שוויון לפי ערך)");
-Console.WriteLine($"ToString של record: {r1}");
+Console.WriteLine($"record: r1 == r2 ? {r1 == r2}   (value equality)");
+Console.WriteLine($"record ToString: {r1}");
 var r3 = r1 with { Age = 31 };           // עותק עם שינוי
 Console.WriteLine($"with: {r3}");
 var (pname, page) = r3;                   // deconstruction
@@ -78,7 +78,7 @@ class BankAccount
 
     public void Deposit(decimal amount)
     {
-        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "הסכום חייב להיות חיובי");
+        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be positive");
         Balance += amount;
         _transactions.Add(amount);
     }
