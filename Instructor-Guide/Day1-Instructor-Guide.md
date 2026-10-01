@@ -268,7 +268,7 @@ Copy-Item -Recurse C:\c-\Day1-OOP-Collections-Exceptions\Labs\Lab1-LibrarySystem
 
 1. `dotnet new console -n HelloApp` ואז `dotnet run`. מה יש ב-`.csproj`: `net10.0`, `Nullable`, `ImplicitUsings`. זה מסביר למה אין `using System;` בראש הקובץ.
 2. top-level statements: המהדר מייצר את `Main` בעצמו. הצהרות טיפוסים חייבות לבוא **אחרי** ההוראות.
-3. טיפוסים: `int`, `long`, `double`, `decimal` (עם סיומת `m`, ומשמש לכסף), `bool`, `char`, `string`. `var` = הסקת טיפוס, והטיפוס עדיין סטטי.
+3. טיפוסים: `int`, `long`, `float` (סיומת `f`, כ-7 ספרות, בעיקר לגרפיקה ומשחקים), `double` (ברירת המחדל לעשרוני), `decimal` (עם סיומת `m`, ומשמש לכסף), `bool`, `char`, `string`. הטבלה `float`/`double`/`decimal` ב-Notes/01 מסכמת מתי לבחור כל אחד. `var` = הסקת טיפוס, והטיפוס עדיין סטטי.
 4. **ערך מול הפניה** (הנקודה הכי חשובה בבוקר): `b = a` מעתיק `int`, אבל עבור מערך מעתיק רק את ההפניה. `string` הוא reference type בלתי-משתנה, ולכן `s.ToUpper();` לבד לא משנה כלום.
 5. אינטרפולציה ופורמטים: `{x:N2}`, `{x,-10}`, `{x:P1}`, raw string literals.
 6. בקרת זרימה: `switch` expression עם `_`, `foreach` כברירת מחדל.
